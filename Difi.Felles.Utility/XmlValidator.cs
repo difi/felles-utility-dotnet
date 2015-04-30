@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
-using ApiClientShared;
 
 namespace Difi.Felles.Utility
 {
-    public abstract class XmlValidator
+    internal abstract class XmlValidator
     {
         private bool _harWarnings;
         private bool _harErrors;
@@ -18,47 +16,19 @@ namespace Difi.Felles.Utility
         private const string WarningMessage = "\tWarning: Matching schema not found. No validation occurred.";
         private const string ErrorMessage = "\tValidation error:";
 
-        private readonly string _rotressurssti;
-        private readonly Dictionary<string, string> _ressurserEtterNavnerom = new Dictionary<string, string>();
-
-
-        /// <summary>
-        /// Rotsti til hvor ressursene ligger i prosjektet. Dette er en sti hvor stiseparator er punktum (.).
-        /// Hvis alle XSD-filer liggger i mappe Mitt.Prosjektnavn/Xsd/Minxsd.xsd, så blir ressurssti 
-        /// Mitt.Prosjektnavn.Xsd
-        /// </summary>
-        /// <param name="rotressurssti"></param>
-        protected XmlValidator(string rotressurssti)
-        {
-            _rotressurssti = rotressurssti;
-        }
+        readonly XmlSchemaSet _schemaSet = new XmlSchemaSet();
 
         public string ValideringsVarsler { get; private set; }
-
-        private XmlSchemaSet GenererSchemaSet()
-        {
-            if (_ressurserEtterNavnerom.Count == 0)
-            {
-                throw new IndexOutOfRangeException("Ingen xsdressurser funnet. Legg til ved å bruke LeggTilRessurs()");
-            }
-
-            var schemaSet = new XmlSchemaSet();
-            foreach (KeyValuePair<string, string> par in _ressurserEtterNavnerom)
-            {
-                schemaSet.Add(par.Key, XsdResource(par.Value));
-            }
-            return schemaSet;
-        }
 
         public bool ValiderDokumentMotXsd(string document)
         {
             var settings = new XmlReaderSettings();
-            settings.Schemas.Add(GenererSchemaSet());
+            settings.Schemas.Add(_schemaSet);
             settings.ValidationType = ValidationType.Schema;
             settings.ValidationFlags = XmlSchemaValidationFlags.ReportValidationWarnings;
             settings.ValidationEventHandler += ValidationEventHandler;
 
-            var xmlReader = XmlReader.Create(new MemoryStream(Encoding.UTF8.GetBytes(document)), settings);
+            var xmlReader = System.Xml.XmlReader.Create(new MemoryStream(Encoding.UTF8.GetBytes(document)), settings);
 
             while (xmlReader.Read()) { }
 
@@ -87,18 +57,27 @@ namespace Difi.Felles.Utility
         /// <summary>
         /// Legg til en referanse til en XSD-fil.
         /// </summary>
-        /// <param name="navnerom">Navnerom på xmlfil som lastes inn.</param>
-        /// <param name="dottstiTilRessurs">Dottede stien til en ressurs relativt til rotressurssti som klassen ble initialisert med. </param>
-        protected void LeggTilRessurs(string navnerom, string dottstiTilRessurs)
+        /// <param name="navnerom">Navnerom på XSD-fil som lastes inn.</param>
+        /// <param name="fil">Sti til ressurs </param>
+        protected void LeggTilXsdRessurs(string navnerom, string fil)
         {
-            _ressurserEtterNavnerom.Add(navnerom, dottstiTilRessurs);
+            _schemaSet.Add(navnerom, XmlReader(fil));
         }
 
-        private XmlReader XsdResource(string resource)
+        /// <summary>
+        /// Legg til en referanse til en XSD-fil.
+        /// </summary>
+        /// <param name="navnerom">Navnerom på XSD-fil som lastes inn.</param>
+        /// <param name="reader">Reader for XSD-fil</param>
+        protected void LeggTilXsdRessurs(string navnerom, XmlReader reader)
         {
-            ResourceUtility resourceUtility = new ResourceUtility(_rotressurssti);
-            Stream s = new MemoryStream(resourceUtility.ReadAllBytes(true, resource));
-            return XmlReader.Create(s);
+            _schemaSet.Add(navnerom, reader);
+        }
+
+        private XmlReader XmlReader(string fil)
+        {
+            Stream s = new MemoryStream(File.ReadAllBytes(fil));
+            return System.Xml.XmlReader.Create(s);
         }
     }
 }
