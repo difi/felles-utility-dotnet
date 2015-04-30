@@ -6,7 +6,7 @@ using System.Xml.Schema;
 
 namespace Difi.Felles.Utility
 {
-    internal abstract class XmlValidator
+    public abstract class XmlValidator
     {
         private bool _harWarnings;
         private bool _harErrors;
