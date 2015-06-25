@@ -38,7 +38,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\difi-felles-utility-strong-name.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>C:\Keys\digipost.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -53,8 +53,8 @@
     <Compile Include="XmlValidator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\difi-felles-utility-strong-name.pfx">
-      <Link>difi-felles-utility-strong-name.pfx</Link>
+    <None Include="C:\Keys\digipost.pfx">
+      <Link>digipost.pfx</Link>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
