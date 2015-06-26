@@ -53,9 +53,6 @@
     <Compile Include="XmlValidator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\Keys\digipost.pfx">
-      <Link>digipost.pfx</Link>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
