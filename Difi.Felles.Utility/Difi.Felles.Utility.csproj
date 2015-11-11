@@ -46,13 +46,20 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Exceptions\RsaPkCs1Sha256SignatureDescription.cs" />
+    <Compile Include="Exceptions\SikkerDigitalPostException.cs" />
+    <Compile Include="Exceptions\SecurityException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NavneromUtility.cs" />
+    <Compile Include="Security\SignedXmlWithAgnosticId.cs" />
+    <Compile Include="XmlUtility.cs" />
     <Compile Include="XmlValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
