@@ -2,7 +2,7 @@
 
 namespace Difi.Felles.Utility.Exceptions
 {
-    public class SecurityException : SikkerDigitalPostException
+    public class SecurityException : DifiException
     {
         public SecurityException()
         {
