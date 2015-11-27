@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace Difi.Felles.Utility
+namespace Difi.Felles.Utility.Utilities
 {
     public class XmlUtility
     {

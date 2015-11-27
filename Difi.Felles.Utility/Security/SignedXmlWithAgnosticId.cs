@@ -6,7 +6,7 @@ using System.Security.Cryptography.Xml;
 using System.Xml;
 using Difi.Felles.Utility.Exceptions;
 
-namespace Difi.Felles.Utility
+namespace Difi.Felles.Utility.Security
 {
     /// <summary>
     /// Enhances the core SignedXml provider with namespace agnostic query for Id elements.

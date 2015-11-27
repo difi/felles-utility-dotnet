@@ -1,4 +1,4 @@
-﻿namespace Difi.Felles.Utility
+﻿namespace Difi.Felles.Utility.Utilities
 {
     public static class NavneromUtility
     {
