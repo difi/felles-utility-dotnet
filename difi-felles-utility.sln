@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Difi.Felles.Utility.Tester", "Difi.Felles.UtilityTests\Difi.Felles.Utility.Tester.csproj", "{663926AD-E1E6-4008-831F-0201EB029671}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Difi.Felles.Utility.Tester", "Difi.Felles.Utility.Tester\Difi.Felles.Utility.Tester.csproj", "{663926AD-E1E6-4008-831F-0201EB029671}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
