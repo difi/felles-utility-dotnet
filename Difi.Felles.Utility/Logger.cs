@@ -5,10 +5,9 @@ using Difi.SikkerDigitalPost.Klient;
 
 namespace Difi.Oppslagstjeneste.Klient
 {
-
-    public abstract class AbstraktLogger
+    public class Logger
     {
-        private static readonly TraceSource TraceSource = new TraceSource("Difi.Oppslagstjeneste.Klient");
+        public static TraceSource TraceSource { get; set; }
 
         private static Action<TraceEventType, Guid?, string, string> _logAction = null;
 

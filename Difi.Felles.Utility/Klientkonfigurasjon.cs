@@ -71,7 +71,7 @@ namespace Difi.SikkerDigitalPost.Klient
             ProxyHost = null;
             ProxyScheme = "https";
             TimeoutIMillisekunder = (int)TimeSpan.FromSeconds(30).TotalMilliseconds;
-            Logger = AbstraktLogger.TraceLogger();
+            Logger = Oppslagstjeneste.Klient.Logger.TraceLogger();
             LoggXmlTilFil = false;
             StandardLoggSti = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Digipost");
         }
