@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using Difi.Felles.Utility;
-using Difi.Oppslagstjeneste.Klient;
 
-namespace Difi.SikkerDigitalPost.Klient
+namespace Difi.Felles.Utility
 {
     /// <summary>
     /// Inneholder konfigurasjon for sending av digital post.
@@ -50,13 +48,12 @@ namespace Difi.SikkerDigitalPost.Klient
 
         public string StandardLoggSti { get; set; }
 
-        public GeneriskKlientkonfigurasjon(AbstraktMiljø miljø)
+        protected GeneriskKlientkonfigurasjon(AbstraktMiljø miljø)
         {
             Miljø = miljø;
             ProxyHost = null;
             ProxyScheme = "https";
             TimeoutIMillisekunder = (int)TimeSpan.FromSeconds(30).TotalMilliseconds;
-            Logger = Oppslagstjeneste.Klient.Logger.TraceLogger();
             LoggXmlTilFil = false;
             StandardLoggSti = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Digipost");
         }
