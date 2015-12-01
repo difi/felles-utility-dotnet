@@ -11,7 +11,7 @@ namespace Difi.Oppslagstjeneste.Klient
 
         private static Action<TraceEventType, Guid?, string, string> _logAction = null;
 
-        public static void Initialize(Klientkonfigurasjon konfigurasjon)
+        public static void Initialize(AbstraktKlientkonfigurasjon konfigurasjon)
         {
             _logAction = konfigurasjon.Logger;
         }

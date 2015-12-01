@@ -51,7 +51,7 @@
     <Compile Include="Exceptions\DifiException.cs" />
     <Compile Include="Exceptions\SecurityException.cs" />
     <Compile Include="AbstraktMiljø.cs" />
-    <Compile Include="Klientkonfigurasjon.cs" />
+    <Compile Include="AbstraktKlientkonfigurasjon.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\NavneromUtility.cs" />

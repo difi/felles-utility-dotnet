@@ -9,7 +9,7 @@ namespace Difi.SikkerDigitalPost.Klient
     /// <summary>
     /// Inneholder konfigurasjon for sending av digital post.
     /// </summary> 
-    public abstract class Klientkonfigurasjon
+    public abstract class AbstraktKlientkonfigurasjon
     {
         public AbstraktMiljø Miljø { get; set; }
 
@@ -50,7 +50,7 @@ namespace Difi.SikkerDigitalPost.Klient
 
         public string StandardLoggSti { get; set; }
 
-        public Klientkonfigurasjon(AbstraktMiljø miljø)
+        public AbstraktKlientkonfigurasjon(AbstraktMiljø miljø)
         {
             Miljø = miljø;
             ProxyHost = null;
