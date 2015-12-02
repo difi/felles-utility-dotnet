@@ -29,7 +29,7 @@ namespace Difi.Felles.Utility
         /// Angir timeout for komunikasjonen fra og til meldingsformindleren. Default tid er 30 sekunder.
         /// </summary>
         public int TimeoutIMillisekunder { get; set; }
-
+        
         /// <summary>
         /// Eksponerer et grensesnitt for logging hvor brukere kan integrere sin egen loggefunksjonalitet eller en tredjepartsløsning som f.eks log4net. For bruk, angi en annonym funksjon med 
         /// følgende parametre: severity, konversasjonsid, metode, melding.  

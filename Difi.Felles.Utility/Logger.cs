@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Difi.SikkerDigitalPost.Klient;
 
-namespace Difi.Oppslagstjeneste.Klient
+namespace Difi.Felles.Utility
 {
     public class Logger
     {
