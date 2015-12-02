@@ -1,5 +1,4 @@
 ﻿using Difi.Felles.Utility.Utilities;
-using Difi.Oppslagstjeneste.Klient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Difi.Felles.Utility.Tester.Utilities
