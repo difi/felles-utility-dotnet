@@ -22,7 +22,7 @@ namespace Difi.Felles.Utility.Tester
 
                 //Act
                 var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.FunksjoneltTestmiljøSertifikater());
-                var erGyldigResponssertifikat = sertifikatValidator.ErGyldigResponssertifikat(testSertifikat);
+                var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(testSertifikat);
 
                 //Assert
                 Assert.IsTrue(erGyldigResponssertifikat);
@@ -37,7 +37,7 @@ namespace Difi.Felles.Utility.Tester
 
                 //Act
                 var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.FunksjoneltTestmiljøSertifikater());
-                var erGyldigResponssertifikat = sertifikatValidator.ErGyldigResponssertifikat(testSertifikat, out kjedestatus);
+                var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(testSertifikat, out kjedestatus);
 
                 //Assert
                 Assert.IsTrue(erGyldigResponssertifikat);
@@ -53,7 +53,7 @@ namespace Difi.Felles.Utility.Tester
                 //Act
                 var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.FunksjoneltTestmiljøSertifikater());
 
-                var erGyldigResponssertifikat = sertifikatValidator.ErGyldigResponssertifikat(selvsignertSertifikat);
+                var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat);
 
                 //Assert
                 Assert.IsFalse(erGyldigResponssertifikat);
@@ -67,7 +67,7 @@ namespace Difi.Felles.Utility.Tester
                 var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.FunksjoneltTestmiljøSertifikater());
 
                 X509ChainStatus[] kjedestatus;
-                var erGyldigResponssertifikat = sertifikatValidator.ErGyldigResponssertifikat(selvsignertSertifikat, out kjedestatus);
+                var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat, out kjedestatus);
 
                 //Assert
                 Assert.IsFalse(erGyldigResponssertifikat);

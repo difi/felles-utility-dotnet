@@ -11,13 +11,13 @@ namespace Difi.Felles.Utility
 
         public X509Certificate2Collection SertifikatLager { get; set; }
 
-        public bool ErGyldigResponssertifikat(X509Certificate2 sertifikat)
+        public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat)
         {
             X509ChainStatus[] kjedestatus;
-            return ErGyldigResponssertifikat(sertifikat, out kjedestatus);
+            return ErGyldigSertifikatkjede(sertifikat, out kjedestatus);
         }
 
-        public bool ErGyldigResponssertifikat(X509Certificate2 sertifikat, out X509ChainStatus[] kjedestatus)
+        public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out X509ChainStatus[] kjedestatus)
         {
             var chain = new X509Chain
             {

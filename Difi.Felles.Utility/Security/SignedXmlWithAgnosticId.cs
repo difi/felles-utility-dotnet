@@ -21,9 +21,9 @@ namespace Difi.Felles.Utility.Security
 
         private readonly List<AsymmetricAlgorithm> _publicKeys = new List<AsymmetricAlgorithm>();
 
-        private IEnumerator<AsymmetricAlgorithm> _publicKeyListEnumerator;
-
         private readonly XmlDocument _xmlDokument;
+
+        private IEnumerator<AsymmetricAlgorithm> _publicKeyListEnumerator;
 
         public SignedXmlWithAgnosticId(XmlDocument xmlDocument)
             : base(xmlDocument)

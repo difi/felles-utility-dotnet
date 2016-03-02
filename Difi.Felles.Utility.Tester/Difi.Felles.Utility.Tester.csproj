@@ -71,8 +71,10 @@
     <Compile Include="Security\SignedXmlWithAgnosticIdTester.cs" />
     <Compile Include="SertifikatkjedevalidatorFunksjoneltTestmiljøTester.cs" />
     <Compile Include="SertifikatkjedevalidatorProduksjonTester.cs" />
+    <Compile Include="SertifikatvalidatorTester.cs" />
     <Compile Include="Transportkvittering.cs" />
     <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />
+    <Compile Include="Utilities\SertifikatUtility.cs" />
     <Compile Include="XmlUtilityTester.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +86,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\difi-enhetstester.cer" />
     <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\difi-enhetstester.p12" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\utgått.pem" />
     <EmbeddedResource Include="Testdata\Sertifikater\Prod\BPClass3CA3.cer" />
     <EmbeddedResource Include="Testdata\Sertifikater\Prod\BPClass3RootCA.cer" />
     <EmbeddedResource Include="Testdata\Sertifikater\Prod\cpn enterprise sha256 class 3.crt" />
@@ -98,6 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\ExpiredTestCertificate.cer" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\NotActivatedTestCertificate.cer" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\PostenNorgeAs.cer" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
