@@ -69,26 +69,36 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\KvitteringRespons.cs" />
     <Compile Include="Security\SignedXmlWithAgnosticIdTester.cs" />
+    <Compile Include="SertifikatkjedevalidatorFunksjoneltTestmiljøTester.cs" />
+    <Compile Include="SertifikatkjedevalidatorProduksjonTester.cs" />
     <Compile Include="Transportkvittering.cs" />
     <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />
     <Compile Include="XmlUtilityTester.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\difi-oppslagstjeneste-klient-dotnet\Difi.Oppslagstjeneste.Klient\Difi.Oppslagstjeneste.Klient.csproj">
-      <Project>{13B840F4-199B-4482-B4A8-CB71AC1B0C99}</Project>
-      <Name>Difi.Oppslagstjeneste.Klient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Difi.Felles.Utility\Difi.Felles.Utility.csproj">
-      <Project>{7AB8D858-878F-4184-9557-995BE75DC635}</Project>
+      <Project>{7ab8d858-878f-4184-9557-995be75dc635}</Project>
       <Name>Difi.Felles.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <EmbeddedResource Include="testdata\difi-enhetstester.cer" />
-    <EmbeddedResource Include="testdata\difi-enhetstester.p12" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\difi-enhetstester.cer" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\difi-enhetstester.p12" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\utgått.pem" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Prod\BPClass3CA3.cer" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Prod\BPClass3RootCA.cer" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Prod\cpn enterprise sha256 class 3.crt" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Prod\cpn rootca sha256 class 3.crt" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Prod\produksjonsmottakersertifikatFraOppslagstjenesten.pem" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Test\Buypass_Class_3_Test4_CA_3.cer" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Test\Buypass_Class_3_Test4_Root_CA.cer" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Test\intermediate - commfides cpn enterprise-norwegian sha256 ca - test2.crt" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Test\root - cpn root sha256 ca - test.crt" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Test\testmottakersertifikatFraOppslagstjenesten.pem" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
