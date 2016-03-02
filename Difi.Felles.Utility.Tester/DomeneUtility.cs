@@ -6,7 +6,7 @@ namespace Difi.Felles.Utility.Tester
     internal class DomeneUtility
     {
         internal static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata.Sertifikater.Enhetstester");
-        
+
         internal static X509Certificate2 GetAvsenderEnhetstesterSertifikat()
         {
             return EvigTestSertifikatMedPrivatnøkkel();

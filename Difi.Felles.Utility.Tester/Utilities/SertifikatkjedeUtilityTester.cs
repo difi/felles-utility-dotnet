@@ -43,6 +43,5 @@ namespace Difi.Felles.Utility.Tester.Utilities
                 }
             }
         }
-
     }
 }

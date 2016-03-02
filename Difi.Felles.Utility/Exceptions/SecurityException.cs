@@ -6,21 +6,16 @@ namespace Difi.Felles.Utility.Exceptions
     {
         public SecurityException()
         {
-
         }
 
         public SecurityException(string message)
             : base(message)
         {
-
         }
 
         public SecurityException(string message, Exception inner)
             : base(message, inner)
         {
-
         }
     }
-
-   
 }

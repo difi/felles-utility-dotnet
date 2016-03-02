@@ -9,22 +9,21 @@ using Difi.Felles.Utility.Exceptions;
 namespace Difi.Felles.Utility.Security
 {
     /// <summary>
-    /// Enhances the core SignedXml provider with namespace agnostic query for Id elements.
+    ///     Enhances the core SignedXml provider with namespace agnostic query for Id elements.
     /// </summary>
     /// <remarks>
-    /// From: http://stackoverflow.com/questions/5099156/malformed-reference-element-when-adding-a-reference-based-on-an-id-attribute-w
+    ///     From:
+    ///     http://stackoverflow.com/questions/5099156/malformed-reference-element-when-adding-a-reference-based-on-an-id-attribute-w
     /// </remarks>
     public sealed class SignedXmlWithAgnosticId : SignedXml
     {
-        const int PROV_RSA_AES = 24;    // CryptoApi provider type for an RSA provider supporting sha-256 digital signatures
-        
-        private XmlDocument _xmlDokument;
+        private const int PROV_RSA_AES = 24; // CryptoApi provider type for an RSA provider supporting sha-256 digital signatures
 
-        readonly List<AsymmetricAlgorithm> _publicKeys = new List<AsymmetricAlgorithm>();
+        private readonly List<AsymmetricAlgorithm> _publicKeys = new List<AsymmetricAlgorithm>();
 
         private IEnumerator<AsymmetricAlgorithm> _publicKeyListEnumerator;
 
-        public AsymmetricAlgorithm PublicKey { get; private set; }
+        private readonly XmlDocument _xmlDokument;
 
         public SignedXmlWithAgnosticId(XmlDocument xmlDocument)
             : base(xmlDocument)
@@ -33,11 +32,14 @@ namespace Difi.Felles.Utility.Security
         }
 
         /// <summary>
-        /// Sets SHA256 as signaure method and XmlDsigExcC14NTransformUrl as canonicalization method
+        ///     Sets SHA256 as signaure method and XmlDsigExcC14NTransformUrl as canonicalization method
         /// </summary>
         /// <param name="xmlDocument">The document containing the references to be signed.</param>
         /// <param name="certificate">The certificate containing the private key used for signing.</param>
-        /// <param name="inclusiveNamespacesPrefixList">An optional list of namespaces to be set as the canonicalization namespace prefix list.</param>
+        /// <param name="inclusiveNamespacesPrefixList">
+        ///     An optional list of namespaces to be set as the canonicalization namespace
+        ///     prefix list.
+        /// </param>
         public SignedXmlWithAgnosticId(XmlDocument xmlDocument, X509Certificate2 certificate, string inclusiveNamespacesPrefixList = null)
             : base(xmlDocument)
         {
@@ -45,7 +47,7 @@ namespace Difi.Felles.Utility.Security
 
             // Adds signature method to crypto api
             if (CryptoConfig.CreateFromName(signatureMethod) == null)
-                CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
+                CryptoConfig.AddAlgorithm(typeof (RsaPkCs1Sha256SignatureDescription), signatureMethod);
 
             // Makes sure the signingkey is using Microsoft Enhanced RSA and AES Cryptographic Provider which enables SHA256
             if (!certificate.HasPrivateKey)
@@ -73,10 +75,12 @@ namespace Difi.Felles.Utility.Security
             SignedInfo.SignatureMethod = signatureMethod;
             SignedInfo.CanonicalizationMethod = "http://www.w3.org/2001/10/xml-exc-c14n#";
             if (inclusiveNamespacesPrefixList != null)
-                ((XmlDsigExcC14NTransform)SignedInfo.CanonicalizationMethodObject).InclusiveNamespacesPrefixList = inclusiveNamespacesPrefixList;
+                ((XmlDsigExcC14NTransform) SignedInfo.CanonicalizationMethodObject).InclusiveNamespacesPrefixList = inclusiveNamespacesPrefixList;
 
             _xmlDokument = xmlDocument;
         }
+
+        public AsymmetricAlgorithm PublicKey { get; private set; }
 
         public override XmlElement GetIdElement(XmlDocument doc, string id)
         {
@@ -117,7 +121,7 @@ namespace Difi.Felles.Utility.Security
         private XmlElement FindIdElement(XmlNode node, string idValue)
         {
             XmlElement result = null;
-            foreach (string s in new[] { "Id", "ID", "id" })
+            foreach (var s in new[] {"Id", "ID", "id"})
             {
                 result = node.SelectSingleNode(string.Format("//*[@*[local-name() = '{0}'] = '{1}']", s, idValue)) as XmlElement;
                 if (result != null)
@@ -169,7 +173,7 @@ namespace Difi.Felles.Utility.Security
 
         private static XmlNamespaceManager GetKeyInfoNamespaceMananger(XmlElement keyInfoXml)
         {
-            XmlNamespaceManager mgr = new XmlNamespaceManager(keyInfoXml.OwnerDocument.NameTable);
+            var mgr = new XmlNamespaceManager(keyInfoXml.OwnerDocument.NameTable);
             mgr.AddNamespace("wsse", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
             mgr.AddNamespace("ds", "http://www.w3.org/2000/09/xmldsig#");
 
@@ -211,8 +215,6 @@ namespace Difi.Felles.Utility.Security
             }
 
             return referanseUriVerdi;
-
         }
     }
-
 }
