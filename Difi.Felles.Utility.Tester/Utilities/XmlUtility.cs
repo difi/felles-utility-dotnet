@@ -12,5 +12,4 @@ namespace Difi.Felles.Utility.Tester.Utilities
             return xmlDocument;
         }
     }
-
 }

@@ -43,7 +43,6 @@ namespace Difi.Felles.Utility.Tester
                 Assert.IsTrue(erGyldigResponssertifikat);
             }
 
-
             [TestMethod]
             public void ErGyldigSertifikatkjedeOgKjedestatusMedProduksjonssertifikater()
             {
@@ -77,7 +76,6 @@ namespace Difi.Felles.Utility.Tester
                 Assert.IsTrue(kjedestatus.Length == 0 || kjedestatus.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot);
             }
 
-
             [TestMethod]
             public void FeilerMedSertifikatUtenGyldigKjedeMedProduksjonssertifikater()
             {
@@ -107,7 +105,6 @@ namespace Difi.Felles.Utility.Tester
                 //Assert
                 Assert.IsFalse(erGyldigResponssertifikat);
             }
-
 
             [TestMethod]
             public void FeilerMedSertifikatUtenGyldigKjedeReturnererKjedestatusMedProduksjonssertifikater()
@@ -140,7 +137,6 @@ namespace Difi.Felles.Utility.Tester
                 Assert.IsFalse(erGyldigResponssertifikat);
                 Assert.IsTrue(kjedestatus.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot);
             }
-
         }
     }
 }

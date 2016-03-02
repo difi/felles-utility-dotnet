@@ -5,17 +5,17 @@ namespace Difi.Felles.Utility
 {
     public class Sertifikatvalidator
     {
-        public static bool IsValidServerCertificate(Sertifikatkjedevalidator sertifikatkjedevalidator, X509Certificate2 certificate, string certificateOrganizationNumber)
+        public static bool ErGyldigSertifikat(X509Certificate2 certificate, string certificateOrganizationNumber)
         {
-            return certificate != null && IsIssuedToServerOrganizationNumber(certificate, certificateOrganizationNumber) && IsActiveCertificate(certificate);
+            return certificate != null && ErUtstedtTilOrganisasjonsnummer(certificate, certificateOrganizationNumber) && ErAktivtSertifikat(certificate);
         }
 
-        private static bool IsIssuedToServerOrganizationNumber(X509Certificate certificate, string certificateOrganizationNumber)
+        private static bool ErUtstedtTilOrganisasjonsnummer(X509Certificate certificate, string certificateOrganizationNumber)
         {
             return certificate.Subject.Contains($"SERIALNUMBER={certificateOrganizationNumber}") || certificate.Subject.Contains($"CN={certificateOrganizationNumber}");
         }
 
-        private static bool IsActiveCertificate(X509Certificate certificate)
+        private static bool ErAktivtSertifikat(X509Certificate certificate)
         {
             return DateTime.Now > DateTime.Parse(certificate.GetEffectiveDateString()) && DateTime.Now < DateTime.Parse(certificate.GetExpirationDateString());
         }
