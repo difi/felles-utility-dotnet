@@ -69,8 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\KvitteringRespons.cs" />
     <Compile Include="Security\SignedXmlWithAgnosticIdTester.cs" />
-    <Compile Include="SertifikatkjedevalidatorFunksjoneltTestmiljøTester.cs" />
-    <Compile Include="SertifikatkjedevalidatorProduksjonTester.cs" />
+    <Compile Include="SertifikatkjedevalidatorTester.cs" />
     <Compile Include="SertifikatvalidatorTester.cs" />
     <Compile Include="Transportkvittering.cs" />
     <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />

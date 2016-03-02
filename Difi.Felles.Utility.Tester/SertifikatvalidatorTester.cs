@@ -81,5 +81,4 @@ namespace Difi.Felles.Utility.Tester
             }
         }
     }
-
 }
