@@ -71,9 +71,10 @@
     <Compile Include="Security\SignedXmlWithAgnosticIdTester.cs" />
     <Compile Include="SertifikatkjedevalidatorTester.cs" />
     <Compile Include="SertifikatvalidatorTester.cs" />
-    <Compile Include="Transportkvittering.cs" />
+    <Compile Include="Testdata\Transportkvittering.cs" />
     <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />
-    <Compile Include="Utilities\SertifikatUtility.cs" />
+    <Compile Include="SertifikatUtility.cs" />
+    <Compile Include="Utilities\XmlUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Difi.Felles.Utility\Difi.Felles.Utility.csproj">
