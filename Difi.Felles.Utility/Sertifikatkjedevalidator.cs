@@ -4,22 +4,22 @@ namespace Difi.Felles.Utility
 {
     public class Sertifikatkjedevalidator
     {
-        public X509Certificate2Collection SertifikatLager { get; set; }
-
         public Sertifikatkjedevalidator(X509Certificate2Collection sertifikatLager)
         {
             SertifikatLager = sertifikatLager;
         }
 
-        public bool ErGyldigResponssertifikat(X509Certificate2 sertifikat)
+        public X509Certificate2Collection SertifikatLager { get; set; }
+
+        public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat)
         {
             X509ChainStatus[] kjedestatus;
-            return ErGyldigResponssertifikat(sertifikat, out kjedestatus);
+            return ErGyldigSertifikatkjede(sertifikat, out kjedestatus);
         }
 
-        public bool ErGyldigResponssertifikat(X509Certificate2 sertifikat, out X509ChainStatus[] kjedestatus)
+        public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out X509ChainStatus[] kjedestatus)
         {
-            var chain = new X509Chain()
+            var chain = new X509Chain
             {
                 ChainPolicy = ChainPolicy()
             };
@@ -36,10 +36,9 @@ namespace Difi.Felles.Utility
 
         public X509ChainPolicy ChainPolicy()
         {
-            var policy = new X509ChainPolicy()
+            var policy = new X509ChainPolicy
             {
                 RevocationMode = X509RevocationMode.NoCheck
-
             };
             policy.ExtraStore.AddRange(SertifikatLager);
 

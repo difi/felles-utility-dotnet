@@ -7,19 +7,16 @@ namespace Difi.Felles.Utility.Exceptions
     {
         public DifiException()
         {
-
         }
 
-        public DifiException(string message) : base(message)
+        public DifiException(string message)
+            : base(message)
         {
-
         }
 
-        public DifiException(string message, Exception inner) : base(message, inner)
+        public DifiException(string message, Exception inner)
+            : base(message, inner)
         {
-
         }
     }
-
-
 }

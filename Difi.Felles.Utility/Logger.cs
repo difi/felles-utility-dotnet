@@ -6,9 +6,9 @@ namespace Difi.Felles.Utility
 {
     public class Logger
     {
-        public static TraceSource TraceSource { get; set; }
+        private static Action<TraceEventType, Guid?, string, string> _logAction;
 
-        private static Action<TraceEventType, Guid?, string, string> _logAction = null;
+        public static TraceSource TraceSource { get; set; }
 
         public static void Initialize(GeneriskKlientkonfigurasjon konfigurasjon)
         {
@@ -33,20 +33,13 @@ namespace Difi.Felles.Utility
 
         public static Action<TraceEventType, Guid?, string, string> TraceLogger()
         {
-            TraceSource traceSource = TraceSource;
-            return (severity, koversasjonsId, caller, message) =>
-            {
-                traceSource.TraceEvent(severity, 1, "[{0}, {1}] {2}", koversasjonsId.GetValueOrDefault(), caller, message);
-            };
+            var traceSource = TraceSource;
+            return (severity, koversasjonsId, caller, message) => { traceSource.TraceEvent(severity, 1, "[{0}, {1}] {2}", koversasjonsId.GetValueOrDefault(), caller, message); };
         }
 
         public static Action<TraceEventType, Guid?, string, string> ConsoleLogger()
         {
-            return (severity, koversasjonsId, caller, message) =>
-            {
-                Console.WriteLine("[{0}] {1}", caller, message);
-            };
+            return (severity, koversasjonsId, caller, message) => { Console.WriteLine("[{0}] {1}", caller, message); };
         }
     }
-}   
-
+}
