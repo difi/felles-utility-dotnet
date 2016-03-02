@@ -59,7 +59,6 @@
     <Compile Include="Security\SignedXmlWithAgnosticId.cs" />
     <Compile Include="Utilities\SertifikatkjedeUtility.cs" />
     <Compile Include="Sertifikatkjedevalidator.cs" />
-    <Compile Include="Utilities\XmlUtility.cs" />
     <Compile Include="XmlValidator.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -74,7 +74,6 @@
     <Compile Include="Transportkvittering.cs" />
     <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />
     <Compile Include="Utilities\SertifikatUtility.cs" />
-    <Compile Include="XmlUtilityTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Difi.Felles.Utility\Difi.Felles.Utility.csproj">
