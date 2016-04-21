@@ -6,9 +6,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using Difi.Felles.Utility.Exceptions;
 using Difi.Felles.Utility.Security;
+using Difi.Felles.Utility.Tester.Testdata;
 using Difi.Felles.Utility.Tester.Utilities;
 using Difi.Felles.Utility.Utilities;
-using Difi.Felles.UtilityTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Difi.Felles.Utility.Tester.Security

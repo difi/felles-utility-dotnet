@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using ApiClientShared;
-using Difi.Felles.Utility.Tester.Utilities;
 using Difi.Felles.Utility.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

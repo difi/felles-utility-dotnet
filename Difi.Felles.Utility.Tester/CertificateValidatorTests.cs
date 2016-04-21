@@ -1,5 +1,4 @@
-﻿using Difi.Felles.Utility.Tester.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Difi.Felles.Utility.Tester
 {
