@@ -13,7 +13,7 @@ namespace Difi.Felles.Utility.Tester.Utilities
             public void ReturnererFireSertifikaterMedThumbprint()
             {
                 //Arrange
-                var sertifikater = SertifikatkjedeUtility.FunksjoneltTestmiljøSertifikater();
+                var sertifikater = CertificateChainUtility.FunksjoneltTestmiljøSertifikater();
 
                 //Act
 
@@ -32,7 +32,7 @@ namespace Difi.Felles.Utility.Tester.Utilities
             public void ReturnererFireSertifikaterMedThumbprint()
             {
                 //Arrange
-                var sertifikater = SertifikatkjedeUtility.ProduksjonsSertifikater();
+                var sertifikater = CertificateChainUtility.ProduksjonsSertifikater();
 
                 //Act
 

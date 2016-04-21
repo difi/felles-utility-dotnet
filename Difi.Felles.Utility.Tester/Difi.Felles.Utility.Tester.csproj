@@ -65,12 +65,12 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DomeneUtility.cs" />
+    <Compile Include="CertificateUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\KvitteringRespons.cs" />
-    <Compile Include="Security\SignedXmlWithAgnosticIdTester.cs" />
-    <Compile Include="SertifikatkjedevalidatorTester.cs" />
-    <Compile Include="SertifikatvalidatorTester.cs" />
+    <Compile Include="Security\ReceiptsResponse.cs" />
+    <Compile Include="Security\SignedXmlWithAgnosticIdTests.cs" />
+    <Compile Include="CertificateChainValidatorTests.cs" />
+    <Compile Include="CertificateValidatorTests.cs" />
     <Compile Include="Testdata\Transportkvittering.cs" />
     <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />
     <Compile Include="SertifikatUtility.cs" />

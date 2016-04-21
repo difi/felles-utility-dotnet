@@ -8,12 +8,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Difi.Felles.Utility.Tester
 {
     [TestClass]
-    public class SertifikatkjedevalidatorTester
+    public class CertificateChainValidatorTests
     {
         private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata.Sertifikater");
 
         [TestClass]
-        public class ErGyldigSertifikatkjedeMethod : SertifikatkjedevalidatorTester
+        public class ErGyldigSertifikatkjedeMethod : CertificateChainValidatorTests
         {
             [TestMethod]
             public void ErGyldigSertifikatkjedeMedProduksjonssertifikater()
@@ -22,7 +22,7 @@ namespace Difi.Felles.Utility.Tester
                 var produksjonssertifikat = SertifikatUtility.GetProduksjonsMottakerSertifikatOppslagstjenesten();
 
                 //Act
-                var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.ProduksjonsSertifikater());
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.ProduksjonsSertifikater());
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(produksjonssertifikat);
 
                 //Assert
@@ -36,7 +36,7 @@ namespace Difi.Felles.Utility.Tester
                 var testSertifikat = SertifikatUtility.GetFunksjoneltTestmiljøMottakerSertifikatOppslagstjenesten();
 
                 //Act
-                var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.FunksjoneltTestmiljøSertifikater());
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.FunksjoneltTestmiljøSertifikater());
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(testSertifikat);
 
                 //Assert
@@ -51,7 +51,7 @@ namespace Difi.Felles.Utility.Tester
                 X509ChainStatus[] kjedestatus;
 
                 //Act
-                var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.ProduksjonsSertifikater());
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.ProduksjonsSertifikater());
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(produksjonssertifikat, out kjedestatus);
 
                 //Assert
@@ -68,7 +68,7 @@ namespace Difi.Felles.Utility.Tester
                 X509ChainStatus[] kjedestatus;
 
                 //Act
-                var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.FunksjoneltTestmiljøSertifikater());
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.FunksjoneltTestmiljøSertifikater());
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(testSertifikat, out kjedestatus);
 
                 //Assert
@@ -83,7 +83,7 @@ namespace Difi.Felles.Utility.Tester
                 var selvsignertSertifikat = SertifikatUtility.GetEnhetstesterSelvsignertSertifikat();
 
                 //Act
-                var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.ProduksjonsSertifikater());
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.ProduksjonsSertifikater());
 
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat);
 
@@ -98,7 +98,7 @@ namespace Difi.Felles.Utility.Tester
                 var selvsignertSertifikat = SertifikatUtility.GetEnhetstesterSelvsignertSertifikat();
 
                 //Act
-                var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.FunksjoneltTestmiljøSertifikater());
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.FunksjoneltTestmiljøSertifikater());
 
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat);
 
@@ -113,7 +113,7 @@ namespace Difi.Felles.Utility.Tester
                 var selvsignertSertifikat = SertifikatUtility.GetEnhetstesterSelvsignertSertifikat();
 
                 //Act
-                var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.ProduksjonsSertifikater());
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.ProduksjonsSertifikater());
 
                 X509ChainStatus[] kjedestatus;
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat, out kjedestatus);
@@ -128,7 +128,7 @@ namespace Difi.Felles.Utility.Tester
             {
                 var selvsignertSertifikat = SertifikatUtility.GetEnhetstesterSelvsignertSertifikat();
                 //Act
-                var sertifikatValidator = new Sertifikatkjedevalidator(SertifikatkjedeUtility.FunksjoneltTestmiljøSertifikater());
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.FunksjoneltTestmiljøSertifikater());
 
                 X509ChainStatus[] kjedestatus;
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat, out kjedestatus);

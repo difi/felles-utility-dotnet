@@ -9,23 +9,22 @@ using Difi.Felles.Utility.Security;
 using Difi.Felles.Utility.Tester.Utilities;
 using Difi.Felles.Utility.Utilities;
 using Difi.Felles.UtilityTests;
-using Difi.Felles.UtilityTests.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Difi.Felles.Utility.Tester.Security
 {
     [TestClass]
-    public class SignedXmlWithAgnosticIdTester
+    public class SignedXmlWithAgnosticIdTests
     {
         [TestClass]
-        public class KonstruktørMethod : SignedXmlWithAgnosticIdTester
+        public class KonstruktørMethod : SignedXmlWithAgnosticIdTests
         {
             [TestMethod]
             public void KonstruktørMedXmlDokumentOgSertifikat()
             {
                 //Arrange
-                var xmlDokument = XmlUtility.TilXmlDokument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
-                var sertifikat = DomeneUtility.GetAvsenderEnhetstesterSertifikat();
+                var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
+                var sertifikat = CertificateUtility.GetAvsenderEnhetstesterSertifikat();
                 var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(xmlDokument, sertifikat);
 
                 //Act
@@ -39,8 +38,8 @@ namespace Difi.Felles.Utility.Tester.Security
             public void FeilerMedSertifikatUtenPrivatnøkkel()
             {
                 //Arrange
-                var xmlDokument = XmlUtility.TilXmlDokument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
-                var sertifikat = DomeneUtility.GetMottakerEnhetstesterSertifikat();
+                var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
+                var sertifikat = CertificateUtility.GetMottakerEnhetstesterSertifikat();
 
                 //Act
                 try
@@ -79,7 +78,7 @@ namespace Difi.Felles.Utility.Tester.Security
         }
 
         [TestClass]
-        public class FindIdElementMethod : SignedXmlWithAgnosticIdTester
+        public class FindIdElementMethod : SignedXmlWithAgnosticIdTests
         {
             [TestMethod]
             public void FinnerIdElementUansettSkrivemåte()
@@ -119,31 +118,31 @@ namespace Difi.Felles.Utility.Tester.Security
         }
 
         [TestClass]
-        public class GetPublicKeyMethod : SignedXmlWithAgnosticIdTester
+        public class GetPublicKeyMethod : SignedXmlWithAgnosticIdTests
         {
             private XmlNamespaceManager GetNamespaceManager(XmlDocument forDocument)
             {
                 var xmlNamespaceManager = new XmlNamespaceManager(forDocument.NameTable);
-                xmlNamespaceManager.AddNamespace("env", NavneromUtility.SoapEnvelopeEnv12);
-                xmlNamespaceManager.AddNamespace("wsse", NavneromUtility.WssecuritySecext10);
-                xmlNamespaceManager.AddNamespace("ds", NavneromUtility.XmlDsig);
-                xmlNamespaceManager.AddNamespace("eb", NavneromUtility.EbXmlCore);
-                xmlNamespaceManager.AddNamespace("wsu", NavneromUtility.WssecurityUtility10);
-                xmlNamespaceManager.AddNamespace("ebbp", NavneromUtility.EbppSignals);
-                xmlNamespaceManager.AddNamespace("sbd", NavneromUtility.StandardBusinessDocumentHeader);
-                xmlNamespaceManager.AddNamespace("difi", NavneromUtility.DifiSdpSchema10);
+                xmlNamespaceManager.AddNamespace("env", NamespaceUtility.SoapEnvelopeEnv12);
+                xmlNamespaceManager.AddNamespace("wsse", NamespaceUtility.WssecuritySecext10);
+                xmlNamespaceManager.AddNamespace("ds", NamespaceUtility.XmlDsig);
+                xmlNamespaceManager.AddNamespace("eb", NamespaceUtility.EbXmlCore);
+                xmlNamespaceManager.AddNamespace("wsu", NamespaceUtility.WssecurityUtility10);
+                xmlNamespaceManager.AddNamespace("ebbp", NamespaceUtility.EbppSignals);
+                xmlNamespaceManager.AddNamespace("sbd", NamespaceUtility.StandardBusinessDocumentHeader);
+                xmlNamespaceManager.AddNamespace("difi", NamespaceUtility.DifiSdpSchema10);
 
                 return xmlNamespaceManager;
             }
 
-            private void LeggHeaderSignaturNodeTilSignedXmlWithAgnosticId(XmlDocument kildeXmlDokument, SignedXmlWithAgnosticId signedXmlWithAgnosticId)
+            private void AddHeaderSignatureNodeToSignedXmlWithAgnosticId(XmlDocument kildeXmlDokument, SignedXmlWithAgnosticId signedXmlWithAgnosticId)
             {
-                var headerSignaturNode = (XmlElement) kildeXmlDokument.DocumentElement.SelectSingleNode("/env:Envelope/env:Header/wsse:Security/ds:Signature",
+                var headerSignatureNode = (XmlElement) kildeXmlDokument.DocumentElement.SelectSingleNode("/env:Envelope/env:Header/wsse:Security/ds:Signature",
                     GetNamespaceManager(kildeXmlDokument));
-                signedXmlWithAgnosticId.LoadXml(headerSignaturNode);
+                signedXmlWithAgnosticId.LoadXml(headerSignatureNode);
             }
 
-            private void LeggBodySignaturNodeTilSignedXmlWithAgnosticId(XmlDocument kildeXmlDokument, SignedXmlWithAgnosticId signedXmlWithAgnosticId)
+            private void AddBodySignatureNodeToSignedXmlWithAgnosticId(XmlDocument kildeXmlDokument, SignedXmlWithAgnosticId signedXmlWithAgnosticId)
             {
                 var standardBusinessDocumentNode = (XmlElement) kildeXmlDokument.SelectSingleNode("//ds:Signature", GetNamespaceManager(kildeXmlDokument));
                 signedXmlWithAgnosticId.LoadXml(standardBusinessDocumentNode);
@@ -156,13 +155,13 @@ namespace Difi.Felles.Utility.Tester.Security
             }
 
             [TestMethod]
-            public void HenterKeyFraTransportkvittering()
+            public void GetsKeyFromTransportReceipt()
             {
                 //Arrange
-                var xmlDokument = XmlUtility.TilXmlDokument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
+                var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
                 var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(xmlDokument);
 
-                LeggHeaderSignaturNodeTilSignedXmlWithAgnosticId(xmlDokument, signedXmlWithAgnosticId);
+                AddHeaderSignatureNodeToSignedXmlWithAgnosticId(xmlDokument, signedXmlWithAgnosticId);
 
                 //Act
                 var signingKey = GetPublicKey(signedXmlWithAgnosticId);
@@ -174,13 +173,13 @@ namespace Difi.Felles.Utility.Tester.Security
             }
 
             [TestMethod]
-            public void HenterKeyFraMeldingskvitteringHeader()
+            public void GetsKeyFromMessageReceiptHeader()
             {
                 //Arrange
-                var xmlDokument = XmlUtility.TilXmlDokument(KvitteringsRespons.FunksjoneltTestmiljø);
-                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(xmlDokument);
+                var document = XmlUtility.ToXmlDocument(ReceiptResponse.FunctionalTestEnvironment);
+                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(document);
 
-                LeggHeaderSignaturNodeTilSignedXmlWithAgnosticId(xmlDokument, signedXmlWithAgnosticId);
+                AddHeaderSignatureNodeToSignedXmlWithAgnosticId(document, signedXmlWithAgnosticId);
 
                 //Act
                 var signingKey = GetPublicKey(signedXmlWithAgnosticId);
@@ -192,13 +191,13 @@ namespace Difi.Felles.Utility.Tester.Security
             }
 
             [TestMethod]
-            public void HenterKeyFraMeldingskvitteringBody()
+            public void GetsKeyFromMessageReceiptBody()
             {
                 //Arrange
-                var xmlDokument = XmlUtility.TilXmlDokument(KvitteringsRespons.FunksjoneltTestmiljø);
-                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(xmlDokument);
+                var document = XmlUtility.ToXmlDocument(ReceiptResponse.FunctionalTestEnvironment);
+                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(document);
 
-                LeggBodySignaturNodeTilSignedXmlWithAgnosticId(xmlDokument, signedXmlWithAgnosticId);
+                AddBodySignatureNodeToSignedXmlWithAgnosticId(document, signedXmlWithAgnosticId);
 
                 //Act
                 var signingKey = GetPublicKey(signedXmlWithAgnosticId);
@@ -210,7 +209,7 @@ namespace Difi.Felles.Utility.Tester.Security
             }
 
             [TestMethod]
-            public void SignaturnodeOgBinarySecurityTokenErLike()
+            public void SignatureNodeAndBinarySecurityTokenAreAlike()
             {
                 //Arrange
                 var doc = new XmlDocument {PreserveWhitespace = false};

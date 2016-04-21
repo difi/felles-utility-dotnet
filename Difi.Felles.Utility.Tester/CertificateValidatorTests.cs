@@ -4,10 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Difi.Felles.Utility.Tester
 {
     [TestClass]
-    public class SertifikatvalidatorTester
+    public class CertificateValidatorTests
     {
         [TestClass]
-        public class IsValidServerSertifikatMethod : SertifikatvalidatorTester
+        public class IsValidServerSertifikatMethod : CertificateValidatorTests
         {
             [TestMethod]
             public void ReturnsFalseWithNullCertificate()
@@ -16,7 +16,7 @@ namespace Difi.Felles.Utility.Tester
                 var certificateOrganizationNumber = "123456789";
 
                 //Act
-                var isValid = Sertifikatvalidator.ErGyldigSertifikat(null, certificateOrganizationNumber);
+                var isValid = CertificateValidator.IsValidCertificate(null, certificateOrganizationNumber);
 
                 //Assert
                 Assert.IsFalse(isValid);
@@ -29,7 +29,7 @@ namespace Difi.Felles.Utility.Tester
                 var sertifikatOrganisasjonsnummer = "123456789";
 
                 //Act
-                var isValid = Sertifikatvalidator.ErGyldigSertifikat(SertifikatUtility.TestIntegrasjonssertifikat(), sertifikatOrganisasjonsnummer);
+                var isValid = CertificateValidator.IsValidCertificate(SertifikatUtility.TestIntegrasjonssertifikat(), sertifikatOrganisasjonsnummer);
 
                 //Assert
                 Assert.IsFalse(isValid);
@@ -42,7 +42,7 @@ namespace Difi.Felles.Utility.Tester
                 var sertifikatOrganisasjonsnummer = "123456789";
 
                 //Act
-                var isValid = Sertifikatvalidator.ErGyldigSertifikat(SertifikatUtility.NotActivatedTestCertificate(), sertifikatOrganisasjonsnummer);
+                var isValid = CertificateValidator.IsValidCertificate(SertifikatUtility.NotActivatedTestCertificate(), sertifikatOrganisasjonsnummer);
 
                 //Assert
                 Assert.IsFalse(isValid);
@@ -55,7 +55,7 @@ namespace Difi.Felles.Utility.Tester
                 var sertifikatOrganisasjonsnummer = "123456789";
 
                 //Act
-                var isValid = Sertifikatvalidator.ErGyldigSertifikat(SertifikatUtility.GetExpiredTestCertificate(), sertifikatOrganisasjonsnummer);
+                var isValid = CertificateValidator.IsValidCertificate(SertifikatUtility.GetExpiredTestCertificate(), sertifikatOrganisasjonsnummer);
 
                 //Assert
                 Assert.IsFalse(isValid);
@@ -68,7 +68,7 @@ namespace Difi.Felles.Utility.Tester
                 var sertifikatOrganisasjonsnummer = "984661185";
 
                 //Act
-                var isValid = Sertifikatvalidator.ErGyldigSertifikat(SertifikatUtility.GetPostenCertificate(), sertifikatOrganisasjonsnummer);
+                var isValid = CertificateValidator.IsValidCertificate(SertifikatUtility.GetPostenCertificate(), sertifikatOrganisasjonsnummer);
 
                 //Assert
                 Assert.IsTrue(isValid);

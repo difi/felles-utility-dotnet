@@ -114,7 +114,7 @@ namespace Difi.Felles.Utility.Security
 
         protected override AsymmetricAlgorithm GetPublicKey()
         {
-            var publicKey = base.GetPublicKey() ?? HentNesteKey();
+            var publicKey = base.GetPublicKey() ?? GetNextKey();
             return PublicKey = publicKey;
         }
 
@@ -131,7 +131,7 @@ namespace Difi.Felles.Utility.Security
             return result;
         }
 
-        private AsymmetricAlgorithm HentNesteKey()
+        private AsymmetricAlgorithm GetNextKey()
         {
             AsymmetricAlgorithm publicKey = null;
 
@@ -142,7 +142,7 @@ namespace Difi.Felles.Utility.Security
 
             if (_publicKeyListEnumerator == null)
             {
-                HentPublicKeysOgSettEnumerator();
+                GetPublicKeysAndSetEnumerator();
             }
 
             while (_publicKeyListEnumerator != null && _publicKeyListEnumerator.MoveNext())
@@ -153,7 +153,7 @@ namespace Difi.Felles.Utility.Security
             return publicKey;
         }
 
-        private void HentPublicKeysOgSettEnumerator()
+        private void GetPublicKeysAndSetEnumerator()
         {
             var keyInfoXml = KeyInfo.GetXml();
             if (!keyInfoXml.IsEmpty)
@@ -163,7 +163,7 @@ namespace Difi.Felles.Utility.Security
 
                 if (securityTokenReference != null)
                 {
-                    var binarySecurityTokenSertifikat = HentBinarySecurityToken(securityTokenReference);
+                    var binarySecurityTokenSertifikat = GetBinarySecurityToken(securityTokenReference);
 
                     _publicKeys.Add(binarySecurityTokenSertifikat.PublicKey.Key);
                     _publicKeyListEnumerator = _publicKeys.GetEnumerator();
@@ -185,21 +185,21 @@ namespace Difi.Felles.Utility.Security
             return keyInfoXml.SelectSingleNode("./wsse:SecurityTokenReference/wsse:Reference", keyInfoNamespaceMananger);
         }
 
-        private X509Certificate2 HentBinarySecurityToken(XmlNode securityTokenReference)
+        private X509Certificate2 GetBinarySecurityToken(XmlNode securityTokenReference)
         {
-            var securityTokenReferanseUri = HentSecurityTokenReferanseUri(securityTokenReference);
-            X509Certificate2 publicSertifikat = null;
+            var securityTokenReferenceUri = GetSecurityTokenReferenceUri(securityTokenReference);
+            X509Certificate2 publicCertificate = null;
 
-            var keyElement = FindIdElement(_xmlDokument, securityTokenReferanseUri);
+            var keyElement = FindIdElement(_xmlDokument, securityTokenReferenceUri);
             if (keyElement != null && !string.IsNullOrEmpty(keyElement.InnerText))
             {
-                publicSertifikat = new X509Certificate2(Convert.FromBase64String(keyElement.InnerText));
+                publicCertificate = new X509Certificate2(Convert.FromBase64String(keyElement.InnerText));
             }
 
-            return publicSertifikat;
+            return publicCertificate;
         }
 
-        private string HentSecurityTokenReferanseUri(XmlNode reference)
+        private string GetSecurityTokenReferenceUri(XmlNode reference)
         {
             var uriRefereanseAttributt = reference.Attributes["URI"];
 
@@ -208,13 +208,13 @@ namespace Difi.Felles.Utility.Security
                 throw new SecurityException("Klarte ikke finne SecurityTokenReferenceUri.");
             }
 
-            var referanseUriVerdi = uriRefereanseAttributt.Value;
-            if (referanseUriVerdi.StartsWith("#"))
+            var referenceUriValue = uriRefereanseAttributt.Value;
+            if (referenceUriValue.StartsWith("#"))
             {
-                referanseUriVerdi = referanseUriVerdi.Substring(1);
+                referenceUriValue = referenceUriValue.Substring(1);
             }
 
-            return referanseUriVerdi;
+            return referenceUriValue;
         }
     }
 }
