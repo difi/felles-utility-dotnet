@@ -1,6 +1,6 @@
 ﻿namespace Difi.Felles.Utility.Utilities
 {
-    public static class NavneromUtility
+    internal static class NamespaceUtility
     {
         /// <summary>
         ///     http://www.w3.org/2003/05/soap-envelope

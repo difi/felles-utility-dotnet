@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using ApiClientShared;
 
-namespace Difi.Felles.Utility.Tester.Utilities
+namespace Difi.Felles.Utility.Tester
 {
     internal class SertifikatUtility
     {

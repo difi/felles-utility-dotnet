@@ -3,7 +3,7 @@ using ApiClientShared;
 
 namespace Difi.Felles.Utility.Tester
 {
-    internal class DomeneUtility
+    internal class CertificateUtility
     {
         internal static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata.Sertifikater.Enhetstester");
 

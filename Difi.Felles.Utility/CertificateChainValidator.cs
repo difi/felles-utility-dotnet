@@ -2,9 +2,9 @@
 
 namespace Difi.Felles.Utility
 {
-    public class Sertifikatkjedevalidator
+    public class CertificateChainValidator
     {
-        public Sertifikatkjedevalidator(X509Certificate2Collection sertifikatLager)
+        public CertificateChainValidator(X509Certificate2Collection sertifikatLager)
         {
             SertifikatLager = sertifikatLager;
         }
