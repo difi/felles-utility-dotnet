@@ -10,9 +10,12 @@
     <description>Difi´s felleskode for .NET klientbiblioteker</description>    
     <copyright>Copyright 2015</copyright>
     <tags>Difi Oppslagstjeneste Felles Sikker Digital Post SikkerDigitalPost</tags>
+    <dependencies>
+      <dependency id="api-client-shared" version="1.0.0" />
+    </dependencies>
   </metadata>
   <files>
-    <file src ="Difi.Felles.Utility\bin\Release\*.dll" target="lib\net45" />   
+    <file src ="Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.dll" target="lib\net45" />   
     <file src ="Difi.Felles.Utility\bin\Release\*.xml" target="lib\net45" />
   </files>
 </package>
