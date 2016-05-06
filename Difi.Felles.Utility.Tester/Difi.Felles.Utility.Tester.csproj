@@ -41,8 +41,8 @@
     <AssemblyOriginatorKeyFile>C:\Keys\digipost.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApiClientShared, Version=1.0.5637.25994, Culture=neutral, PublicKeyToken=6e0e24e0c7886562, processorArchitecture=MSIL">
-      <HintPath>..\packages\api-client-shared.1.0.5637.25994\lib\net45\ApiClientShared.dll</HintPath>
+    <Reference Include="ApiClientShared, Version=1.0.5941.27271, Culture=neutral, PublicKeyToken=683b8efceae684a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\api-client-shared.1.0.5941.27271\lib\net45\ApiClientShared.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -97,12 +97,12 @@
     <EmbeddedResource Include="Testdata\Sertifikater\Test\testmottakersertifikatFraOppslagstjenesten.pem" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
     <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\ExpiredTestCertificate.cer" />
     <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\NotActivatedTestCertificate.cer" />
     <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\PostenNorgeAs.cer" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
