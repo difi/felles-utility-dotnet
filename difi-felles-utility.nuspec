@@ -1,21 +1,21 @@
-﻿<?xml version="1.0"?>
-<package >
-  <metadata>
-    <id>difi-felles-utility-dotnet</id>
-    <version>0.0.0.0</version>
-    <authors>Aleksander Sjåfjell</authors>
-    <owners>Direktoratet for forvaltning og IKT</owners>    
-    <projectUrl>https://github.com/difi/felles-utility-dotnet/</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Difi´s felleskode for .NET klientbiblioteker</description>    
-    <copyright>Copyright 2015</copyright>
-    <tags>Difi Oppslagstjeneste Felles Sikker Digital Post SikkerDigitalPost</tags>
-    <dependencies>
-      <dependency id="api-client-shared" version="[1.0.5637.25994,]" />
-    </dependencies>
-  </metadata>
-  <files>
-    <file src ="Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.dll" target="lib\net45" />   
-    <file src ="Difi.Felles.Utility\bin\Release\*.xml" target="lib\net45" />
-  </files>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>difi-felles-utility-dotnet</id>
+        <version>0.0.0.0</version>
+        <authors>Aleksander Sjåfjell</authors>
+        <owners>Direktoratet for forvaltning og IKT</owners>
+        <projectUrl>https://github.com/difi/felles-utility-dotnet/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Difi´s felleskode for .NET klientbiblioteker</description>
+        <copyright>Copyright 2015</copyright>
+        <tags>Difi Oppslagstjeneste Felles Sikker Digital Post SikkerDigitalPost</tags>
+        <dependencies>
+            <dependency id="api-client-shared" version="1.0.5941.27271" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.dll" target="lib\net45\Difi.Felles.Utility.dll" />
+        <file src="Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.XML" target="lib\net45\Difi.Felles.Utility.XML" />
+    </files>
 </package>
