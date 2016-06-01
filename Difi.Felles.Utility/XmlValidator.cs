@@ -44,21 +44,20 @@ namespace Difi.Felles.Utility
                     _hasWarnings = true;
                     break;
                 case XmlSeverityType.Error:
-
-                    if (e.Message.Equals(ToleratedError) || e.Message.Equals(ErrorToleratedPrefix))
-                    {
-                        //supress standard error in DIFI contract
-                    }
-                    else
+                    if (!IsToleratedError(e))
                     {
                         ValidationWarnings += $"{e.Message}\n";
                         _hasErrors = true;
                     }
-                     
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private static bool IsToleratedError(ValidationEventArgs e)
+        {
+            return (e.Message.Equals(ToleratedError) || e.Message.Equals(ErrorToleratedPrefix));
         }
 
         protected void AddXsd(string @namespace, string fileName)
