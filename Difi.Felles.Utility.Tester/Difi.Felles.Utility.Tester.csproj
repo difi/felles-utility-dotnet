@@ -75,6 +75,7 @@
     <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />
     <Compile Include="SertifikatUtility.cs" />
     <Compile Include="Utilities\XmlUtility.cs" />
+    <Compile Include="XmlValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Difi.Felles.Utility\Difi.Felles.Utility.csproj">
@@ -103,6 +104,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Testdata\Xsd\oppslagstjeneste-metadata-16-02.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Testdata\Xsd\oppslagstjeneste-ws-16-02.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Testdata\Xsd\soap\soap.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Testdata\Xsd\w3\exc-c14n.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Testdata\Xsd\w3\xml.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Testdata\Xsd\w3\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Testdata\Xsd\wssecurity\oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Testdata\Xsd\wssecurity\oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
