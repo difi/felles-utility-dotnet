@@ -44,12 +44,17 @@ namespace Difi.Felles.Utility
                     _hasWarnings = true;
                     break;
                 case XmlSeverityType.Error:
-                    ValidationWarnings += $"{e.Message}\n";
-                    if (!e.Message.Equals(ToleratedError) && !e.Message.Equals(ErrorToleratedPrefix))
-                        _hasErrors = true;
+
+                    if (e.Message.Equals(ToleratedError) || e.Message.Equals(ErrorToleratedPrefix))
+                    {
+                        //supress standard error in DIFI contract
+                    }
                     else
-                        ValidationWarnings +=
-                            "The error above is not the cause of the validation failure.\n";
+                    {
+                        ValidationWarnings += $"{e.Message}\n";
+                        _hasErrors = true;
+                    }
+                     
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
