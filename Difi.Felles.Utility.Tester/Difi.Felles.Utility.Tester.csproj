@@ -75,7 +75,9 @@
     <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />
     <Compile Include="SertifikatUtility.cs" />
     <Compile Include="Utilities\XmlUtility.cs" />
-    <Compile Include="XmlValidatorTests.cs" />
+    <Compile Include="Validation\TestGenerator.cs" />
+    <Compile Include="Validation\ValidationMessagesTests.cs" />
+    <Compile Include="Validation\XmlValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Difi.Felles.Utility\Difi.Felles.Utility.csproj">

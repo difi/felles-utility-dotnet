@@ -57,6 +57,7 @@
     <Compile Include="Utilities\CertificateChainUtility.cs" />
     <Compile Include="CertificateChainValidator.cs" />
     <Compile Include="Utilities\NamespaceUtility.cs" />
+    <Compile Include="Validation\ValidationMessages.cs" />
     <Compile Include="XmlValidator.cs" />
   </ItemGroup>
   <ItemGroup>
