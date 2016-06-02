@@ -7,7 +7,7 @@ namespace Difi.Felles.Utility.Tester.Validation
 {
     internal static class TestGenerator
     {
-        public static List<string> ExpectedWarningList()
+        public static List<string> ExpectedValidationMessages()
         {
             const string forventetWarningEn = "The 'http://kontaktinfo.difi.no/xsd/oppslagstjeneste/16-02:personidentifikator' element is invalid - The value '121245361221' is invalid according to its datatype 'http://begrep.difi.no:personidentifikator' - The actual length is not equal to the specified length.";
             const string forventetWarningNb = "Elementet http://kontaktinfo.difi.no/xsd/oppslagstjeneste/16-02:personidentifikator er ugyldig - Verdien 121245361221 er ugyldig i henhold til datatypen http://begrep.difi.no:personidentifikator - Den faktiske lengden er ikke lik den angitte lengden.";
@@ -36,13 +36,8 @@ namespace Difi.Felles.Utility.Tester.Validation
         {
             public const string OppslagstjenesteDefinisjon = "http://kontaktinfo.difi.no/xsd/oppslagstjeneste/16-02";
             public const string OppslagstjenesteMetadata = "http://begrep.difi.no";
-
-            public const string WssecuritySecext10 =
-                "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
-
-            public const string WssecurityUtility10 =
-                "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
-
+            public const string WssecuritySecext10 = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
+            public const string WssecurityUtility10 = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
             public const string SoapEnvelope12 = "http://www.w3.org/2003/05/soap-envelope";
             public const string XmlDsig = "http://www.w3.org/2000/09/xmldsig#";
             public const string XmlExcC14N = "http://www.w3.org/2001/10/xml-exc-c14n#";
