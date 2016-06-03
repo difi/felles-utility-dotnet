@@ -1,25 +1,34 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
+using Difi.Felles.Utility.Validation;
 
 namespace Difi.Felles.Utility
 {
     public abstract class XmlValidator
     {
-        private const string ToleratedError = "It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard.";
-        private const string ErrorToleratedPrefix = "The 'PrefixList' attribute is invalid - The value '' is invalid according to its datatype 'http://www.w3.org/2001/XMLSchema:NMTOKENS' - The attribute value cannot be empty.";
-        private const string WarningMessage = "\tWarning: Matching schema not found. No validation occurred.";
+        private const string ToleratedXsdIdErrorEnUs = "It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard.";
+        private const string ToleratedXsdIdErrorNbNo = "Det er en feil hvis det finnes et medlem av attributtet som bruker en typedefinisjon med typen xs:ID eller avledet fra xs:ID og et annet attributt med typen xs:ID tilsvarer et attributtjokertegn.";
+        private const string ToleratedPrefixListErrorEnUs = "The 'PrefixList' attribute is invalid - The value '' is invalid according to its datatype 'http://www.w3.org/2001/XMLSchema:NMTOKENS' - The attribute value cannot be empty.";
+        private const string ToleratedPrefixListErrorNbNo = "Attributtet PrefixList er ugyldig - Verdien  er ugyldig i henhold til datatypen http://www.w3.org/2001/XMLSchema:NMTOKENS - Attributtverdien kan ikke være tom.";
+
+        private static readonly List<string> ToleratedErrors = new List<string> {ToleratedXsdIdErrorEnUs, ToleratedXsdIdErrorNbNo, ToleratedPrefixListErrorEnUs, ToleratedPrefixListErrorNbNo};
 
         private readonly XmlSchemaSet _schemaSet = new XmlSchemaSet();
-        private bool _hasErrors;
-        private bool _hasWarnings;
 
-        public string ValidationWarnings { get; private set; }
+        protected XmlValidator()
+        {
+            ValidationMessages = new ValidationMessages();
+        }
+
+        public ValidationMessages ValidationMessages { get; }
 
         public bool Validate(string document)
         {
+            ResetState();
+
             var settings = new XmlReaderSettings();
             settings.Schemas.Add(_schemaSet);
             settings.ValidationType = ValidationType.Schema;
@@ -32,28 +41,28 @@ namespace Difi.Felles.Utility
             {
             }
 
-            return _hasErrors == false && _hasWarnings == false;
+            return !ValidationMessages.HasErrors && !ValidationMessages.HasWarnings;
+        }
+
+        private void ResetState()
+        {
+            ValidationMessages.Reset();
         }
 
         private void ValidationEventHandler(object sender, ValidationEventArgs e)
         {
-            switch (e.Severity)
+            if (IsToleratedError(e))
             {
-                case XmlSeverityType.Warning:
-                    ValidationWarnings += $"{WarningMessage} {e.Message}\n";
-                    _hasWarnings = true;
-                    break;
-                case XmlSeverityType.Error:
-                    ValidationWarnings += $"{e.Message}\n";
-                    if (!e.Message.Equals(ToleratedError) && !e.Message.Equals(ErrorToleratedPrefix))
-                        _hasErrors = true;
-                    else
-                        ValidationWarnings +=
-                            "The error above is not the cause of the validation failure.\n";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
+            else
+            {
+                ValidationMessages.Add(e.Severity, e.Message);
+            }
+        }
+
+        private static bool IsToleratedError(ValidationEventArgs e)
+        {
+            return ToleratedErrors.Contains(e.Message);
         }
 
         protected void AddXsd(string @namespace, string fileName)

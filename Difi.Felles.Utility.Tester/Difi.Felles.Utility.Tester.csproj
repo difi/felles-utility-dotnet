@@ -75,6 +75,10 @@
     <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />
     <Compile Include="SertifikatUtility.cs" />
     <Compile Include="Utilities\XmlUtility.cs" />
+    <Compile Include="Validation\TestGenerator.cs" />
+    <Compile Include="Validation\ValidationMessagesTests.cs" />
+    <Compile Include="Validation\XmlValidatorTestImplementation.cs" />
+    <Compile Include="Validation\XmlValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Difi.Felles.Utility\Difi.Felles.Utility.csproj">
@@ -103,7 +107,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Testdata\Xsd\Sample.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Testdata\Xml\Valid.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Testdata\Xml\InvalidIdentifikatorContent.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Testdata\Xml\UnknownElement.xml" />
+  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
