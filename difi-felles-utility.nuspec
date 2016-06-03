@@ -3,7 +3,7 @@
     <metadata>
         <id>difi-felles-utility-dotnet</id>
         <version>0.0.0.0</version>
-        <authors>Aleksander Sjåfjell</authors>
+        <authors>Direktoratet for forvaltning og IKT</authors>
         <owners>Direktoratet for forvaltning og IKT</owners>
         <projectUrl>https://github.com/difi/felles-utility-dotnet/</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
