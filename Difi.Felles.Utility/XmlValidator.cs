@@ -9,10 +9,12 @@ namespace Difi.Felles.Utility
 {
     public abstract class XmlValidator
     {
-        private const string ToleratedError = "It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard.";
-        private const string ToleratedPrefixErrorEn = "The 'PrefixList' attribute is invalid - The value '' is invalid according to its datatype 'http://www.w3.org/2001/XMLSchema:NMTOKENS' - The attribute value cannot be empty.";
-        private const string ToleratedPrefixErrorNb = "Attributtet PrefixList er ugyldig - Verdien  er ugyldig i henhold til datatypen http://www.w3.org/2001/XMLSchema:NMTOKENS - Attributtverdien kan ikke være tom.";
-        private static readonly List<string> ToleratedErrors = new List<string> {ToleratedError, ToleratedPrefixErrorEn, ToleratedPrefixErrorNb};
+        private const string ToleratedXsdIdErrorEnUs = "It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard.";
+        private const string ToleratedXsdIdErrorNbNo = "Det er en feil hvis det finnes et medlem av attributtet som bruker en typedefinisjon med typen xs:ID eller avledet fra xs:ID og et annet attributt med typen xs:ID tilsvarer et attributtjokertegn.";
+        private const string ToleratedPrefixListErrorEnUs = "The 'PrefixList' attribute is invalid - The value '' is invalid according to its datatype 'http://www.w3.org/2001/XMLSchema:NMTOKENS' - The attribute value cannot be empty.";
+        private const string ToleratedPrefixListErrorNbNo = "Attributtet PrefixList er ugyldig - Verdien  er ugyldig i henhold til datatypen http://www.w3.org/2001/XMLSchema:NMTOKENS - Attributtverdien kan ikke være tom.";
+
+        private static readonly List<string> ToleratedErrors = new List<string> {ToleratedXsdIdErrorEnUs, ToleratedXsdIdErrorNbNo, ToleratedPrefixListErrorEnUs, ToleratedPrefixListErrorNbNo};
 
         private readonly XmlSchemaSet _schemaSet = new XmlSchemaSet();
 

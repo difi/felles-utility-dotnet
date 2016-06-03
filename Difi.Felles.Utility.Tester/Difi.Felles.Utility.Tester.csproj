@@ -77,6 +77,7 @@
     <Compile Include="Utilities\XmlUtility.cs" />
     <Compile Include="Validation\TestGenerator.cs" />
     <Compile Include="Validation\ValidationMessagesTests.cs" />
+    <Compile Include="Validation\XmlValidatorTestImplementation.cs" />
     <Compile Include="Validation\XmlValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>

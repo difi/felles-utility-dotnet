@@ -8,39 +8,21 @@ namespace Difi.Felles.Utility.Tester.Validation
 {
     internal static class TestGenerator
     {
-        private static ResourceUtility ResourceUtility()
-        {
-            return new ResourceUtility("Difi.Felles.Utility.Tester.Testdata");
-        }
+        static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata");
 
-        public class XmlValidatorTestImplementation : XmlValidator
-        {
-            public XmlValidatorTestImplementation()
-            {
-                AddXsd("http://tempuri.org/po.xsd", HentRessurs("Xsd.Sample.xsd"));
-            }
-
-            private static XmlReader HentRessurs(string path)
-            {
-                var bytes = ResourceUtility().ReadAllBytes(true, path);
-                return XmlReader.Create(new MemoryStream(bytes));
-            }
-        }
-
-        #region TestRequests
 
         public interface ITestCouple
         {
-            List<string> ExpectedValidationMessages { get; }
+            string Input();
 
-            string Request();
+            List<string> ExpectedValidationMessages { get; }
         }
 
         public class ValidTestCouple : ITestCouple
         {
-            public string Request()
+            public string Input()
             {
-                return Encoding.UTF8.GetString(ResourceUtility().ReadAllBytes(true, "Xml.Valid.xml"));
+                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.Valid.xml"));
             }
 
             public List<string> ExpectedValidationMessages => new List<string>();
@@ -48,9 +30,9 @@ namespace Difi.Felles.Utility.Tester.Validation
 
         public class InvalidContentTestCouple : ITestCouple
         {
-            public string Request()
+            public string Input()
             {
-                return Encoding.UTF8.GetString(ResourceUtility().ReadAllBytes(true, "Xml.InvalidIdentifikatorContent.xml"));
+                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.InvalidIdentifikatorContent.xml"));
             }
 
             public List<string> ExpectedValidationMessages
@@ -66,9 +48,9 @@ namespace Difi.Felles.Utility.Tester.Validation
 
         public class InvalidSyntaxTestCouple : ITestCouple
         {
-            public string Request()
+            public string Input()
             {
-                return Encoding.UTF8.GetString(ResourceUtility().ReadAllBytes(true, "Xml.UnknownElement.xml"));
+                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.UnknownElement.xml"));
             }
 
             public List<string> ExpectedValidationMessages
@@ -81,7 +63,5 @@ namespace Difi.Felles.Utility.Tester.Validation
                 }
             }
         }
-
-        #endregion
     }
 }
