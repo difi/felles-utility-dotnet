@@ -15,11 +15,11 @@ namespace Difi.Felles.Utility.Tester.Validation
             const string expectedError = "Error";
             messages.Add(XmlSeverityType.Error, expectedError);
 
-            Assert.AreEqual(1, messages.Count());
+            Assert.AreEqual(1, messages.Count);
             Assert.AreSame(expectedError, messages.ToString());
             Assert.IsTrue(messages.HasErrors);
             Assert.IsFalse(messages.HasWarnings);
-            Assert.IsNotNull(messages.ToList());
+            Assert.IsNotNull(messages);
         }
 
         [TestMethod]
@@ -29,11 +29,11 @@ namespace Difi.Felles.Utility.Tester.Validation
             const string expectedError = "Warning";
             messages.Add(XmlSeverityType.Warning, expectedError);
 
-            Assert.AreEqual(1, messages.Count());
+            Assert.AreEqual(1, messages.Count);
             Assert.AreSame(expectedError, messages.ToString());
             Assert.IsFalse(messages.HasErrors);
             Assert.IsTrue(messages.HasWarnings);
-            Assert.IsNotNull(messages.ToList());
+            Assert.IsNotNull(messages);
         }
 
         [TestMethod]
@@ -41,10 +41,10 @@ namespace Difi.Felles.Utility.Tester.Validation
         {
             var messages = new ValidationMessages();
 
-            Assert.AreEqual(0, messages.Count());
+            Assert.AreEqual(0, messages.Count);
             messages.Add(XmlSeverityType.Error, "Error");
 
-            Assert.AreEqual(1, messages.Count());
+            Assert.AreEqual(1, messages.Count);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace Difi.Felles.Utility.Tester.Validation
             var expectedList = new List<string> {expectedError};
 
             messages.Add(XmlSeverityType.Error, expectedError);
-            CollectionAssert.AreEqual(expectedList, messages.ToList());
+            CollectionAssert.AreEqual(expectedList, messages);
         }
 
         [TestMethod]
@@ -76,15 +76,15 @@ namespace Difi.Felles.Utility.Tester.Validation
             const string expectedError = "Error";
             var expectedList = new List<string> {expectedError};
             messages.Add(XmlSeverityType.Error, expectedError);
-            CollectionAssert.AreEqual(expectedList, messages.ToList());
+            CollectionAssert.AreEqual(expectedList, messages);
 
             messages.Reset();
 
-            CollectionAssert.AreEqual(new List<string>(), messages.ToList());
+            CollectionAssert.AreEqual(new List<string>(), messages);
             Assert.AreEqual("", messages.ToString());
             Assert.IsFalse(messages.HasErrors);
             Assert.IsFalse(messages.HasWarnings);
-            Assert.AreEqual(0, messages.Count());
+            Assert.AreEqual(0, messages.Count);
         }
     }
 }

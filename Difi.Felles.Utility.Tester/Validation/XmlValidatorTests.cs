@@ -13,7 +13,7 @@ namespace Difi.Felles.Utility.Tester.Validation
             var validateResult = validator.Validate(validTestRequest.Request());
 
             Assert.IsTrue(validateResult);
-            Assert.AreEqual(0, validator.ValidationMessages.Count());
+            Assert.AreEqual(0, validator.ValidationMessages.Count);
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace Difi.Felles.Utility.Tester.Validation
             var validTestRequest = new TestGenerator.ValidTestCouple();
             validateResult = validator.Validate(validTestRequest.Request());
             Assert.IsTrue(validateResult);
-            Assert.AreEqual(0, validator.ValidationMessages.Count());
+            Assert.AreEqual(0, validator.ValidationMessages.Count);
 
             var invalidSyntaxTestRequest = new TestGenerator.InvalidSyntaxTestCouple();
             validateResult = validator.Validate(invalidSyntaxTestRequest.Request());

@@ -5,22 +5,15 @@ using System.Xml.Schema;
 
 namespace Difi.Felles.Utility.Validation
 {
-    public class ValidationMessages
+    public class ValidationMessages : List<string>
     {
-        public ValidationMessages()
-        {
-            Messages = new List<string>();
-        }
-
         public bool HasErrors { get; private set; }
 
         public bool HasWarnings { get; private set; }
 
-        private List<string> Messages { get; }
-
         internal void Add(XmlSeverityType severity, string message)
         {
-            Messages.Add(message);
+            Add(message);
 
             switch (severity)
             {
@@ -35,25 +28,15 @@ namespace Difi.Felles.Utility.Validation
             }
         }
 
-        public int Count()
-        {
-            return Messages.Count;
-        }
-
         public override string ToString()
         {
-            return Messages.Count <= 0 ? "" : Messages.Aggregate((current, variable) => current + Environment.NewLine + variable);
+            return Count <= 0 ? "" : this.Aggregate((current, variable) => current + Environment.NewLine + variable);
         }
 
         internal void Reset()
         {
-            Messages.Clear();
+            Clear();
             HasWarnings = HasErrors = false;
-        }
-
-        public List<string> ToList()
-        {
-            return Messages.AsReadOnly().ToList();
         }
     }
 }
