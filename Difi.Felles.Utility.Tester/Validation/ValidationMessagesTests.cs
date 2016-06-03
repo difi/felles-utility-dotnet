@@ -67,7 +67,7 @@ namespace Difi.Felles.Utility.Tester.Validation
             {
                 var messages = new ValidationMessages();
                 const string expectedError = "Error";
-                var expectedList = new List<string> { expectedError };
+                var expectedList = new List<string> {expectedError};
                 messages.Add(XmlSeverityType.Error, expectedError);
                 CollectionAssert.AreEqual(expectedList, messages);
 
@@ -80,6 +80,5 @@ namespace Difi.Felles.Utility.Tester.Validation
                 Assert.AreEqual(0, messages.Count);
             }
         }
-
     }
 }

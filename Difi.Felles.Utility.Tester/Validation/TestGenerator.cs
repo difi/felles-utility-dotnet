@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Text;
-using System.Xml;
 using ApiClientShared;
 
 namespace Difi.Felles.Utility.Tester.Validation
 {
     internal static class TestGenerator
     {
-        static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata");
-
+        private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata");
 
         public interface ITestCouple
         {
-            string Input();
-
             List<string> ExpectedValidationMessages { get; }
+
+            string Input();
         }
 
         public class ValidTestCouple : ITestCouple

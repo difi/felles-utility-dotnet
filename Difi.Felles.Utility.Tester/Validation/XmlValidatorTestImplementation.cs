@@ -6,7 +6,7 @@ namespace Difi.Felles.Utility.Tester.Validation
 {
     public class XmlValidatorTestImplementation : XmlValidator
     {
-        static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata");
+        private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata");
 
         public XmlValidatorTestImplementation()
         {
