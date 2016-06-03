@@ -11,10 +11,10 @@ namespace Difi.Felles.Utility.Tester.Validation
             [TestMethod]
             public void ValidateWithCorrectXmlShouldReturnTrueAndGiveNoValidationMessages()
             {
-                var validTestRequest = new TestGenerator.ValidTestCouple();
+                var validTestCouple = new TestGenerator.ValidTestCouple();
                 XmlValidator validator = new XmlValidatorTestImplementation();
 
-                var validateResult = validator.Validate(validTestRequest.Input());
+                var validateResult = validator.Validate(validTestCouple.Input());
 
                 Assert.IsTrue(validateResult);
                 Assert.AreEqual(0, validator.ValidationMessages.Count);
@@ -23,12 +23,12 @@ namespace Difi.Felles.Utility.Tester.Validation
             [TestMethod]
             public void ValidateWithInvalidContentShouldReturnFalseAndGiveValidationError()
             {
-                var invalidTestRequest = new TestGenerator.InvalidContentTestCouple();
+                var invalidContentTestCouple = new TestGenerator.InvalidContentTestCouple();
                 XmlValidator validator = new XmlValidatorTestImplementation();
 
-                var validateResult = validator.Validate(invalidTestRequest.Input());
+                var validateResult = validator.Validate(invalidContentTestCouple.Input());
 
-                Assert.IsTrue(invalidTestRequest.ExpectedValidationMessages.Contains(validator.ValidationMessages.ToString()));
+                Assert.IsTrue(invalidContentTestCouple.ExpectedValidationMessages.Contains(validator.ValidationMessages.ToString()));
                 Assert.IsFalse(validateResult);
             }
 
@@ -49,20 +49,20 @@ namespace Difi.Felles.Utility.Tester.Validation
             {
                 XmlValidator validator = new XmlValidatorTestImplementation();
 
-                var invalidTestRequest = new TestGenerator.InvalidContentTestCouple();
-                var validateResult = validator.Validate(invalidTestRequest.Input());
+                var invalidContentTestCouple = new TestGenerator.InvalidContentTestCouple();
+                var validateResult = validator.Validate(invalidContentTestCouple.Input());
                 Assert.IsFalse(validateResult);
-                Assert.IsTrue(invalidTestRequest.ExpectedValidationMessages.Contains(validator.ValidationMessages.ToString()));
+                Assert.IsTrue(invalidContentTestCouple.ExpectedValidationMessages.Contains(validator.ValidationMessages.ToString()));
 
-                var validTestRequest = new TestGenerator.ValidTestCouple();
-                validateResult = validator.Validate(validTestRequest.Input());
+                var validTestCouple = new TestGenerator.ValidTestCouple();
+                validateResult = validator.Validate(validTestCouple.Input());
                 Assert.IsTrue(validateResult);
                 Assert.AreEqual(0, validator.ValidationMessages.Count);
 
-                var invalidSyntaxTestRequest = new TestGenerator.InvalidSyntaxTestCouple();
-                validateResult = validator.Validate(invalidSyntaxTestRequest.Input());
+                var invalidSyntaxTestCouple = new TestGenerator.InvalidSyntaxTestCouple();
+                validateResult = validator.Validate(invalidSyntaxTestCouple.Input());
                 Assert.IsFalse(validateResult);
-                Assert.IsTrue(invalidSyntaxTestRequest.ExpectedValidationMessages.Contains(validator.ValidationMessages.ToString()));
+                Assert.IsTrue(invalidSyntaxTestCouple.ExpectedValidationMessages.Contains(validator.ValidationMessages.ToString()));
             }
         }
     }

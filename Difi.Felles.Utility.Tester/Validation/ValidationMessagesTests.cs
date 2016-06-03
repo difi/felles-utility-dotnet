@@ -8,83 +8,78 @@ namespace Difi.Felles.Utility.Tester.Validation
     [TestClass]
     public class ValidationMessagesTests
     {
-        [TestMethod]
-        public void AddErrorTest()
+        [TestClass]
+        public class AddErrorMethod : ValidationMessagesTests
         {
-            var messages = new ValidationMessages();
-            const string expectedError = "Error";
-            messages.Add(XmlSeverityType.Error, expectedError);
+            [TestMethod]
+            public void ErrorMessageIsAdded()
+            {
+                var messages = new ValidationMessages();
+                const string expectedError = "ErrorMessage";
+                messages.Add(XmlSeverityType.Error, expectedError);
 
-            Assert.AreEqual(1, messages.Count);
-            Assert.AreSame(expectedError, messages.ToString());
-            Assert.IsTrue(messages.HasErrors);
-            Assert.IsFalse(messages.HasWarnings);
-            Assert.IsNotNull(messages);
+                Assert.AreEqual(1, messages.Count);
+                Assert.AreSame(expectedError, messages.ToString());
+                Assert.IsTrue(messages.HasErrors);
+                Assert.IsFalse(messages.HasWarnings);
+                Assert.IsNotNull(messages);
+            }
         }
 
-        [TestMethod]
-        public void AddWarningTest()
+        [TestClass]
+        public class AddWarningMethod : ValidationMessagesTests
         {
-            var messages = new ValidationMessages();
-            const string expectedError = "Warning";
-            messages.Add(XmlSeverityType.Warning, expectedError);
+            [TestMethod]
+            public void WarningMessageIsAdded()
+            {
+                var messages = new ValidationMessages();
+                const string expectedError = "WarningMessage";
+                messages.Add(XmlSeverityType.Warning, expectedError);
 
-            Assert.AreEqual(1, messages.Count);
-            Assert.AreSame(expectedError, messages.ToString());
-            Assert.IsFalse(messages.HasErrors);
-            Assert.IsTrue(messages.HasWarnings);
-            Assert.IsNotNull(messages);
+                Assert.AreEqual(1, messages.Count);
+                Assert.AreSame(expectedError, messages.ToString());
+                Assert.IsFalse(messages.HasErrors);
+                Assert.IsTrue(messages.HasWarnings);
+                Assert.IsNotNull(messages);
+            }
         }
 
-        [TestMethod]
-        public void CountTest()
+        [TestClass]
+        public class ToStringMethod : ValidationMessagesTests
         {
-            var messages = new ValidationMessages();
+            [TestMethod]
+            public void OutputsCorrectly()
+            {
+                var messages = new ValidationMessages();
+                const string expectedError = "Error";
 
-            Assert.AreEqual(0, messages.Count);
-            messages.Add(XmlSeverityType.Error, "Error");
+                messages.Add(XmlSeverityType.Error, expectedError);
 
-            Assert.AreEqual(1, messages.Count);
+                Assert.AreSame(expectedError, messages.ToString());
+            }
         }
 
-        [TestMethod]
-        public void ListTest()
+        [TestClass]
+        public class ResetMethod : ValidationMessagesTests
         {
-            var messages = new ValidationMessages();
-            const string expectedError = "Error";
-            var expectedList = new List<string> {expectedError};
+            [TestMethod]
+            public void ResetsState()
+            {
+                var messages = new ValidationMessages();
+                const string expectedError = "Error";
+                var expectedList = new List<string> { expectedError };
+                messages.Add(XmlSeverityType.Error, expectedError);
+                CollectionAssert.AreEqual(expectedList, messages);
 
-            messages.Add(XmlSeverityType.Error, expectedError);
-            CollectionAssert.AreEqual(expectedList, messages);
+                messages.Reset();
+
+                CollectionAssert.AreEqual(new List<string>(), messages);
+                Assert.AreEqual("", messages.ToString());
+                Assert.IsFalse(messages.HasErrors);
+                Assert.IsFalse(messages.HasWarnings);
+                Assert.AreEqual(0, messages.Count);
+            }
         }
 
-        [TestMethod]
-        public void ToStringTest()
-        {
-            var messages = new ValidationMessages();
-            const string expectedError = "Error";
-
-            messages.Add(XmlSeverityType.Error, expectedError);
-
-            Assert.AreSame(expectedError, messages.ToString());
-        }
-
-        [TestMethod]
-        public void ResetTest()
-        {
-            var messages = new ValidationMessages();
-            const string expectedError = "Error";
-            var expectedList = new List<string> {expectedError};
-            messages.Add(XmlSeverityType.Error, expectedError);
-            CollectionAssert.AreEqual(expectedList, messages);
-
-            messages.Reset();
-
-            CollectionAssert.AreEqual(new List<string>(), messages);
-            Assert.AreEqual("", messages.ToString());
-            Assert.IsFalse(messages.HasErrors);
-            Assert.IsFalse(messages.HasWarnings);
-            Assert.AreEqual(0, messages.Count);
-        }
     }
 }

@@ -39,8 +39,8 @@ namespace Difi.Felles.Utility.Tester.Validation
             {
                 get
                 {
-                    const string validationMessageEn = "The 'http://tempuri.org/po.xsd:Identifikator' element is invalid - The value 'ååå123' is invalid according to its datatype 'String' - The Pattern constraint failed.";
-                    const string validationMessageNb = "Elementet http://tempuri.org/po.xsd:Identifikator er ugyldig - Verdien ååå123 er ugyldig i henhold til datatypen String - Pattern-begrensningen mislyktes.";
+                    const string validationMessageEn = "The 'http://tempuri.org/po.xsd:Identifikator' element is invalid - The value 'invalidContent' is invalid according to its datatype 'String' - The Pattern constraint failed.";
+                    const string validationMessageNb = "Elementet http://tempuri.org/po.xsd:Identifikator er ugyldig - Verdien invalidContent er ugyldig i henhold til datatypen String - Pattern-begrensningen mislyktes.";
                     return new List<string> {validationMessageEn, validationMessageNb};
                 }
             }
