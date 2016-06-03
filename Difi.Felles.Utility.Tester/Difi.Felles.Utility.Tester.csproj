@@ -111,14 +111,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Testdata\ValidTestRequest.xml" />
+    <EmbeddedResource Include="Testdata\Xml\Valid.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Testdata\InvalidTestRequest.xml" />
+    <EmbeddedResource Include="Testdata\Xml\InvalidIdentifikatorContent.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Testdata\InvalidSyntaxTestRequest.xml" />
+    <EmbeddedResource Include="Testdata\Xml\UnknownElement.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

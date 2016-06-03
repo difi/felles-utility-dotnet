@@ -13,9 +13,9 @@ namespace Difi.Felles.Utility.Tester.Validation
             return new ResourceUtility("Difi.Felles.Utility.Tester.Testdata");
         }
 
-        public class XmlValidatorImpl : XmlValidator
+        public class XmlValidatorTestImplementation : XmlValidator
         {
-            public XmlValidatorImpl()
+            public XmlValidatorTestImplementation()
             {
                 AddXsd("http://tempuri.org/po.xsd", HentRessurs("Xsd.Sample.xsd"));
             }
@@ -40,7 +40,7 @@ namespace Difi.Felles.Utility.Tester.Validation
         {
             public string Request()
             {
-                return Encoding.UTF8.GetString(ResourceUtility().ReadAllBytes(true, "ValidTestRequest.xml"));
+                return Encoding.UTF8.GetString(ResourceUtility().ReadAllBytes(true, "Xml.Valid.xml"));
             }
 
             public List<string> ExpectedValidationMessages => new List<string>();
@@ -50,7 +50,7 @@ namespace Difi.Felles.Utility.Tester.Validation
         {
             public string Request()
             {
-                return Encoding.UTF8.GetString(ResourceUtility().ReadAllBytes(true, "InvalidTestRequest.xml"));
+                return Encoding.UTF8.GetString(ResourceUtility().ReadAllBytes(true, "Xml.InvalidIdentifikatorContent.xml"));
             }
 
             public List<string> ExpectedValidationMessages
@@ -68,7 +68,7 @@ namespace Difi.Felles.Utility.Tester.Validation
         {
             public string Request()
             {
-                return Encoding.UTF8.GetString(ResourceUtility().ReadAllBytes(true, "InvalidSyntaxTestRequest.xml"));
+                return Encoding.UTF8.GetString(ResourceUtility().ReadAllBytes(true, "Xml.UnknownElement.xml"));
             }
 
             public List<string> ExpectedValidationMessages
