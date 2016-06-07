@@ -12,8 +12,7 @@ namespace Difi.Felles.Utility
 
         public bool Validate(string document)
         {
-            var validationRunner = new ValidationRunner(_schemaSet);
-            return validationRunner.Validate(document);
+            return new ValidationRunner(_schemaSet).Validate(document);
         }
 
         public bool Validate(string document, out string validationMessage)
