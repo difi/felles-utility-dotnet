@@ -6,7 +6,7 @@ using System.Xml.Schema;
 
 namespace Difi.Felles.Utility.Validation
 {
-    public class ValidationRunner
+    internal class ValidationRunner
     {
         private const string ToleratedXsdIdErrorEnUs = "It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard.";
         private const string ToleratedXsdIdErrorNbNo = "Det er en feil hvis det finnes et medlem av attributtet som bruker en typedefinisjon med typen xs:ID eller avledet fra xs:ID og et annet attributt med typen xs:ID tilsvarer et attributtjokertegn.";
@@ -17,14 +17,14 @@ namespace Difi.Felles.Utility.Validation
 
         private readonly XmlSchemaSet _schemaSet;
 
-        public ValidationRunner(XmlSchemaSet schemaSet)
+        internal ValidationRunner(XmlSchemaSet schemaSet)
         {
             _schemaSet = schemaSet;
         }
 
-        public ValidationMessages ValidationMessages { get; } = new ValidationMessages();
+        internal ValidationMessages ValidationMessages { get; } = new ValidationMessages();
 
-        public bool Validate(string document)
+        internal bool Validate(string document)
         {
             var settings = new XmlReaderSettings();
             settings.Schemas.Add(_schemaSet);
