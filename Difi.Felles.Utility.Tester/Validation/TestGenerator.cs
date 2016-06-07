@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Xml;
+using System.Xml.Schema;
 using ApiClientShared;
 
 namespace Difi.Felles.Utility.Tester.Validation
@@ -60,5 +63,12 @@ namespace Difi.Felles.Utility.Tester.Validation
                 }
             }
         }
+
+        public static XmlSchemaSet XmlSchemaSet()
+        {
+            var xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add("http://tempuri.org/po.xsd", XmlReader.Create(new MemoryStream(ResourceUtility.ReadAllBytes(true,"Xsd.Sample.xsd"))));
+            return xmlSchemaSet;
+        }  
     }
 }

@@ -58,6 +58,7 @@
     <Compile Include="CertificateChainValidator.cs" />
     <Compile Include="Utilities\NamespaceUtility.cs" />
     <Compile Include="Validation\ValidationMessages.cs" />
+    <Compile Include="Validation\ValidationRunner.cs" />
     <Compile Include="XmlValidator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,7 +81,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
