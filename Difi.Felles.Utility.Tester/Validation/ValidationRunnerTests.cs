@@ -14,13 +14,13 @@ namespace Difi.Felles.Utility.Tester.Validation
             {
                 //Arrange
                 var validationRunner = new ValidationRunner(TestGenerator.XmlSchemaSet());
-
-                //Act
-
-                //Assert
-                Assert.IsTrue(1 == 1);
+                
             }
+        }
 
+        [TestClass]
+        public class ValidateMethod : ValidationMessagesTests
+        {
             [TestMethod]
             public void AddsValidationMessage()
             {
@@ -34,7 +34,6 @@ namespace Difi.Felles.Utility.Tester.Validation
                 //Assert
                 Assert.AreEqual(1, validationRunner.ValidationMessages.Count);
             }
-            
         }
     }
 }
