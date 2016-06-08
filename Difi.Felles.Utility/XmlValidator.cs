@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using Difi.Felles.Utility.Validation;
@@ -9,60 +8,27 @@ namespace Difi.Felles.Utility
 {
     public abstract class XmlValidator
     {
-        private const string ToleratedXsdIdErrorEnUs = "It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard.";
-        private const string ToleratedXsdIdErrorNbNo = "Det er en feil hvis det finnes et medlem av attributtet som bruker en typedefinisjon med typen xs:ID eller avledet fra xs:ID og et annet attributt med typen xs:ID tilsvarer et attributtjokertegn.";
-        private const string ToleratedPrefixListErrorEnUs = "The 'PrefixList' attribute is invalid - The value '' is invalid according to its datatype 'http://www.w3.org/2001/XMLSchema:NMTOKENS' - The attribute value cannot be empty.";
-        private const string ToleratedPrefixListErrorNbNo = "Attributtet PrefixList er ugyldig - Verdien  er ugyldig i henhold til datatypen http://www.w3.org/2001/XMLSchema:NMTOKENS - Attributtverdien kan ikke være tom.";
-
-        private static readonly List<string> ToleratedErrors = new List<string> {ToleratedXsdIdErrorEnUs, ToleratedXsdIdErrorNbNo, ToleratedPrefixListErrorEnUs, ToleratedPrefixListErrorNbNo};
-
         private readonly XmlSchemaSet _schemaSet = new XmlSchemaSet();
-
-        protected XmlValidator()
-        {
-            ValidationMessages = new ValidationMessages();
-        }
-
-        public ValidationMessages ValidationMessages { get; }
 
         public bool Validate(string document)
         {
-            ResetState();
-
-            var settings = new XmlReaderSettings();
-            settings.Schemas.Add(_schemaSet);
-            settings.ValidationType = ValidationType.Schema;
-            settings.ValidationFlags = XmlSchemaValidationFlags.ReportValidationWarnings;
-            settings.ValidationEventHandler += ValidationEventHandler;
-
-            var xmlReader = System.Xml.XmlReader.Create(new MemoryStream(Encoding.UTF8.GetBytes(document)), settings);
-
-            while (xmlReader.Read())
-            {
-            }
-
-            return !ValidationMessages.HasErrors && !ValidationMessages.HasWarnings;
+            return new ValidationRunner(_schemaSet).Validate(document);
         }
 
-        private void ResetState()
+        public bool Validate(string document, out string validationMessage)
         {
-            ValidationMessages.Reset();
+            var validationRunner = new ValidationRunner(_schemaSet);
+            var status = validationRunner.Validate(document);
+            validationMessage = validationRunner.ValidationMessages.ToString();
+            return status;
         }
 
-        private void ValidationEventHandler(object sender, ValidationEventArgs e)
+        public bool Validate(string document, out List<string> validationMessages)
         {
-            if (IsToleratedError(e))
-            {
-            }
-            else
-            {
-                ValidationMessages.Add(e.Severity, e.Message);
-            }
-        }
-
-        private static bool IsToleratedError(ValidationEventArgs e)
-        {
-            return ToleratedErrors.Contains(e.Message);
+            var validationRunner = new ValidationRunner(_schemaSet);
+            var result = validationRunner.Validate(document);
+            validationMessages = validationRunner.ValidationMessages;
+            return result;
         }
 
         protected void AddXsd(string @namespace, string fileName)

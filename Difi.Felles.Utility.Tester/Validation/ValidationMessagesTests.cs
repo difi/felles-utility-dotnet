@@ -58,27 +58,6 @@ namespace Difi.Felles.Utility.Tester.Validation
                 Assert.AreSame(expectedError, messages.ToString());
             }
         }
-
-        [TestClass]
-        public class ResetMethod : ValidationMessagesTests
-        {
-            [TestMethod]
-            public void ResetsState()
-            {
-                var messages = new ValidationMessages();
-                const string expectedError = "Error";
-                var expectedList = new List<string> {expectedError};
-                messages.Add(XmlSeverityType.Error, expectedError);
-                CollectionAssert.AreEqual(expectedList, messages);
-
-                messages.Reset();
-
-                CollectionAssert.AreEqual(new List<string>(), messages);
-                Assert.AreEqual("", messages.ToString());
-                Assert.IsFalse(messages.HasErrors);
-                Assert.IsFalse(messages.HasWarnings);
-                Assert.AreEqual(0, messages.Count);
-            }
-        }
+        
     }
 }

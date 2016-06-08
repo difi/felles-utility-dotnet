@@ -7,9 +7,9 @@ namespace Difi.Felles.Utility.Validation
 {
     public class ValidationMessages : List<string>
     {
-        public bool HasErrors { get; private set; }
+        public bool HasErrors { get; private set; } = false;
 
-        public bool HasWarnings { get; private set; }
+        public bool HasWarnings { get; private set; } = false;
 
         internal void Add(XmlSeverityType severity, string message)
         {
@@ -31,12 +31,6 @@ namespace Difi.Felles.Utility.Validation
         public override string ToString()
         {
             return Count <= 0 ? "" : this.Aggregate((current, variable) => current + Environment.NewLine + variable);
-        }
-
-        internal void Reset()
-        {
-            Clear();
-            HasWarnings = HasErrors = false;
         }
     }
 }
