@@ -12,14 +12,12 @@ namespace Difi.Felles.Utility.Tester.Validation
             [TestMethod]
             public void ValidateReturnsBoolAndOutsString()
             {
-                //Arrange
                 var invalidContentTestCouple = new TestGenerator.InvalidContentTestCouple();
                 XmlValidator validator = new XmlValidatorTestImplementation();
                 string validationMessage;
-                //Act
+                
                 var status = validator.Validate(invalidContentTestCouple.Input(), out validationMessage);
 
-                //Assert
                 Assert.IsTrue(invalidContentTestCouple.ExpectedValidationMessages.Contains(validationMessage));
                 Assert.IsFalse(status);
             }
@@ -27,14 +25,12 @@ namespace Difi.Felles.Utility.Tester.Validation
             [TestMethod]
             public void ValidateReturnsBoolAndOutsListOfStrings()
             {
-                //Arrange
                 var invalidContentTestCouple = new TestGenerator.InvalidContentTestCouple();
                 XmlValidator validator = new XmlValidatorTestImplementation();
                 List<string> validationMessages;
-                //Act
+                
                 var status = validator.Validate(invalidContentTestCouple.Input(), out validationMessages);
 
-                //Assert
                 Assert.IsTrue(invalidContentTestCouple.ExpectedValidationMessages.Contains(validationMessages.ToString()));
                 Assert.IsFalse(status);
             }
@@ -42,13 +38,11 @@ namespace Difi.Felles.Utility.Tester.Validation
             [TestMethod]
             public void ValidateReturnsBool()
             {
-                //Arrange
                 var invalidContentTestCouple = new TestGenerator.InvalidContentTestCouple();
                 XmlValidator validator = new XmlValidatorTestImplementation();
-                //Act
+                
                 var status = validator.Validate(invalidContentTestCouple.Input());
 
-                //Assert
                 Assert.IsFalse(status);
             }
 
@@ -58,6 +52,7 @@ namespace Difi.Felles.Utility.Tester.Validation
                 var validTestCouple = new TestGenerator.ValidTestCouple();
                 XmlValidator validator = new XmlValidatorTestImplementation();
                 List<string> messagesList;
+
                 var validateResult = validator.Validate(validTestCouple.Input(), out messagesList);
 
                 Assert.IsTrue(validateResult);
