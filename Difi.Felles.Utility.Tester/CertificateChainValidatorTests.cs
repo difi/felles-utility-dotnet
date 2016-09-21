@@ -137,7 +137,7 @@ namespace Difi.Felles.Utility.Tester
             }
 
             [TestMethod]
-            [ExpectedException(typeof(SecurityException))]
+            [ExpectedException(typeof(CertificateChainValidationException))]
             public void Feiler_med_produksjonssertifikat_når_validerer_mot_testkjede()
             {
                 //Arrange
@@ -151,7 +151,7 @@ namespace Difi.Felles.Utility.Tester
             }
 
             [TestMethod]
-            [ExpectedException(typeof(SecurityException))]
+            [ExpectedException(typeof(CertificateChainValidationException))]
             public void Feiler_med_testsertifikat_når_validerer_mot_produksjonskjede()
             {
                 //Arrange

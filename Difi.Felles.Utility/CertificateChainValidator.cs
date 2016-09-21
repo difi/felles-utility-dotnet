@@ -15,50 +15,62 @@ namespace Difi.Felles.Utility
 
         public X509Certificate2Collection SertifikatLager { get; set; }
 
+        /// <summary>
+        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        /// </summary>
+        /// <param name="sertifikat"></param>
+        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
+        /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat)
         {
             X509ChainStatus[] kjedestatus;
             return ErGyldigSertifikatkjede(sertifikat, out kjedestatus);
         }
 
+        /// <summary>
+        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        /// </summary>
+        /// <param name="sertifikat"></param>
+        /// <param name="kjedestatus">Status på kjeden etter validering. </param>
+        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
+        /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out X509ChainStatus[] kjedestatus)
+        {
+            var chain = ByggSertifikatKjede(sertifikat);
+            kjedestatus = chain.ChainStatus;
+
+            ValiderBrukerValidatorSertifikaterEllerKastException(chain,sertifikat);
+
+            return ErGyldigSertifikatKjede(chain);
+        }
+
+        private X509Chain ByggSertifikatKjede(X509Certificate2 sertifikat)
         {
             var chain = new X509Chain
             {
                 ChainPolicy = ChainPolicy()
-
             };
-
-            var erGyldigResponssertifikat = chain.Build(sertifikat);
-
-            ValiderAtKunBrukerValidatorSertifikater(chain,sertifikat);
-
-            erGyldigResponssertifikat = ErGyldigResponssertifikatKjede(chain);
-            
-            kjedestatus = chain.ChainStatus;
-            return erGyldigResponssertifikat;
+            chain.Build(sertifikat);
+            return chain;
         }
 
-        private void ValiderAtKunBrukerValidatorSertifikater(X509Chain chain, X509Certificate2 sertifikat)
+        private void ValiderBrukerValidatorSertifikaterEllerKastException(X509Chain chain, X509Certificate2 sertifikat)
         {
             foreach (var chainElement in chain.ChainElements)
             {
                 var erSertifikatSomValideres = ErSammeSertifikat(chainElement.Certificate, sertifikat);
-                if (erSertifikatSomValideres) 
-                {
-                    continue;
-                }
+                if (erSertifikatSomValideres) { continue; }
 
                 var erISertifikatlager = SertifikatLager.Cast<X509Certificate2>().Any(lagerSertifikat => ErSammeSertifikat(chainElement.Certificate, lagerSertifikat));
+                if (erISertifikatlager) { continue; }
 
-                if (!erISertifikatlager)
-                {
-                    var chainAsString = chain.ChainElements.Cast<X509ChainElement>().Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
-                    var lagerAsString = SertifikatLager.Cast<X509Certificate2>().Aggregate("", GetCertificateInfo);
+                var chainAsString = chain.ChainElements.Cast<X509ChainElement>().Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
+                var lagerAsString = SertifikatLager.Cast<X509Certificate2>().Aggregate("", GetCertificateInfo);
 
-                    throw new SecurityException($"Validering av sertifikat '{sertifikat.Subject}' (thumbprint '{sertifikat.Thumbprint}') feilet. Dette skjer fordi kjeden ble bygd " +
-                                                $"med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {lagerAsString}");
-                }
+                throw new CertificateChainValidationException($"Validering av sertifikat '{sertifikat.Subject}' (thumbprint '{sertifikat.Thumbprint}') feilet. Dette skjer fordi kjeden ble bygd " +
+                                                              $"med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {lagerAsString}. Dette skjer som oftest " +
+                                                              $"om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en " +
+                                                              $"kjede med input {nameof(SertifikatLager)}.");
             }
         }
 
@@ -84,7 +96,7 @@ namespace Difi.Felles.Utility
             return policy;
         }
 
-        private static bool ErGyldigResponssertifikatKjede(X509Chain chain)
+        private static bool ErGyldigSertifikatKjede(X509Chain chain)
         {
             if (!HarForventetLengde(chain, 3)) return false;
 
