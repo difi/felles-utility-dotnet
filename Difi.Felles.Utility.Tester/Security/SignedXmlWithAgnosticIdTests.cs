@@ -9,17 +9,18 @@ using Difi.Felles.Utility.Security;
 using Difi.Felles.Utility.Tester.Testdata;
 using Difi.Felles.Utility.Tester.Utilities;
 using Difi.Felles.Utility.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Difi.Felles.Utility.Tester.Security
 {
-    [TestClass]
+    
     public class SignedXmlWithAgnosticIdTests
     {
-        [TestClass]
+        
         public class KonstruktørMethod : SignedXmlWithAgnosticIdTests
         {
-            [TestMethod]
+            [Fact]
             public void KonstruktørMedXmlDokumentOgSertifikat()
             {
                 //Arrange
@@ -31,10 +32,10 @@ namespace Difi.Felles.Utility.Tester.Security
                 var signingKey = signedXmlWithAgnosticId.SigningKey;
 
                 //Assert
-                Assert.IsTrue(signingKey is RSACryptoServiceProvider);
+                Assert.True(signingKey is RSACryptoServiceProvider);
             }
 
-            [TestMethod]
+            [Fact]
             public void FeilerMedSertifikatUtenPrivatnøkkel()
             {
                 //Arrange
@@ -53,7 +54,7 @@ namespace Difi.Felles.Utility.Tester.Security
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void FeilerMedPrivatnøkkelSomIkkeErRsaIKKEIMPLEMENTERT()
             {
                 //Denne testen er ikke skrevet fordi vi ikke har klart å lage et sertifikat som bruker
@@ -77,10 +78,10 @@ namespace Difi.Felles.Utility.Tester.Security
             }
         }
 
-        [TestClass]
+        
         public class FindIdElementMethod : SignedXmlWithAgnosticIdTests
         {
-            [TestMethod]
+            [Fact]
             public void FinnerIdElementUansettSkrivemåte()
             {
                 var tests = new[]
@@ -109,15 +110,15 @@ namespace Difi.Felles.Utility.Tester.Security
                         var signed = new SignedXmlWithAgnosticId(xml);
                         var response = signed.GetIdElement(xml, "value");
 
-                        Assert.IsNotNull(response);
-                        Assert.IsTrue(
+                        Assert.NotNull(response);
+                        Assert.True(
                             response.Attributes.OfType<XmlAttribute>().Any(a => a.LocalName == id && a.Value == "value"));
                     }
                 }
             }
         }
 
-        [TestClass]
+        
         public class GetPublicKeyMethod : SignedXmlWithAgnosticIdTests
         {
             private XmlNamespaceManager GetNamespaceManager(XmlDocument forDocument)
@@ -154,7 +155,7 @@ namespace Difi.Felles.Utility.Tester.Security
                     .Invoke(signedXmlWithAgnosticId, null);
             }
 
-            [TestMethod]
+            [Fact]
             public void GetsKeyFromTransportReceipt()
             {
                 //Arrange
@@ -168,11 +169,11 @@ namespace Difi.Felles.Utility.Tester.Security
                 var signingKey2 = GetPublicKey(signedXmlWithAgnosticId);
 
                 //Assert
-                Assert.IsNotNull(signingKey);
-                Assert.IsNull(signingKey2);
+                Assert.NotNull(signingKey);
+                Assert.Null(signingKey2);
             }
 
-            [TestMethod]
+            [Fact]
             public void GetsKeyFromMessageReceiptHeader()
             {
                 //Arrange
@@ -186,11 +187,11 @@ namespace Difi.Felles.Utility.Tester.Security
                 var signingKey2 = GetPublicKey(signedXmlWithAgnosticId);
 
                 //Assert
-                Assert.IsNotNull(signingKey);
-                Assert.IsNull(signingKey2);
+                Assert.NotNull(signingKey);
+                Assert.Null(signingKey2);
             }
 
-            [TestMethod]
+            [Fact]
             public void GetsKeyFromMessageReceiptBody()
             {
                 //Arrange
@@ -204,11 +205,11 @@ namespace Difi.Felles.Utility.Tester.Security
                 var signingKey2 = GetPublicKey(signedXmlWithAgnosticId);
 
                 //Assert
-                Assert.IsNotNull(signingKey);
-                Assert.IsNull(signingKey2);
+                Assert.NotNull(signingKey);
+                Assert.Null(signingKey2);
             }
 
-            [TestMethod]
+            [Fact]
             public void SignatureNodeAndBinarySecurityTokenAreAlike()
             {
                 //Arrange
@@ -231,7 +232,7 @@ namespace Difi.Felles.Utility.Tester.Security
                 var publicKey = typeof (SignedXmlWithAgnosticId).GetMethod("GetPublicKey", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(signedXmlWithAgnosticId, null) as AsymmetricAlgorithm;
 
                 //Assert
-                Assert.AreEqual(publicKey.ToXmlString(false), key.PublicKey.Key.ToXmlString(false));
+                Assert.Equal(publicKey.ToXmlString(false), key.PublicKey.Key.ToXmlString(false));
             }
         }
     }

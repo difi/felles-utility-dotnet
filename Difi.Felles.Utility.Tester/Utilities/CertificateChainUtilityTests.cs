@@ -1,16 +1,16 @@
 ﻿using System.Diagnostics;
 using Difi.Felles.Utility.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Difi.Felles.Utility.Tester.Utilities
 {
-    [TestClass]
+    
     public class CertificateChainUtilityTests
     {
-        [TestClass]
+        
         public class TestsertifikaterMethod : CertificateChainUtilityTests
         {
-            [TestMethod]
+            [Fact]
             public void ReturnererFireSertifikaterMedThumbprint()
             {
                 //Arrange
@@ -21,15 +21,15 @@ namespace Difi.Felles.Utility.Tester.Utilities
                 //Assert
                 foreach (var sertifikat in sertifikater)
                 {
-                    Assert.IsNotNull(sertifikat.Thumbprint);
+                    Assert.NotNull(sertifikat.Thumbprint);
                 }
             }
         }
 
-        [TestClass]
+        
         public class ProduksjonssertifikaterMethod : CertificateChainUtilityTests
         {
-            [TestMethod]
+            [Fact]
             public void ReturnererFireSertifikaterMedThumbprint()
             {
                 //Arrange
@@ -40,15 +40,15 @@ namespace Difi.Felles.Utility.Tester.Utilities
                 //Assert
                 foreach (var sertifikat in sertifikater)
                 {
-                    Assert.IsNotNull(sertifikat.Thumbprint);
+                    Assert.NotNull(sertifikat.Thumbprint);
                 }
             }
         }
 
-        [TestClass]
+        
         public class CertificateChainInfoTests : CertificateChainUtilityTests
         {
-            [TestMethod]
+            [Fact]
             public void DebugMesages()
             {
                 int i = 0;

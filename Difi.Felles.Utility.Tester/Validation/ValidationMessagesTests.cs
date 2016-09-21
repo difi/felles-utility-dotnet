@@ -1,53 +1,53 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Schema;
 using Difi.Felles.Utility.Validation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Difi.Felles.Utility.Tester.Validation
 {
-    [TestClass]
+    
     public class ValidationMessagesTests
     {
-        [TestClass]
+        
         public class AddErrorMethod : ValidationMessagesTests
         {
-            [TestMethod]
+            [Fact]
             public void ErrorMessageIsAdded()
             {
                 var messages = new ValidationMessages();
                 const string expectedError = "ErrorMessage";
                 messages.Add(XmlSeverityType.Error, expectedError);
 
-                Assert.AreEqual(1, messages.Count);
-                Assert.AreSame(expectedError, messages.ToString());
-                Assert.IsTrue(messages.HasErrors);
-                Assert.IsFalse(messages.HasWarnings);
-                Assert.IsNotNull(messages);
+                Assert.Equal(1, messages.Count);
+                Assert.Same(expectedError, messages.ToString());
+                Assert.True(messages.HasErrors);
+                Assert.False(messages.HasWarnings);
+                Assert.NotNull(messages);
             }
         }
 
-        [TestClass]
+        
         public class AddWarningMethod : ValidationMessagesTests
         {
-            [TestMethod]
+            [Fact]
             public void WarningMessageIsAdded()
             {
                 var messages = new ValidationMessages();
                 const string expectedError = "WarningMessage";
                 messages.Add(XmlSeverityType.Warning, expectedError);
 
-                Assert.AreEqual(1, messages.Count);
-                Assert.AreSame(expectedError, messages.ToString());
-                Assert.IsFalse(messages.HasErrors);
-                Assert.IsTrue(messages.HasWarnings);
-                Assert.IsNotNull(messages);
+                Assert.Equal(1, messages.Count);
+                Assert.Same(expectedError, messages.ToString());
+                Assert.False(messages.HasErrors);
+                Assert.True(messages.HasWarnings);
+                Assert.NotNull(messages);
             }
         }
 
-        [TestClass]
+        
         public class ToStringMethod : ValidationMessagesTests
         {
-            [TestMethod]
+            [Fact]
             public void OutputsCorrectly()
             {
                 var messages = new ValidationMessages();
@@ -55,7 +55,7 @@ namespace Difi.Felles.Utility.Tester.Validation
 
                 messages.Add(XmlSeverityType.Error, expectedError);
 
-                Assert.AreSame(expectedError, messages.ToString());
+                Assert.Same(expectedError, messages.ToString());
             }
         }
         

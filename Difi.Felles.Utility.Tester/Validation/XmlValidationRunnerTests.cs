@@ -1,15 +1,15 @@
 ﻿using Difi.Felles.Utility.Validation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Difi.Felles.Utility.Tester.Validation
 {
-    [TestClass]
+    
     public class XmlValidationRunnerTests
     {
-        [TestClass]
+        
         public class ConstructorMethod : XmlValidationRunnerTests
         {
-            [TestMethod]
+            [Fact]
             public void SimpleInitialization()
             {
                 //Arrange
@@ -19,14 +19,14 @@ namespace Difi.Felles.Utility.Tester.Validation
                 var validationRunner = new XmlValidationRunner(xmlSchemaSet);
 
                 //Assert
-                Assert.AreEqual(xmlSchemaSet, validationRunner.XmlSchemaSet);
+                Assert.Equal(xmlSchemaSet, validationRunner.XmlSchemaSet);
             }
         }
 
-        [TestClass]
+        
         public class ValidateMethod : ValidationMessagesTests
         {
-            [TestMethod]
+            [Fact]
             public void AddsValidationMessage()
             {
                 //Arrange
@@ -37,7 +37,7 @@ namespace Difi.Felles.Utility.Tester.Validation
                 validationRunner.Validate(invalidTestCouple.Input());
 
                 //Assert
-                Assert.AreEqual(1, validationRunner.ValidationMessages.Count);
+                Assert.Equal(1, validationRunner.ValidationMessages.Count);
             }
         }
     }
