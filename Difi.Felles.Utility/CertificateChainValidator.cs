@@ -39,7 +39,7 @@ namespace Difi.Felles.Utility
             var chain = ByggSertifikatKjede(sertifikat);
             kjedestatus = chain.ChainStatus;
 
-            ValiderBrukerValidatorSertifikaterEllerKastException(chain,sertifikat);
+            ValiderAtBrukerKunSertifikatLagerEllerKastException(chain,sertifikat);
 
             return ErGyldigSertifikatKjede(chain);
         }
@@ -54,7 +54,7 @@ namespace Difi.Felles.Utility
             return chain;
         }
 
-        private void ValiderBrukerValidatorSertifikaterEllerKastException(X509Chain chain, X509Certificate2 sertifikat)
+        private void ValiderAtBrukerKunSertifikatLagerEllerKastException(X509Chain chain, X509Certificate2 sertifikat)
         {
             foreach (var chainElement in chain.ChainElements)
             {
@@ -69,8 +69,8 @@ namespace Difi.Felles.Utility
 
                 throw new CertificateChainValidationException($"Validering av sertifikat '{sertifikat.Subject}' (thumbprint '{sertifikat.Thumbprint}') feilet. Dette skjer fordi kjeden ble bygd " +
                                                               $"med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {lagerAsString}. Dette skjer som oftest " +
-                                                              $"om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en " +
-                                                              $"kjede med input {nameof(SertifikatLager)}.");
+                                                              "om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en " +
+                                                              "kjede med de sertifikatene sendt inn til validatoren.");
             }
         }
 
@@ -100,13 +100,14 @@ namespace Difi.Felles.Utility
         {
             if (!HarForventetLengde(chain, 3)) return false;
 
-            switch (chain.ChainStatus.Length)
+            var detailedErrorInformation = chain.ChainStatus;
+            switch (detailedErrorInformation.Length)
             {
                 case 0:
                     return true;
                 case 1:
-                    var erUntrustedStatus = chain.ChainStatus.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot;
-                    return erUntrustedStatus;
+                    var erUntrustedRootStatus = detailedErrorInformation.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot;
+                    return erUntrustedRootStatus;
                 default:
                     return false;
             }
