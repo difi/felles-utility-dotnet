@@ -72,7 +72,7 @@
     <Compile Include="CertificateChainValidatorTests.cs" />
     <Compile Include="CertificateValidatorTests.cs" />
     <Compile Include="Testdata\Transportkvittering.cs" />
-    <Compile Include="Utilities\SertifikatkjedeUtilityTester.cs" />
+    <Compile Include="Utilities\CertificateChainUtilityTests.cs" />
     <Compile Include="SertifikatUtility.cs" />
     <Compile Include="Utilities\XmlUtility.cs" />
     <Compile Include="Validation\TestGenerator.cs" />
