@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Mime;
 using System.Security.Cryptography.X509Certificates;
 using Difi.Felles.Utility.Exceptions;
 
@@ -23,8 +22,8 @@ namespace Difi.Felles.Utility
         /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat)
         {
-            X509ChainStatus[] kjedestatus;
-            return ErGyldigSertifikatkjede(sertifikat, out kjedestatus);
+            X509ChainStatus[] chainStatuses;
+            return ErGyldigSertifikatkjede(sertifikat, out chainStatuses);
         }
 
         /// <summary>
@@ -36,15 +35,15 @@ namespace Difi.Felles.Utility
         /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out X509ChainStatus[] kjedestatus)
         {
-            var chain = ByggSertifikatKjede(sertifikat);
+            var chain = BuildCertificateChain(sertifikat);
             kjedestatus = chain.ChainStatus;
 
-            ValiderAtBrukerKunSertifikatLagerEllerKastException(chain,sertifikat);
+            ValidateThatUsingOnlyValidatorCertificatesOrThrow(chain,sertifikat);
 
-            return ErGyldigSertifikatKjede(chain);
+            return IsValidCertificateChain(chain);
         }
 
-        private X509Chain ByggSertifikatKjede(X509Certificate2 sertifikat)
+        private X509Chain BuildCertificateChain(X509Certificate2 sertifikat)
         {
             var chain = new X509Chain
             {
@@ -54,34 +53,34 @@ namespace Difi.Felles.Utility
             return chain;
         }
 
-        private void ValiderAtBrukerKunSertifikatLagerEllerKastException(X509Chain chain, X509Certificate2 sertifikat)
+        private void ValidateThatUsingOnlyValidatorCertificatesOrThrow(X509Chain chain, X509Certificate2 sertifikat)
         {
             foreach (var chainElement in chain.ChainElements)
             {
-                var erSertifikatSomValideres = ErSammeSertifikat(chainElement.Certificate, sertifikat);
-                if (erSertifikatSomValideres) { continue; }
+                var isCertificateToValidate = IsSameCertificate(chainElement.Certificate, sertifikat);
+                if (isCertificateToValidate) { continue; }
 
-                var erISertifikatlager = SertifikatLager.Cast<X509Certificate2>().Any(lagerSertifikat => ErSammeSertifikat(chainElement.Certificate, lagerSertifikat));
-                if (erISertifikatlager) { continue; }
+                var isValidatorCertificate = SertifikatLager.Cast<X509Certificate2>().Any(lagerSertifikat => IsSameCertificate(chainElement.Certificate, lagerSertifikat));
+                if (isValidatorCertificate) { continue; }
 
                 var chainAsString = chain.ChainElements.Cast<X509ChainElement>().Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
-                var lagerAsString = SertifikatLager.Cast<X509Certificate2>().Aggregate("", GetCertificateInfo);
+                var validatorCertificatesAsString = SertifikatLager.Cast<X509Certificate2>().Aggregate("", GetCertificateInfo);
 
                 throw new CertificateChainValidationException($"Validering av sertifikat '{sertifikat.Subject}' (thumbprint '{sertifikat.Thumbprint}') feilet. Dette skjer fordi kjeden ble bygd " +
-                                                              $"med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {lagerAsString}. Dette skjer som oftest " +
+                                                              $"med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {validatorCertificatesAsString}. Dette skjer som oftest " +
                                                               "om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en " +
                                                               "kjede med de sertifikatene sendt inn til validatoren.");
             }
         }
 
-        private static bool ErSammeSertifikat(X509Certificate2 sertifikat1, X509Certificate2 sertifikat2)
+        private static bool IsSameCertificate(X509Certificate2 certificate1, X509Certificate2 certificate2)
         {
-            return sertifikat2.Thumbprint == sertifikat1.Thumbprint;
+            return certificate2.Thumbprint == certificate1.Thumbprint;
         }
 
-        private static string GetCertificateInfo(string current, X509Certificate2 chainchain)
+        private static string GetCertificateInfo(string current, X509Certificate2 certificate)
         {
-            return current + $"'{chainchain.Subject}' {Environment.NewLine}";
+            return current + $"'{certificate.Subject}' {Environment.NewLine}";
         }
 
         public X509ChainPolicy ChainPolicy()
@@ -96,9 +95,9 @@ namespace Difi.Felles.Utility
             return policy;
         }
 
-        private static bool ErGyldigSertifikatKjede(X509Chain chain)
+        private static bool IsValidCertificateChain(X509Chain chain)
         {
-            if (!HarForventetLengde(chain, 3)) return false;
+            if (!HasExpectedLength(chain, 3)) return false;
 
             var detailedErrorInformation = chain.ChainStatus;
             switch (detailedErrorInformation.Length)
@@ -106,16 +105,16 @@ namespace Difi.Felles.Utility
                 case 0:
                     return true;
                 case 1:
-                    var erUntrustedRootStatus = detailedErrorInformation.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot;
-                    return erUntrustedRootStatus;
+                    var isUntrustedRootStatus = detailedErrorInformation.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot;
+                    return isUntrustedRootStatus;
                 default:
                     return false;
             }
         }
 
-        private static bool HarForventetLengde(X509Chain chain, int kjedelengde)
+        private static bool HasExpectedLength(X509Chain chain, int chainLength)
         {
-            return chain.ChainElements.Count == kjedelengde;
+            return chain.ChainElements.Count == chainLength;
         }
     }
 }
