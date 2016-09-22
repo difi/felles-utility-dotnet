@@ -1,4 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using Difi.Felles.Utility.Exceptions;
 
 namespace Difi.Felles.Utility
 {
@@ -11,27 +14,73 @@ namespace Difi.Felles.Utility
 
         public X509Certificate2Collection SertifikatLager { get; set; }
 
+        /// <summary>
+        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        /// </summary>
+        /// <param name="sertifikat"></param>
+        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
+        /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat)
         {
-            X509ChainStatus[] kjedestatus;
-            return ErGyldigSertifikatkjede(sertifikat, out kjedestatus);
+            X509ChainStatus[] chainStatuses;
+            return ErGyldigSertifikatkjede(sertifikat, out chainStatuses);
         }
 
+        /// <summary>
+        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        /// </summary>
+        /// <param name="sertifikat"></param>
+        /// <param name="kjedestatus">Status på kjeden etter validering. </param>
+        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
+        /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out X509ChainStatus[] kjedestatus)
+        {
+            var chain = BuildCertificateChain(sertifikat);
+            kjedestatus = chain.ChainStatus;
+
+            ValidateThatUsingOnlyValidatorCertificatesOrThrow(chain,sertifikat);
+
+            return IsValidCertificateChain(chain);
+        }
+
+        private X509Chain BuildCertificateChain(X509Certificate2 sertifikat)
         {
             var chain = new X509Chain
             {
                 ChainPolicy = ChainPolicy()
             };
+            chain.Build(sertifikat);
+            return chain;
+        }
 
-            var erGyldigResponssertifikat = chain.Build(sertifikat);
-            if (!erGyldigResponssertifikat)
+        private void ValidateThatUsingOnlyValidatorCertificatesOrThrow(X509Chain chain, X509Certificate2 sertifikat)
+        {
+            foreach (var chainElement in chain.ChainElements)
             {
-                erGyldigResponssertifikat = ErGyldigResponssertifikatHvisKunUntrustedRoot(chain);
-            }
+                var isCertificateToValidate = IsSameCertificate(chainElement.Certificate, sertifikat);
+                if (isCertificateToValidate) { continue; }
 
-            kjedestatus = chain.ChainStatus;
-            return erGyldigResponssertifikat;
+                var isValidatorCertificate = SertifikatLager.Cast<X509Certificate2>().Any(lagerSertifikat => IsSameCertificate(chainElement.Certificate, lagerSertifikat));
+                if (isValidatorCertificate) { continue; }
+
+                var chainAsString = chain.ChainElements.Cast<X509ChainElement>().Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
+                var validatorCertificatesAsString = SertifikatLager.Cast<X509Certificate2>().Aggregate("", GetCertificateInfo);
+
+                throw new CertificateChainValidationException($"Validering av sertifikat '{sertifikat.Subject}' (thumbprint '{sertifikat.Thumbprint}') feilet. Dette skjer fordi kjeden ble bygd " +
+                                                              $"med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {validatorCertificatesAsString}. Dette skjer som oftest " +
+                                                              "om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en " +
+                                                              "kjede med de sertifikatene sendt inn til validatoren.");
+            }
+        }
+
+        private static bool IsSameCertificate(X509Certificate2 certificate1, X509Certificate2 certificate2)
+        {
+            return certificate2.Thumbprint == certificate1.Thumbprint;
+        }
+
+        private static string GetCertificateInfo(string current, X509Certificate2 certificate)
+        {
+            return current + $"'{certificate.Subject}' {Environment.NewLine}";
         }
 
         public X509ChainPolicy ChainPolicy()
@@ -40,26 +89,32 @@ namespace Difi.Felles.Utility
             {
                 RevocationMode = X509RevocationMode.NoCheck
             };
+
             policy.ExtraStore.AddRange(SertifikatLager);
 
             return policy;
         }
 
-        private static bool ErGyldigResponssertifikatHvisKunUntrustedRoot(X509Chain chain)
+        private static bool IsValidCertificateChain(X509Chain chain)
         {
-            var erGyldigResponssertifikat = false;
-            const int forventetKjedelengde = 3;
-            const int forventetAntallKjedeStatuselementer = 1;
+            if (!HasExpectedLength(chain, 3)) return false;
 
-            var kjedeElementer = chain.ChainElements;
-            var erKjedeMedTreSertifikater = kjedeElementer.Count == forventetKjedelengde;
-            var erUntrustedRoot = chain.ChainStatus.Length == forventetAntallKjedeStatuselementer && chain.ChainStatus[0].Status == X509ChainStatusFlags.UntrustedRoot;
-            if (erKjedeMedTreSertifikater && erUntrustedRoot)
+            var detailedErrorInformation = chain.ChainStatus;
+            switch (detailedErrorInformation.Length)
             {
-                erGyldigResponssertifikat = true;
+                case 0:
+                    return true;
+                case 1:
+                    var isUntrustedRootStatus = detailedErrorInformation.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot;
+                    return isUntrustedRootStatus;
+                default:
+                    return false;
             }
+        }
 
-            return erGyldigResponssertifikat;
+        private static bool HasExpectedLength(X509Chain chain, int chainLength)
+        {
+            return chain.ChainElements.Count == chainLength;
         }
     }
 }

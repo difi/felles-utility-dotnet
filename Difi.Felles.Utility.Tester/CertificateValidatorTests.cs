@@ -1,14 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿
+
+using Xunit;
 
 namespace Difi.Felles.Utility.Tester
 {
-    [TestClass]
+    
     public class CertificateValidatorTests
     {
-        [TestClass]
+        
         public class IsValidServerSertifikatMethod : CertificateValidatorTests
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsFalseWithNullCertificate()
             {
                 //Arrange
@@ -18,10 +20,10 @@ namespace Difi.Felles.Utility.Tester
                 var isValid = CertificateValidator.IsValidCertificate(null, certificateOrganizationNumber);
 
                 //Assert
-                Assert.IsFalse(isValid);
+                Assert.False(isValid);
             }
 
-            [TestMethod]
+            [Fact]
             public void ReturnsFalseIfNotIssuedToServerOrganizationNumber()
             {
                 //Arrange
@@ -31,10 +33,10 @@ namespace Difi.Felles.Utility.Tester
                 var isValid = CertificateValidator.IsValidCertificate(SertifikatUtility.TestIntegrasjonssertifikat(), sertifikatOrganisasjonsnummer);
 
                 //Assert
-                Assert.IsFalse(isValid);
+                Assert.False(isValid);
             }
 
-            [TestMethod]
+            [Fact]
             public void ReturnsFalseIfNotActivated()
             {
                 //Arrange
@@ -44,10 +46,10 @@ namespace Difi.Felles.Utility.Tester
                 var isValid = CertificateValidator.IsValidCertificate(SertifikatUtility.NotActivatedTestCertificate(), sertifikatOrganisasjonsnummer);
 
                 //Assert
-                Assert.IsFalse(isValid);
+                Assert.False(isValid);
             }
 
-            [TestMethod]
+            [Fact]
             public void ReturnsFalseIfExpired()
             {
                 //Arrange
@@ -57,10 +59,10 @@ namespace Difi.Felles.Utility.Tester
                 var isValid = CertificateValidator.IsValidCertificate(SertifikatUtility.GetExpiredTestCertificate(), sertifikatOrganisasjonsnummer);
 
                 //Assert
-                Assert.IsFalse(isValid);
+                Assert.False(isValid);
             }
 
-            [TestMethod]
+            [Fact]
             public void ReturnsTrueForCorrectCertificate()
             {
                 //Arrange
@@ -70,7 +72,7 @@ namespace Difi.Felles.Utility.Tester
                 var isValid = CertificateValidator.IsValidCertificate(SertifikatUtility.GetPostenCertificate(), sertifikatOrganisasjonsnummer);
 
                 //Assert
-                Assert.IsTrue(isValid);
+                Assert.True(isValid);
             }
         }
     }

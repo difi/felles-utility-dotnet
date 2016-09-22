@@ -1,21 +1,21 @@
 ﻿using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using ApiClientShared;
+using Difi.Felles.Utility.Exceptions;
 using Difi.Felles.Utility.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace Difi.Felles.Utility.Tester
 {
-    [TestClass]
+    
     public class CertificateChainValidatorTests
     {
-        private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata.Sertifikater");
-
-        [TestClass]
+        
         public class ErGyldigSertifikatkjedeMethod : CertificateChainValidatorTests
         {
-            [TestMethod]
-            public void ErGyldigSertifikatkjedeMedProduksjonssertifikater()
+            [Fact]
+            public void Gyldig_produksjonssertifikat_når_validerer_mot_produksjonskjede()
             {
                 //Arrange
                 var produksjonssertifikat = SertifikatUtility.GetProduksjonsMottakerSertifikatOppslagstjenesten();
@@ -25,11 +25,11 @@ namespace Difi.Felles.Utility.Tester
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(produksjonssertifikat);
 
                 //Assert
-                Assert.IsTrue(erGyldigResponssertifikat);
+                Assert.True(erGyldigResponssertifikat);
             }
 
-            [TestMethod]
-            public void ErGyldigSertifikatkjedeMedFunksjoneltTestmiljøsertifikater()
+            [Fact]
+            public void Gyldig_testsertifikat_når_validerer_mot_testkjede()
             {
                 //Arrange
                 var testSertifikat = SertifikatUtility.GetFunksjoneltTestmiljøMottakerSertifikatOppslagstjenesten();
@@ -39,11 +39,11 @@ namespace Difi.Felles.Utility.Tester
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(testSertifikat);
 
                 //Assert
-                Assert.IsTrue(erGyldigResponssertifikat);
+                Assert.True(erGyldigResponssertifikat);
             }
 
-            [TestMethod]
-            public void ErGyldigSertifikatkjedeOgKjedestatusMedProduksjonssertifikater()
+            [Fact]
+            public void Gyldig_produksjonssertifikat_og_kjedestatus_når_validerer_mot_produksjonskjede()
             {
                 //Arrange
                 var produksjonssertifikat = SertifikatUtility.GetProduksjonsMottakerSertifikatOppslagstjenesten();
@@ -55,12 +55,12 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 const int forventetAntallStatusElementer = 0;
-                Assert.IsTrue(erGyldigResponssertifikat);
-                Assert.AreEqual(forventetAntallStatusElementer, kjedestatus.Length);
+                Assert.True(erGyldigResponssertifikat);
+                Assert.Equal(forventetAntallStatusElementer, kjedestatus.Length);
             }
 
-            [TestMethod]
-            public void ErGyldigSertifikatkjedeOgKjedestatusMedFunksjoneltTestmiljøsertifikater()
+            [Fact]
+            public void Gyldig_testsertifikat_og_kjedestatus_når_validerer_mot_testkjede()
             {
                 //Arrange
                 var testSertifikat = SertifikatUtility.GetFunksjoneltTestmiljøMottakerSertifikatOppslagstjenesten();
@@ -71,12 +71,12 @@ namespace Difi.Felles.Utility.Tester
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(testSertifikat, out kjedestatus);
 
                 //Assert
-                Assert.IsTrue(erGyldigResponssertifikat);
-                Assert.IsTrue(kjedestatus.Length == 0 || kjedestatus.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot);
+                Assert.True(erGyldigResponssertifikat);
+                Assert.True((kjedestatus.Length == 0) || (kjedestatus.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot));
             }
 
-            [TestMethod]
-            public void FeilerMedSertifikatUtenGyldigKjedeMedProduksjonssertifikater()
+            [Fact]
+            public void Feiler_med_selvsignert_sertifikat_når_validerer_mot_produksjonskjede()
             {
                 //Arrange
                 var selvsignertSertifikat = SertifikatUtility.GetEnhetstesterSelvsignertSertifikat();
@@ -87,11 +87,11 @@ namespace Difi.Felles.Utility.Tester
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat);
 
                 //Assert
-                Assert.IsFalse(erGyldigResponssertifikat);
+                Assert.False(erGyldigResponssertifikat);
             }
 
-            [TestMethod]
-            public void FeilerMedSertifikatUtenGyldigKjedeMedFunksjoneltTestmiljøsertifikater()
+            [Fact]
+            public void Feiler_med_selvsignert_sertifikat_når_validerer_mot_testkjede()
             {
                 //Arrange
                 var selvsignertSertifikat = SertifikatUtility.GetEnhetstesterSelvsignertSertifikat();
@@ -102,11 +102,11 @@ namespace Difi.Felles.Utility.Tester
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat);
 
                 //Assert
-                Assert.IsFalse(erGyldigResponssertifikat);
+                Assert.False(erGyldigResponssertifikat);
             }
 
-            [TestMethod]
-            public void FeilerMedSertifikatUtenGyldigKjedeReturnererKjedestatusMedProduksjonssertifikater()
+            [Fact]
+            public void Feiler_med_selvsignert_sertifikat_og_kjedestatus_når_validerer_mot_produksjonskjede()
             {
                 //Arrange
                 var selvsignertSertifikat = SertifikatUtility.GetEnhetstesterSelvsignertSertifikat();
@@ -118,14 +118,15 @@ namespace Difi.Felles.Utility.Tester
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat, out kjedestatus);
 
                 //Assert
-                Assert.IsFalse(erGyldigResponssertifikat);
-                Assert.IsTrue(kjedestatus.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot);
+                Assert.False(erGyldigResponssertifikat);
+                Assert.True(kjedestatus.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot);
             }
 
-            [TestMethod]
-            public void FeilerMedSertifikatUtenGyldigKjedeReturnererKjedestatusMedFunksjoneltTestmiljøsertifikater()
+            [Fact]
+            public void Feiler_med_selvsignert_sertifikat_og_kjedestatus_når_validerer_mot_testkjede()
             {
                 var selvsignertSertifikat = SertifikatUtility.GetEnhetstesterSelvsignertSertifikat();
+
                 //Act
                 var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.FunksjoneltTestmiljøSertifikater());
 
@@ -133,8 +134,32 @@ namespace Difi.Felles.Utility.Tester
                 var erGyldigResponssertifikat = sertifikatValidator.ErGyldigSertifikatkjede(selvsignertSertifikat, out kjedestatus);
 
                 //Assert
-                Assert.IsFalse(erGyldigResponssertifikat);
-                Assert.IsTrue(kjedestatus.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot);
+                Assert.False(erGyldigResponssertifikat);
+                Assert.True(kjedestatus.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot);
+            }
+
+            [Fact]
+            public void Feiler_med_produksjonssertifikat_når_validerer_mot_testkjede()
+            {
+                //Arrange
+                var produksjonssertifikat = SertifikatUtility.GetProduksjonsMottakerSertifikatOppslagstjenesten();
+
+                //Act
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.FunksjoneltTestmiljøSertifikater());
+
+                Assert.Throws<CertificateChainValidationException>(() => sertifikatValidator.ErGyldigSertifikatkjede(produksjonssertifikat));
+            }
+
+            [Fact]
+            public void Feiler_med_testsertifikat_når_validerer_mot_produksjonskjede()
+            {
+                //Arrange
+                var testsertifikat = SertifikatUtility.GetFunksjoneltTestmiljøMottakerSertifikatOppslagstjenesten();
+
+                //Act
+                var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.ProduksjonsSertifikater());
+
+                Assert.Throws<CertificateChainValidationException>(() => sertifikatValidator.ErGyldigSertifikatkjede(testsertifikat));
             }
         }
     }

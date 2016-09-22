@@ -11,7 +11,7 @@
         <copyright>Copyright 2015</copyright>
         <tags>Difi Oppslagstjeneste Felles Sikker Digital Post SikkerDigitalPost</tags>
         <dependencies>
-            <dependency id="api-client-shared" version="1.0.5941.27271" />
+            <dependency id="api-client-shared" version="[1.0.5968.19413, 2.0)" />
         </dependencies>
     </metadata>
     <files>
