@@ -117,8 +117,6 @@
     <EmbeddedResource Include="Testdata\Sertifikater\Test\testmottakersertifikatFraOppslagstjenesten.pem" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\ExpiredTestCertificate.cer" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\NotActivatedTestCertificate.cer" />
     <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\PostenNorgeAs.cer" />
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +124,8 @@
     <EmbeddedResource Include="Testdata\Xsd\Sample.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\NotActivatedTestCertificate.cer" />
+    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\ExpiredTestCertificate.cer" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Testdata\Xml\Valid.xml" />
@@ -136,7 +136,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Testdata\Xml\UnknownElement.xml" />
   </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

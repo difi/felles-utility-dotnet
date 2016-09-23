@@ -47,6 +47,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="SertifikatValideringType.cs" />
+    <Compile Include="SertifikatValideringsResultat.cs" />
     <Compile Include="Exceptions\CertificateChainValidationException.cs" />
     <Compile Include="Security\RsaPkCs1Sha256SignatureDescription.cs" />
     <Compile Include="Exceptions\DifiException.cs" />
