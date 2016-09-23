@@ -30,13 +30,29 @@ namespace Difi.Felles.Utility
         /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
         /// </summary>
         /// <param name="sertifikat"></param>
-        /// <param name="kjedestatus">Status på kjeden etter validering. </param>
+        /// <param name="detaljertFeilinformasjon">Status på kjeden etter validering hvis validering feilet.</param>
         /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
         /// <returns></returns>
-        public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out X509ChainStatus[] kjedestatus)
+        public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out string detaljertFeilinformasjon)
+        {
+            X509ChainStatus[] chainStatuses;
+            var erGyldigSertifikatkjede = ErGyldigSertifikatkjede(sertifikat, out chainStatuses);
+            detaljertFeilinformasjon = chainStatuses.Aggregate("", (result, curr) => $"{curr.Status}: {curr.StatusInformation}");
+
+            return erGyldigSertifikatkjede;
+        }
+        
+        /// <summary>
+        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        /// </summary>
+        /// <param name="sertifikat"></param>
+        /// <param name="detaljertFeilinformasjon">Status på kjeden etter validering hvis validering feilet.</param>
+        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
+        /// <returns></returns>
+        public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out X509ChainStatus[] detaljertFeilinformasjon)
         {
             var chain = BuildCertificateChain(sertifikat);
-            kjedestatus = chain.ChainStatus;
+            detaljertFeilinformasjon = chain.ChainStatus;
 
             ValidateThatUsingOnlyValidatorCertificatesOrThrow(chain,sertifikat);
 
