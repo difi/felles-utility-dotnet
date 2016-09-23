@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using Difi.Felles.Utility.Extensions;
 
 namespace Difi.Felles.Utility
 {
@@ -26,20 +27,20 @@ namespace Difi.Felles.Utility
 
             if (!IsActivatedCertificate(certificate))
             {
-                return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat, $"Sertifikat '{GetCertificateInfo(certificate)}' aktiveres ikke før {certificate.GetEffectiveDateString()}.");
+                return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat, $"{GetCertificateInfo(certificate)} aktiveres ikke før {certificate.GetEffectiveDateString()}.");
             }
 
             if (IsExpiredCertificate(certificate))
             {
-                return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat, $"Sertifikat '{GetCertificateInfo(certificate)}' gikk ut {certificate.GetExpirationDateString()}.");
+                return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat, $"{ GetCertificateInfo(certificate) } gikk ut {certificate.GetExpirationDateString()}.");
             }
 
-            return new SertifikatValideringsResultat(SertifikatValideringType.Gyldig, $"Sertifikat '{GetCertificateInfo(certificate)}' er et gyldig sertifikat.");
+            return new SertifikatValideringsResultat(SertifikatValideringType.Gyldig, $"{GetCertificateInfo(certificate)} er et gyldig sertifikat.");
         }
 
         private static string GetCertificateInfo(X509Certificate2 certificate)
         {
-            return $"Subject: {certificate.Subject}, Thumbprint: {certificate.Thumbprint}"; //TODO: Lag som extensionmetode
+            return $"Sertifikat '{certificate.Info()}'";
         }
 
         private static bool IsIssuedToOrganizationNumber(X509Certificate certificate, string certificateOrganizationNumber)

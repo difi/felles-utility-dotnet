@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Difi.Felles.Utility.Exceptions;
+using Difi.Felles.Utility.Extensions;
 
 namespace Difi.Felles.Utility
 {
@@ -82,7 +83,7 @@ namespace Difi.Felles.Utility
                 var chainAsString = chain.ChainElements.Cast<X509ChainElement>().Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
                 var validatorCertificatesAsString = SertifikatLager.Cast<X509Certificate2>().Aggregate("", GetCertificateInfo);
 
-                throw new CertificateChainValidationException($"Validering av sertifikat '{sertifikat.Subject}' (thumbprint '{sertifikat.Thumbprint}') feilet. Dette skjer fordi kjeden ble bygd " +
+                throw new CertificateChainValidationException($"Validering av sertifikat '{sertifikat.Info()}' feilet. Dette skjer fordi kjeden ble bygd " +
                                                               $"med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {validatorCertificatesAsString}. Dette skjer som oftest " +
                                                               "om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en " +
                                                               "kjede med de sertifikatene sendt inn til validatoren.");
