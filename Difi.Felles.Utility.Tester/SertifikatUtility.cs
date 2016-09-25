@@ -17,15 +17,21 @@ namespace Difi.Felles.Utility.Tester
             return new X509Certificate2(ResourceUtility.ReadAllBytes(true, "Test", "testmottakersertifikatFraOppslagstjenesten.pem"));
         }
 
-        public static X509Certificate2 NotActivatedTestCertificate()
+        public static X509Certificate2 NotActivatedSelfSignedTestCertificate()
         {
-            return new X509Certificate2(ResourceUtility.ReadAllBytes(true, "Enhetstester", "NotActivatedTestCertificate.cer"));
+            return new X509Certificate2(ResourceUtility.ReadAllBytes(true, "Enhetstester", "NotActivatedSelfSignedBringAs.cer"));
         }
 
-        public static X509Certificate2 GetExpiredTestCertificate()
+        public static X509Certificate2 GetExpiredSelfSignedTestCertificate()
         {
-            return new X509Certificate2(ResourceUtility.ReadAllBytes(true, "Enhetstester", "ExpiredTestCertificate.cer"));
+            return new X509Certificate2(ResourceUtility.ReadAllBytes(true, "Enhetstester", "ExpiredSelfSignedBringAs.cer"));
         }
+
+        public static X509Certificate2 GetValidSelfSignedTestCertificate()
+        {
+            return new X509Certificate2(ResourceUtility.ReadAllBytes(true, "Enhetstester", "ValidSelfSignedBringAs.cer"));
+        }
+
 
         public static X509Certificate2 TestIntegrasjonssertifikat()
         {

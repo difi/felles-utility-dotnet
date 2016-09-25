@@ -36,13 +36,21 @@ namespace Difi.Felles.Utility
         /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out string detaljertFeilinformasjon)
         {
-            X509ChainStatus[] chainStatuses;
-            var erGyldigSertifikatkjede = ErGyldigSertifikatkjede(sertifikat, out chainStatuses);
-            detaljertFeilinformasjon = chainStatuses.Aggregate("", (result, curr) => $"{curr.Status}: {curr.StatusInformation}");
+            var result = ValidateCertificateChain(sertifikat);
+            detaljertFeilinformasjon = result.Melding;
 
-            return erGyldigSertifikatkjede;
+            return result.Type == SertifikatValideringType.Gyldig;
         }
-        
+
+        public SertifikatValideringsResultat ValidateCertificateChain(X509Certificate2 certificate)
+        {
+            var chain = BuildCertificateChain(certificate);
+
+            ValidateThatUsingOnlyValidatorCertificatesOrThrow(chain, certificate);
+
+            return ValidateCertificateChain(certificate, chain);
+        }
+
         /// <summary>
         /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
         /// </summary>
@@ -57,7 +65,7 @@ namespace Difi.Felles.Utility
 
             ValidateThatUsingOnlyValidatorCertificatesOrThrow(chain,sertifikat);
 
-            return IsValidCertificateChain(chain);
+            return ValidateCertificateChain(sertifikat, chain).Type == SertifikatValideringType.Gyldig;
         }
 
         private X509Chain BuildCertificateChain(X509Certificate2 sertifikat)
@@ -112,21 +120,52 @@ namespace Difi.Felles.Utility
             return policy;
         }
 
-        private static bool IsValidCertificateChain(X509Chain chain)
+        private static SertifikatValideringsResultat ValidateCertificateChain(X509Certificate2 certificate, X509Chain chain)
         {
-            if (!HasExpectedLength(chain, 3)) return false;
+            const int requiredChainLength = 3;
+            if (!HasExpectedLength(chain, requiredChainLength))
+            {
+                return IncorrectChainLengthResult(certificate, requiredChainLength, chain.ChainElements.Count);
+            }
 
             var detailedErrorInformation = chain.ChainStatus;
             switch (detailedErrorInformation.Length)
             {
                 case 0:
-                    return true;
+                    return ValidResult(certificate);
                 case 1:
-                    var isUntrustedRootStatus = detailedErrorInformation.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot;
-                    return isUntrustedRootStatus;
+                    var chainError = detailedErrorInformation.ElementAt(0).Status;
+                    return chainError == X509ChainStatusFlags.UntrustedRoot 
+                        ? ValidResult(certificate) 
+                        : InvalidChainResult(certificate, detailedErrorInformation);
                 default:
-                    return false;
+                    return InvalidChainResult(certificate, detailedErrorInformation);
             }
+        }
+
+        private static SertifikatValideringsResultat InvalidChainResult(X509Certificate2 theCertificate, params X509ChainStatus[] x509ChainStatuses)
+        {
+            return CreateSertifikatValideringsResultat(theCertificate, SertifikatValideringType.UgyldigKjede, $"har følgende feil i sertifikatkjeden: {GetPrettyChainErrorStatuses(x509ChainStatuses)}");
+        }
+
+        private static SertifikatValideringsResultat ValidResult(X509Certificate2 theCertificate)
+        {
+            return CreateSertifikatValideringsResultat(theCertificate, SertifikatValideringType.Gyldig, "er et gyldig sertifikat.");
+        }
+
+        private static SertifikatValideringsResultat IncorrectChainLengthResult(X509Certificate2 certificate2, int requiredChainLength, int actualChainLength)
+        {
+            return CreateSertifikatValideringsResultat(certificate2, SertifikatValideringType.UgyldigKjede, $"er ugyldig, fordi lengden på kjeden er {actualChainLength}, men skal være {requiredChainLength}. Dette skjer hvis sertifikatet er utstedt av en ukjent sertifikattilbyder eller er selvsignert.");
+        }
+
+        private static SertifikatValideringsResultat CreateSertifikatValideringsResultat(X509Certificate2 certificate, SertifikatValideringType sertifikatValideringType, string description)
+        {
+            return new SertifikatValideringsResultat(sertifikatValideringType, $"Sertifikat '{certificate.Info()}' {description}.");
+        }
+
+        private static string GetPrettyChainErrorStatuses(X509ChainStatus[] chainStatuses)
+        {
+            return chainStatuses.Aggregate("", (result, curr) => $"{curr.Status}: {curr.StatusInformation}");
         }
 
         private static bool HasExpectedLength(X509Chain chain, int chainLength)
