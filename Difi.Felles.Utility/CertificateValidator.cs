@@ -6,6 +6,11 @@ namespace Difi.Felles.Utility
 {
     public class CertificateValidator
     {
+        public static bool IsValidCertificate(X509Certificate2 certificate, string certificateOrganizationNumber)
+        {
+            return ValidateCertificate(certificate, certificateOrganizationNumber).Type == SertifikatValideringType.Gyldig;
+        }
+
         public static SertifikatValideringsResultat ValidateCertificateAndChain(X509Certificate2 certificate, string certificateOrganizationNumber, X509Certificate2Collection chainCertificates)
         {
             var sertifikatValideringsResultat = ValidateCertificate(certificate, certificateOrganizationNumber);
@@ -42,11 +47,6 @@ namespace Difi.Felles.Utility
             }
 
             return ValidResult(certificate);
-        }
-
-        public static bool IsValidCertificate(X509Certificate2 certificate, string certificateOrganizationNumber)
-        {
-            return ValidateCertificate(certificate, certificateOrganizationNumber).Type == SertifikatValideringType.Gyldig;
         }
 
         private static SertifikatValideringsResultat NoCertificateResult()

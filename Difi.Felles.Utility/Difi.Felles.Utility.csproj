@@ -50,7 +50,6 @@
     <Compile Include="Extensions\X509Certificate2Extensions.cs" />
     <Compile Include="SertifikatValideringType.cs" />
     <Compile Include="SertifikatValideringsResultat.cs" />
-    <Compile Include="Exceptions\CertificateChainValidationException.cs" />
     <Compile Include="Security\RsaPkCs1Sha256SignatureDescription.cs" />
     <Compile Include="Exceptions\DifiException.cs" />
     <Compile Include="Exceptions\SecurityException.cs" />

@@ -19,7 +19,6 @@ namespace Difi.Felles.Utility
         /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
         /// </summary>
         /// <param name="sertifikat"></param>
-        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
         /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat)
         {
@@ -32,7 +31,6 @@ namespace Difi.Felles.Utility
         /// </summary>
         /// <param name="sertifikat"></param>
         /// <param name="detaljertFeilinformasjon">Status på kjeden etter validering hvis validering feilet.</param>
-        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
         /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out string detaljertFeilinformasjon)
         {
@@ -46,9 +44,11 @@ namespace Difi.Felles.Utility
         {
             var chain = BuildCertificateChain(certificate);
 
-            ValidateThatUsingOnlyValidatorCertificatesOrThrow(chain, certificate);
+            var onlyUsingValidatorCertificatesResult = ValidateThatUsingOnlyValidatorCertificates(chain, certificate);
 
-            return ValidateCertificateChain(certificate, chain);
+            return onlyUsingValidatorCertificatesResult.Type != SertifikatValideringType.Gyldig 
+                ? onlyUsingValidatorCertificatesResult 
+                : ValidateCertificateChain(certificate, chain);
         }
 
         /// <summary>
@@ -56,14 +56,17 @@ namespace Difi.Felles.Utility
         /// </summary>
         /// <param name="sertifikat"></param>
         /// <param name="detaljertFeilinformasjon">Status på kjeden etter validering hvis validering feilet.</param>
-        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
         /// <returns></returns>
         public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out X509ChainStatus[] detaljertFeilinformasjon)
         {
             var chain = BuildCertificateChain(sertifikat);
             detaljertFeilinformasjon = chain.ChainStatus;
 
-            ValidateThatUsingOnlyValidatorCertificatesOrThrow(chain,sertifikat);
+            var onlyUsingValidatorCertificatesResult = ValidateThatUsingOnlyValidatorCertificates(chain,sertifikat);
+            if (onlyUsingValidatorCertificatesResult.Type != SertifikatValideringType.Gyldig)
+            {
+                return false;
+            }
 
             return ValidateCertificateChain(sertifikat, chain).Type == SertifikatValideringType.Gyldig;
         }
@@ -78,7 +81,7 @@ namespace Difi.Felles.Utility
             return chain;
         }
 
-        private void ValidateThatUsingOnlyValidatorCertificatesOrThrow(X509Chain chain, X509Certificate2 sertifikat)
+        private SertifikatValideringsResultat ValidateThatUsingOnlyValidatorCertificates(X509Chain chain, X509Certificate2 sertifikat)
         {
             foreach (var chainElement in chain.ChainElements)
             {
@@ -91,11 +94,15 @@ namespace Difi.Felles.Utility
                 var chainAsString = chain.ChainElements.Cast<X509ChainElement>().Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
                 var validatorCertificatesAsString = SertifikatLager.Cast<X509Certificate2>().Aggregate("", GetCertificateInfo);
 
-                throw new CertificateChainValidationException($"Validering av sertifikat '{sertifikat.Info()}' feilet. Dette skjer fordi kjeden ble bygd " +
-                                                              $"med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {validatorCertificatesAsString}. Dette skjer som oftest " +
-                                                              "om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en " +
-                                                              "kjede med de sertifikatene sendt inn til validatoren.");
+                return UsedExternalCertificatesResult(sertifikat, chainAsString, validatorCertificatesAsString);
             }
+
+            return new SertifikatValideringsResultat(SertifikatValideringType.Gyldig, "");
+        }
+
+        private static SertifikatValideringsResultat UsedExternalCertificatesResult(X509Certificate2 sertifikat, string chainAsString, string validatorCertificatesAsString)
+        {
+            return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigKjede, $"Validering av sertifikat '{sertifikat.Info()}' feilet. Dette skjer fordi kjeden ble bygd med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {validatorCertificatesAsString}. Dette skjer som oftest om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en kjede med de sertifikatene sendt inn til validatoren.");
         }
 
         private static bool IsSameCertificate(X509Certificate2 certificate1, X509Certificate2 certificate2)
@@ -143,9 +150,9 @@ namespace Difi.Felles.Utility
             }
         }
 
-        private static SertifikatValideringsResultat InvalidChainResult(X509Certificate2 theCertificate, params X509ChainStatus[] x509ChainStatuses)
+        private static SertifikatValideringsResultat InvalidChainResult(X509Certificate2 certificate, params X509ChainStatus[] x509ChainStatuses)
         {
-            return CreateSertifikatValideringsResultat(theCertificate, SertifikatValideringType.UgyldigKjede, $"har følgende feil i sertifikatkjeden: {GetPrettyChainErrorStatuses(x509ChainStatuses)}");
+            return CreateSertifikatValideringsResultat(certificate, SertifikatValideringType.UgyldigKjede, $"har følgende feil i sertifikatkjeden: {GetPrettyChainErrorStatuses(x509ChainStatuses)}");
         }
 
         private static SertifikatValideringsResultat ValidResult(X509Certificate2 theCertificate)

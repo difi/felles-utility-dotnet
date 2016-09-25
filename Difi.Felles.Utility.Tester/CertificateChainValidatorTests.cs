@@ -146,8 +146,9 @@ namespace Difi.Felles.Utility.Tester
 
                 //Act
                 var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.FunksjoneltTestmiljøSertifikater());
+                var erGyldigSertifikatkjede = sertifikatValidator.ErGyldigSertifikatkjede(produksjonssertifikat);
 
-                Assert.Throws<CertificateChainValidationException>(() => sertifikatValidator.ErGyldigSertifikatkjede(produksjonssertifikat));
+                Assert.False(erGyldigSertifikatkjede);
             }
 
             [Fact]
@@ -158,8 +159,9 @@ namespace Difi.Felles.Utility.Tester
 
                 //Act
                 var sertifikatValidator = new CertificateChainValidator(CertificateChainUtility.ProduksjonsSertifikater());
+                var erGyldigSertifikatkjede = sertifikatValidator.ErGyldigSertifikatkjede(testsertifikat);
 
-                Assert.Throws<CertificateChainValidationException>(() => sertifikatValidator.ErGyldigSertifikatkjede(testsertifikat));
+                Assert.False(erGyldigSertifikatkjede);
             }
         }
     }
