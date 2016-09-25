@@ -8,49 +8,75 @@ namespace Difi.Felles.Utility
     {
         public static bool IsValidCertificate(X509Certificate2 certificate, string certificateOrganizationNumber)
         {
-            return certificate != null && IsIssuedToOrganizationNumber(certificate, certificateOrganizationNumber) && IsActiveCertificate(certificate);
+            return ValidateCertificate(certificate, certificateOrganizationNumber).Type == SertifikatValideringType.Gyldig;
         }
 
         public static SertifikatValideringsResultat ValidateCertificate(X509Certificate2 certificate, string certificateOrganizationNumber)
         {
             if (certificate == null)
             {
-                return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat, $"Sertifikat var {null}!");
+                return NoCertificateResult();
             }
 
             if (!IsIssuedToOrganizationNumber(certificate, certificateOrganizationNumber))
             {
-                return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat, 
-                    $"Sertifikatet er ikke utstedt til organisasjonsnummer '{certificateOrganizationNumber}'. Dette vil skje om sertifikatet er utstedt til en annen virksomhet " +
-                    $"eller hvis det ikke er et virksomhetssertifikat. Virksomhetssertifikat kan skaffes fra Buypass eller Commfides.");
+                return NotIssuedToOrganizationResult(certificateOrganizationNumber);
             }
 
             if (!IsActivatedCertificate(certificate))
             {
-                return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat, $"{GetCertificateInfo(certificate)} aktiveres ikke før {certificate.GetEffectiveDateString()}.");
+                return NotActivatedResult(certificate);
             }
 
             if (IsExpiredCertificate(certificate))
             {
-                return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat, $"{ GetCertificateInfo(certificate) } gikk ut {certificate.GetExpirationDateString()}.");
+                return ExpiredResult(certificate);
             }
 
-            return new SertifikatValideringsResultat(SertifikatValideringType.Gyldig, $"{GetCertificateInfo(certificate)} er et gyldig sertifikat.");
+            return ValidResult(certificate);
         }
 
-        private static string GetCertificateInfo(X509Certificate2 certificate)
+        private static SertifikatValideringsResultat NoCertificateResult()
         {
-            return $"Sertifikat '{certificate.Info()}'";
+            return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat, $"Sertifikat var {null}!");
+        }
+
+        private static SertifikatValideringsResultat NotIssuedToOrganizationResult(string certificateOrganizationNumber)
+        {
+            return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigSertifikat,
+                $"Sertifikatet er ikke utstedt til organisasjonsnummer '{certificateOrganizationNumber}'. Dette vil skje om sertifikatet er utstedt til en annen virksomhet " +
+                "eller hvis det ikke er et virksomhetssertifikat. Virksomhetssertifikat kan skaffes fra Buypass eller Commfides.");
+        }
+
+        private static SertifikatValideringsResultat NotActivatedResult(X509Certificate2 certificate)
+        {
+            return CreateSertifikatValideringsResultat(certificate,
+                SertifikatValideringType.UgyldigSertifikat,
+                $"aktiveres ikke før {certificate.GetEffectiveDateString()}");
+        }
+
+        private static SertifikatValideringsResultat ExpiredResult(X509Certificate2 certificate)
+        {
+            return CreateSertifikatValideringsResultat(certificate,
+                SertifikatValideringType.UgyldigSertifikat,
+                $"gikk ut {certificate.GetExpirationDateString()}.");
+        }
+
+        private static SertifikatValideringsResultat ValidResult(X509Certificate2 certificate)
+        {
+            return CreateSertifikatValideringsResultat(certificate, SertifikatValideringType.Gyldig, "er et gyldig sertifikat.");
+        }
+
+        private static SertifikatValideringsResultat CreateSertifikatValideringsResultat(X509Certificate2 certificate, SertifikatValideringType sertifikatValideringType, string description)
+        {
+            return new SertifikatValideringsResultat(
+                sertifikatValideringType, 
+                $"Sertifikat '{certificate.Info()}' {description}.");
         }
 
         private static bool IsIssuedToOrganizationNumber(X509Certificate certificate, string certificateOrganizationNumber)
         {
             return certificate.Subject.Contains($"SERIALNUMBER={certificateOrganizationNumber}") || certificate.Subject.Contains($"CN={certificateOrganizationNumber}");
-        }
-
-        private static bool IsActiveCertificate(X509Certificate certificate)
-        {
-            return IsActivatedCertificate(certificate) && !IsExpiredCertificate(certificate);
         }
 
         private static bool IsActivatedCertificate(X509Certificate certificate)
