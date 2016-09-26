@@ -91,8 +91,14 @@ namespace Difi.Felles.Utility
                 var isValidatorCertificate = SertifikatLager.Cast<X509Certificate2>().Any(lagerSertifikat => IsSameCertificate(chainElement.Certificate, lagerSertifikat));
                 if (isValidatorCertificate) { continue; }
 
-                var chainAsString = chain.ChainElements.Cast<X509ChainElement>().Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
-                var validatorCertificatesAsString = SertifikatLager.Cast<X509Certificate2>().Aggregate("", GetCertificateInfo);
+                var chainAsString = chain.ChainElements
+                    .Cast<X509ChainElement>()
+                    .Where(c => c.Certificate.Thumbprint != sertifikat.Thumbprint)
+                    .Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
+
+                var validatorCertificatesAsString = SertifikatLager
+                    .Cast<X509Certificate2>()
+                    .Aggregate("", GetCertificateInfo);
 
                 return UsedExternalCertificatesResult(sertifikat, chainAsString, validatorCertificatesAsString);
             }
@@ -102,7 +108,11 @@ namespace Difi.Felles.Utility
 
         private static SertifikatValideringsResultat UsedExternalCertificatesResult(X509Certificate2 sertifikat, string chainAsString, string validatorCertificatesAsString)
         {
-            return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigKjede, $"Validering av sertifikat '{sertifikat.Info()}' feilet. Dette skjer fordi kjeden ble bygd med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {validatorCertificatesAsString}. Dette skjer som oftest om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en kjede med de sertifikatene sendt inn til validatoren.");
+            return new SertifikatValideringsResultat(SertifikatValideringType.UgyldigKjede, 
+                $"Validering av sertifikat '{sertifikat.Info()}' feilet. {Environment.NewLine}" +
+                $"Dette skjer fordi kjeden ble bygd med følgende sertifikater: {Environment.NewLine}{chainAsString}, " + 
+                $"men kun følgende er godkjent for å bygge kjeden: {Environment.NewLine}{validatorCertificatesAsString}. Dette skjer som oftest om sertifikater blir hentet fra Certificate Store på Windows, " +
+                "og det tillates ikke under validering. Det er kun gyldig å bygge en kjede med de sertifikatene sendt inn til validatoren.");
         }
 
         private static bool IsSameCertificate(X509Certificate2 certificate1, X509Certificate2 certificate2)
