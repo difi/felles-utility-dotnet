@@ -8,14 +8,14 @@ namespace Difi.Felles.Utility.Tester
     public class CertificateChainValidatorTests
     {
         
-        public class ValidateCertificateChain : CertificateChainValidatorTests
+        public class ValidateCertificateChainMethod : CertificateChainValidatorTests
         {
             [Fact]
             public void  Valid_with_correct_root_and_intermediate()
             {
                 //Arrange
                 var productionCertificate = SertifikatUtility.GetProduksjonsMottakerSertifikatOppslagstjenesten();
-                var certificateChainValidator = new CertificateChainValidator(CertificateChainUtility.ProduksjonsSertifikater());
+                var certificateChainValidator = new CertificateChainValidator(CertificateChainUtility.ProductionCertificates());
 
                 //Act
                 var result = certificateChainValidator.Validate(productionCertificate);
@@ -32,7 +32,7 @@ namespace Difi.Felles.Utility.Tester
                 var productionCertificate = SertifikatUtility.GetProduksjonsMottakerSertifikatOppslagstjenesten();
 
                 //Act
-                var certificateChainValidator = new CertificateChainValidator(CertificateChainUtility.FunksjoneltTestmiljøSertifikater());
+                var certificateChainValidator = new CertificateChainValidator(CertificateChainUtility.TestCertificates());
                 var result = certificateChainValidator.Validate(productionCertificate);
 
                 //Assert
@@ -46,7 +46,7 @@ namespace Difi.Felles.Utility.Tester
             {
                 //Arrange
                 var selfSignedCertificate = SertifikatUtility.GetEnhetstesterSelvsignertSertifikat();
-                var certificateChainValidator = new CertificateChainValidator(CertificateChainUtility.ProduksjonsSertifikater());
+                var certificateChainValidator = new CertificateChainValidator(CertificateChainUtility.ProductionCertificates());
 
                 //Act
                 var result = certificateChainValidator.Validate(selfSignedCertificate);

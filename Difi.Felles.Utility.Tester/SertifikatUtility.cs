@@ -32,7 +32,6 @@ namespace Difi.Felles.Utility.Tester
             return new X509Certificate2(ResourceUtility.ReadAllBytes(true, "Enhetstester", "ValidSelfSignedBringAs.cer"));
         }
 
-
         public static X509Certificate2 TestIntegrasjonssertifikat()
         {
             return GetPostenCertificate();

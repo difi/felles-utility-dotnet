@@ -87,14 +87,14 @@ namespace Difi.Felles.Utility
             return certificate.Subject.Contains($"SERIALNUMBER={certificateOrganizationNumber}") || certificate.Subject.Contains($"CN={certificateOrganizationNumber}");
         }
 
-        private static bool IsActivatedCertificate(X509Certificate certificate)
+        private static bool IsActivatedCertificate(X509Certificate2 certificate)
         {
-            return DateTime.Now > DateTime.Parse(certificate.GetEffectiveDateString());
+            return DateTime.Now > certificate.NotBefore;
         }
 
-        private static bool IsExpiredCertificate(X509Certificate certificate)
+        private static bool IsExpiredCertificate(X509Certificate2 certificate)
         {
-            return DateTime.Now > DateTime.Parse(certificate.GetExpirationDateString());
+            return DateTime.Now > certificate.NotAfter;
         }
     }
 }

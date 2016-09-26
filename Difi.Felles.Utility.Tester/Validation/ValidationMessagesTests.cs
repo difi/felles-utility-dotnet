@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Xml.Schema;
+﻿using System.Xml.Schema;
 using Difi.Felles.Utility.Validation;
 using Xunit;
 
 namespace Difi.Felles.Utility.Tester.Validation
 {
-    
     public class ValidationMessagesTests
     {
-        
         public class AddErrorMethod : ValidationMessagesTests
         {
             [Fact]
@@ -26,7 +23,6 @@ namespace Difi.Felles.Utility.Tester.Validation
             }
         }
 
-        
         public class AddWarningMethod : ValidationMessagesTests
         {
             [Fact]
@@ -44,7 +40,6 @@ namespace Difi.Felles.Utility.Tester.Validation
             }
         }
 
-        
         public class ToStringMethod : ValidationMessagesTests
         {
             [Fact]
@@ -58,6 +53,5 @@ namespace Difi.Felles.Utility.Tester.Validation
                 Assert.Same(expectedError, messages.ToString());
             }
         }
-        
     }
 }

@@ -4,10 +4,8 @@ using Xunit;
 
 namespace Difi.Felles.Utility.Tester.Utilities
 {
-    
     public class CertificateChainUtilityTests
     {
-        
         public class TestsertifikaterMethod : CertificateChainUtilityTests
         {
             [Fact]
@@ -26,7 +24,6 @@ namespace Difi.Felles.Utility.Tester.Utilities
             }
         }
 
-        
         public class ProduksjonssertifikaterMethod : CertificateChainUtilityTests
         {
             [Fact]
@@ -45,19 +42,17 @@ namespace Difi.Felles.Utility.Tester.Utilities
             }
         }
 
-        
         public class CertificateChainInfoTests : CertificateChainUtilityTests
         {
             [Fact]
             public void DebugMesages()
             {
-                int i = 0;
+                var i = 0;
                 foreach (var certificate in CertificateChainUtility.TestCertificates())
                 {
                     Trace.WriteLine($"{i++}: Issuer `{certificate.Issuer}`, thumbprint `{certificate.Thumbprint}`");
                 }
             }
-
         }
     }
 }

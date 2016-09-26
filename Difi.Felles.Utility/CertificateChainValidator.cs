@@ -42,24 +42,24 @@ namespace Difi.Felles.Utility
         /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
         /// </summary>
         /// <param name="certificate"></param>
-        /// <param name="detaljertFeilinformasjon">Status på kjeden etter validering hvis validering feilet.</param>
+        /// <param name="detailedErrorInformation">Status på kjeden etter validering hvis validering feilet.</param>
         /// <returns></returns>
         [Obsolete("Use IsValidChain instead.")]
-        public bool ErGyldigSertifikatkjede(X509Certificate2 certificate, out string detaljertFeilinformasjon)
+        public bool ErGyldigSertifikatkjede(X509Certificate2 certificate, out string detailedErrorInformation)
         {
-            return IsValidChain(certificate, out detaljertFeilinformasjon);
+            return IsValidChain(certificate, out detailedErrorInformation);
         }
 
         /// <summary>
         /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
         /// </summary>
         /// <param name="certificate"></param>
-        /// <param name="detaljertFeilinformasjon">Status på kjeden etter validering hvis validering feilet.</param>
+        /// <param name="detailedErrorInformation">Status på kjeden etter validering hvis validering feilet.</param>
         /// <returns></returns>
-        public bool IsValidChain(X509Certificate2 certificate, out string detaljertFeilinformasjon)
+        public bool IsValidChain(X509Certificate2 certificate, out string detailedErrorInformation)
         {
             var result = Validate(certificate);
-            detaljertFeilinformasjon = result.Message;
+            detailedErrorInformation = result.Message;
 
             return result.Type == CertificateValidationType.Valid;
         }
@@ -132,10 +132,10 @@ namespace Difi.Felles.Utility
             return ValidResult(certificate);
         }
 
-        private static CertificateValidationResult UsedExternalCertificatesResult(X509Certificate2 sertifikat, string chainAsString, string validatorCertificatesAsString)
+        private static CertificateValidationResult UsedExternalCertificatesResult(X509Certificate2 certificate, string chainAsString, string validatorCertificatesAsString)
         {
             return new CertificateValidationResult(CertificateValidationType.InvalidChain, 
-                $"Validering av '{sertifikat.ToShortString()}' feilet. {Environment.NewLine}" +
+                $"Validering av '{certificate.ToShortString()}' feilet. {Environment.NewLine}" +
                 $"Dette skjer fordi kjeden ble bygd med følgende sertifikater: {Environment.NewLine}{chainAsString}, " + 
                 $"men kun følgende er godkjent for å bygge kjeden: {Environment.NewLine}{validatorCertificatesAsString}. Dette skjer som oftest om sertifikater blir hentet fra Certificate Store på Windows, " +
                 "og det tillates ikke under validering. Det er kun gyldig å bygge en kjede med de sertifikatene sendt inn til validatoren.");

@@ -11,6 +11,13 @@ namespace Difi.Felles.Utility.Tester.Validation
     {
         private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata");
 
+        public static XmlSchemaSet XmlSchemaSet()
+        {
+            var xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add("http://tempuri.org/po.xsd", XmlReader.Create(new MemoryStream(ResourceUtility.ReadAllBytes(true, "Xsd.Sample.xsd"))));
+            return xmlSchemaSet;
+        }
+
         public interface ITestCouple
         {
             List<string> ExpectedValidationMessages { get; }
@@ -20,21 +27,16 @@ namespace Difi.Felles.Utility.Tester.Validation
 
         public class ValidTestCouple : ITestCouple
         {
+            public List<string> ExpectedValidationMessages => new List<string>();
+
             public string Input()
             {
                 return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.Valid.xml"));
             }
-
-            public List<string> ExpectedValidationMessages => new List<string>();
         }
 
         public class InvalidContentTestCouple : ITestCouple
         {
-            public string Input()
-            {
-                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.InvalidIdentifikatorContent.xml"));
-            }
-
             public List<string> ExpectedValidationMessages
             {
                 get
@@ -44,15 +46,15 @@ namespace Difi.Felles.Utility.Tester.Validation
                     return new List<string> {validationMessageEn, validationMessageNb};
                 }
             }
+
+            public string Input()
+            {
+                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.InvalidIdentifikatorContent.xml"));
+            }
         }
 
         public class InvalidSyntaxTestCouple : ITestCouple
         {
-            public string Input()
-            {
-                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.UnknownElement.xml"));
-            }
-
             public List<string> ExpectedValidationMessages
             {
                 get
@@ -62,13 +64,11 @@ namespace Difi.Felles.Utility.Tester.Validation
                     return new List<string> {validationMessageEn, validationMessageNb};
                 }
             }
-        }
 
-        public static XmlSchemaSet XmlSchemaSet()
-        {
-            var xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add("http://tempuri.org/po.xsd", XmlReader.Create(new MemoryStream(ResourceUtility.ReadAllBytes(true,"Xsd.Sample.xsd"))));
-            return xmlSchemaSet;
-        }  
+            public string Input()
+            {
+                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.UnknownElement.xml"));
+            }
+        }
     }
 }

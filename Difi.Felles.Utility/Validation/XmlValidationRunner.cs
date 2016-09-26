@@ -15,12 +15,12 @@ namespace Difi.Felles.Utility.Validation
 
         internal static readonly List<string> ToleratedErrors = new List<string> {ToleratedXsdIdErrorEnUs, ToleratedXsdIdErrorNbNo, ToleratedPrefixListErrorEnUs, ToleratedPrefixListErrorNbNo};
 
-        internal XmlSchemaSet XmlSchemaSet { get; }
-
         internal XmlValidationRunner(XmlSchemaSet xmlSchemaSet)
         {
             XmlSchemaSet = xmlSchemaSet;
         }
+
+        internal XmlSchemaSet XmlSchemaSet { get; }
 
         internal ValidationMessages ValidationMessages { get; } = new ValidationMessages();
 

@@ -6,7 +6,7 @@ namespace Difi.Felles.Utility.Tester
     
     public class CertificateValidatorTests
     {
-        public class ValidateCertificateAndChain : CertificateValidatorTests
+        public class ValidateCertificateAndChainMethod : CertificateValidatorTests
         {
             [Fact]
             public void Returns_fail_if_certificate_error()

@@ -7,9 +7,9 @@ namespace Difi.Felles.Utility.Validation
 {
     public class ValidationMessages : List<string>
     {
-        public bool HasErrors { get; private set; } = false;
+        public bool HasErrors { get; private set; }
 
-        public bool HasWarnings { get; private set; } = false;
+        public bool HasWarnings { get; private set; }
 
         internal void Add(XmlSeverityType severity, string message)
         {
