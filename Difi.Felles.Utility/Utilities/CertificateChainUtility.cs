@@ -8,7 +8,7 @@ namespace Difi.Felles.Utility.Utilities
     {
         private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Resources.Certificates");
 
-        public static X509Certificate2Collection FunksjoneltTestmiljøSertifikater()
+        public static X509Certificate2Collection TestCertificates()
         {
             var difiTestkjedesertifikater = new List<X509Certificate2>
             {
@@ -20,7 +20,7 @@ namespace Difi.Felles.Utility.Utilities
             return new X509Certificate2Collection(difiTestkjedesertifikater.ToArray());
         }
 
-        public static X509Certificate2Collection ProduksjonsSertifikater()
+        public static X509Certificate2Collection ProductionCertificates()
         {
             var difiProduksjonssertifikater = new List<X509Certificate2>
             {

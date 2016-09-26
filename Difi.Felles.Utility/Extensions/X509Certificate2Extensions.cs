@@ -4,9 +4,9 @@ namespace Difi.Felles.Utility.Extensions
 {
     public static class X509Certificate2Extensions
     {
-        public static string Info(this X509Certificate2 certificate)
+        public static string ToShortString(this X509Certificate2 certificate, string extraInfo = "")
         {
-            return $"Subject: {certificate.Subject}, Thumbprint: {certificate.Thumbprint}"; 
+            return $"Sertifikat med Subject '{certificate.Subject}' og Thumbprint '{certificate.Thumbprint}' {extraInfo}"; 
         }
     }
 }
