@@ -57,22 +57,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CertificateValidator.cs" />
     <Compile Include="Security\SignedXmlWithAgnosticId.cs" />
-    <Compile Include="Utilities\CertificateChainUtility.cs" />
     <Compile Include="CertificateChainValidator.cs" />
+    <Compile Include="Utilities\CertificateChainUtility.cs" />
     <Compile Include="Utilities\NamespaceUtility.cs" />
     <Compile Include="Validation\ValidationMessages.cs" />
     <Compile Include="Validation\XmlValidationRunner.cs" />
     <Compile Include="XmlValidator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Certificates\Production\BPClass3CA3.cer" />
-    <EmbeddedResource Include="Resources\Certificates\Production\BPClass3RootCA.cer" />
-    <EmbeddedResource Include="Resources\Certificates\Production\cpn enterprise sha256 class 3.crt" />
-    <EmbeddedResource Include="Resources\Certificates\Production\cpn rootca sha256 class 3.crt" />
-    <EmbeddedResource Include="Resources\Certificates\Test\Buypass_Class_3_Test4_CA_3.cer" />
-    <EmbeddedResource Include="Resources\Certificates\Test\Buypass_Class_3_Test4_Root_CA.cer" />
-    <EmbeddedResource Include="Resources\Certificates\Test\intermediate - commfides cpn enterprise-norwegian sha256 ca - test2.crt" />
-    <EmbeddedResource Include="Resources\Certificates\Test\root - cpn root sha256 ca - test.crt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ApiClientShared, Version=1.0.5968.19413, Culture=neutral, PublicKeyToken=683b8efceae684a6, processorArchitecture=MSIL">
@@ -85,6 +75,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Difi.Felles.Utility.Resources\Difi.Felles.Utility.Resources.csproj">
+      <Project>{c737ea02-e687-45c4-95db-72b5083246f2}</Project>
+      <Name>Difi.Felles.Utility.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

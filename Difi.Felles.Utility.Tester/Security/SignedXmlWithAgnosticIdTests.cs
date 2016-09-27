@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using Difi.Felles.Utility.Exceptions;
+using Difi.Felles.Utility.Resources.Certificate;
 using Difi.Felles.Utility.Security;
 using Difi.Felles.Utility.Tester.Testdata;
 using Difi.Felles.Utility.Tester.Utilities;
@@ -45,7 +46,7 @@ namespace Difi.Felles.Utility.Tester.Security
             {
                 //Arrange
                 var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
-                var sertifikat = CertificateUtility.GetMottakerEnhetstesterSertifikat();
+                var sertifikat = CertificateResource.UnitTests.GetMottakerEnhetstesterSertifikat();
 
                 //Act
                 try
@@ -64,7 +65,7 @@ namespace Difi.Felles.Utility.Tester.Security
             {
                 //Arrange
                 var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
-                var sertifikat = CertificateUtility.GetAvsenderEnhetstesterSertifikat();
+                var sertifikat = CertificateResource.UnitTests.GetAvsenderEnhetstesterSertifikat();
                 var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(xmlDokument, sertifikat);
 
                 //Act

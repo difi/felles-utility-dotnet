@@ -78,7 +78,7 @@ namespace Difi.Felles.Utility
         private static CertificateValidationResult ValidResult(X509Certificate2 certificate)
         {
             return new CertificateValidationResult(
-                CertificateValidationType.Valid, 
+                CertificateValidationType.Valid,
                 certificate.ToShortString("er et gyldig sertifikat."));
         }
 

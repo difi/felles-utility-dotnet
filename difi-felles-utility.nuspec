@@ -16,6 +16,7 @@
     </metadata>
     <files>
         <file src="Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.dll" target="lib\net45\Difi.Felles.Utility.dll" />
+        <file src="Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.Resources.dll" target="lib\net45\Difi.Felles.Utility.Resources.dll" />
         <file src="Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.XML" target="lib\net45\Difi.Felles.Utility.XML" />
     </files>
 </package>

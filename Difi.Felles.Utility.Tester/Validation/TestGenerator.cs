@@ -1,20 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.Schema;
-using ApiClientShared;
+using Difi.Felles.Utility.Resources.Xml;
+using Difi.Felles.Utility.Resources.Xsd;
 
 namespace Difi.Felles.Utility.Tester.Validation
 {
     internal static class TestGenerator
     {
-        private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Tester.Testdata");
-
         public static XmlSchemaSet XmlSchemaSet()
         {
             var xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add("http://tempuri.org/po.xsd", XmlReader.Create(new MemoryStream(ResourceUtility.ReadAllBytes(true, "Xsd.Sample.xsd"))));
+            xmlSchemaSet.Add("http://tempuri.org/po.xsd", XmlReader.Create(XsdResource.Sample()));
             return xmlSchemaSet;
         }
 
@@ -31,7 +28,7 @@ namespace Difi.Felles.Utility.Tester.Validation
 
             public string Input()
             {
-                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.Valid.xml"));
+                return XmlResource.GetContent.GetValid();
             }
         }
 
@@ -49,7 +46,7 @@ namespace Difi.Felles.Utility.Tester.Validation
 
             public string Input()
             {
-                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.InvalidIdentifikatorContent.xml"));
+                return XmlResource.GetContent.GetInvalid();
             }
         }
 
@@ -67,7 +64,7 @@ namespace Difi.Felles.Utility.Tester.Validation
 
             public string Input()
             {
-                return Encoding.UTF8.GetString(ResourceUtility.ReadAllBytes(true, "Xml.UnknownElement.xml"));
+                return XmlResource.GetContent.GetContentWithUnknownElement();
             }
         }
     }

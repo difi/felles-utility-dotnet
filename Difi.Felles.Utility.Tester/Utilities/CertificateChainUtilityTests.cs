@@ -12,7 +12,7 @@ namespace Difi.Felles.Utility.Tester.Utilities
             public void ReturnererFireSertifikaterMedThumbprint()
             {
                 //Arrange
-                var sertifikater = CertificateChainUtility.TestCertificates();
+                var sertifikater = CertificateChainUtility.FunksjoneltTestmiljøSertifikater();
 
                 //Act
 
@@ -30,7 +30,7 @@ namespace Difi.Felles.Utility.Tester.Utilities
             public void ReturnererFireSertifikaterMedThumbprint()
             {
                 //Arrange
-                var sertifikater = CertificateChainUtility.ProductionCertificates();
+                var sertifikater = CertificateChainUtility.ProduksjonsSertifikater();
 
                 //Act
 
@@ -48,7 +48,7 @@ namespace Difi.Felles.Utility.Tester.Utilities
             public void DebugMesages()
             {
                 var i = 0;
-                foreach (var certificate in CertificateChainUtility.TestCertificates())
+                foreach (var certificate in CertificateChainUtility.FunksjoneltTestmiljøSertifikater())
                 {
                     Trace.WriteLine($"{i++}: Issuer `{certificate.Issuer}`, thumbprint `{certificate.Thumbprint}`");
                 }

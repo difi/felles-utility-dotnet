@@ -1,0 +1,44 @@
+<xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/po.xsd" xmlns="http://tempuri.org/po.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:documentation xml:lang="en">Purchase order schema for Example.com.
+   Copyright 2000 Example.com. All rights reserved.
+  </xs:documentation>
+  </xs:annotation>
+  <xs:element name="Envelope" type="Envelope"/>
+  <xs:complexType name="Envelope">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Header" type="Header"/>
+      <xs:element minOccurs="0" name="Body" type="Body"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Header">
+    <xs:sequence>
+      <xs:element name="Security" type="Security"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Security">
+    <xs:sequence>
+      <xs:element name="InclusiveNamespaces" type="InclusiveNamespaces"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="InclusiveNamespaces">
+    <xs:attribute name="PrefixList" type="xs:NMTOKENS"/>
+  </xs:complexType>
+  <xs:complexType name="Body">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Forespoersel">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Identifikator">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:pattern value="[a-c]{1,100}"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

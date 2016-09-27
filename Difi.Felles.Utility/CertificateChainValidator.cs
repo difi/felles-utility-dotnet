@@ -18,7 +18,7 @@ namespace Difi.Felles.Utility
         public X509Certificate2Collection SertifikatLager => CertificateStore;
 
         /// <summary>
-        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
         /// </summary>
         /// <param name="certificate"></param>
         /// <returns></returns>
@@ -29,7 +29,7 @@ namespace Difi.Felles.Utility
         }
 
         /// <summary>
-        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
         /// </summary>
         /// <param name="certificate"></param>
         /// <returns></returns>
@@ -39,7 +39,7 @@ namespace Difi.Felles.Utility
         }
 
         /// <summary>
-        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
         /// </summary>
         /// <param name="certificate"></param>
         /// <param name="detailedErrorInformation">Status på kjeden etter validering hvis validering feilet.</param>
@@ -51,7 +51,7 @@ namespace Difi.Felles.Utility
         }
 
         /// <summary>
-        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
         /// </summary>
         /// <param name="certificate"></param>
         /// <param name="detailedErrorInformation">Status på kjeden etter validering hvis validering feilet.</param>
@@ -64,20 +64,19 @@ namespace Difi.Felles.Utility
             return result.Type == CertificateValidationType.Valid;
         }
 
-
         public CertificateValidationResult Validate(X509Certificate2 certificate)
         {
             var chain = BuildCertificateChain(certificate);
 
             var onlyUsingValidatorCertificatesResult = ValidateThatUsingOnlyValidatorCertificates(chain, certificate);
 
-            return onlyUsingValidatorCertificatesResult.Type != CertificateValidationType.Valid 
-                ? onlyUsingValidatorCertificatesResult 
+            return onlyUsingValidatorCertificatesResult.Type != CertificateValidationType.Valid
+                ? onlyUsingValidatorCertificatesResult
                 : Validate(certificate, chain);
         }
 
         /// <summary>
-        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
         /// </summary>
         /// <param name="certificate"></param>
         /// <param name="detailedErrorInformation">Status på kjeden etter validering hvis validering feilet.</param>
@@ -88,7 +87,7 @@ namespace Difi.Felles.Utility
             var chain = BuildCertificateChain(certificate);
             detailedErrorInformation = chain.ChainStatus;
 
-            var onlyUsingValidatorCertificatesResult = ValidateThatUsingOnlyValidatorCertificates(chain,certificate);
+            var onlyUsingValidatorCertificatesResult = ValidateThatUsingOnlyValidatorCertificates(chain, certificate);
             if (onlyUsingValidatorCertificatesResult.Type != CertificateValidationType.Valid)
             {
                 return false;
@@ -112,15 +111,21 @@ namespace Difi.Felles.Utility
             foreach (var chainElement in chain.ChainElements)
             {
                 var isCertificateToValidate = IsSameCertificate(chainElement.Certificate, certificate);
-                if (isCertificateToValidate) { continue; }
+                if (isCertificateToValidate)
+                {
+                    continue;
+                }
 
                 var isValidatorCertificate = CertificateStore.Cast<X509Certificate2>().Any(lagerSertifikat => IsSameCertificate(chainElement.Certificate, lagerSertifikat));
-                if (isValidatorCertificate) { continue; }
+                if (isValidatorCertificate)
+                {
+                    continue;
+                }
 
                 var chainAsString = chain.ChainElements
                     .Cast<X509ChainElement>()
                     .Where(c => c.Certificate.Thumbprint != certificate.Thumbprint)
-                    .Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
+                    .Aggregate("", (result, curr) => GetCertificateInfo(result, curr.Certificate));
 
                 var validatorCertificatesAsString = CertificateStore
                     .Cast<X509Certificate2>()
@@ -134,9 +139,9 @@ namespace Difi.Felles.Utility
 
         private static CertificateValidationResult UsedExternalCertificatesResult(X509Certificate2 certificate, string chainAsString, string validatorCertificatesAsString)
         {
-            return new CertificateValidationResult(CertificateValidationType.InvalidChain, 
+            return new CertificateValidationResult(CertificateValidationType.InvalidChain,
                 $"Validering av '{certificate.ToShortString()}' feilet. {Environment.NewLine}" +
-                $"Dette skjer fordi kjeden ble bygd med følgende sertifikater: {Environment.NewLine}{chainAsString}, " + 
+                $"Dette skjer fordi kjeden ble bygd med følgende sertifikater: {Environment.NewLine}{chainAsString}, " +
                 $"men kun følgende er godkjent for å bygge kjeden: {Environment.NewLine}{validatorCertificatesAsString}. Dette skjer som oftest om sertifikater blir hentet fra Certificate Store på Windows, " +
                 "og det tillates ikke under validering. Det er kun gyldig å bygge en kjede med de sertifikatene sendt inn til validatoren.");
         }
@@ -177,8 +182,8 @@ namespace Difi.Felles.Utility
                     return ValidResult(certificate);
                 case 1:
                     var chainError = detailedErrorInformation.ElementAt(0).Status;
-                    return chainError == X509ChainStatusFlags.UntrustedRoot 
-                        ? ValidResult(certificate) 
+                    return chainError == X509ChainStatusFlags.UntrustedRoot
+                        ? ValidResult(certificate)
                         : InvalidChainResult(certificate, detailedErrorInformation); //We tolerate this 'UntrustedRoot' because it occurs when loading a root certificate from file, which is always done here. We trust the certificates as they are preloaded in library.
                 default:
                     return InvalidChainResult(certificate, detailedErrorInformation);
