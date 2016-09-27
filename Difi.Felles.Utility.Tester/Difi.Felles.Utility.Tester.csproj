@@ -49,6 +49,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
@@ -80,15 +81,12 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="CertificateUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ReceiptsResponse.cs" />
     <Compile Include="Security\SignedXmlWithAgnosticIdTests.cs" />
     <Compile Include="CertificateChainValidatorTests.cs" />
     <Compile Include="CertificateValidatorTests.cs" />
-    <Compile Include="Testdata\Transportkvittering.cs" />
     <Compile Include="Utilities\CertificateChainUtilityTests.cs" />
-    <Compile Include="SertifikatUtility.cs" />
     <Compile Include="Utilities\XmlUtility.cs" />
     <Compile Include="Validation\TestGenerator.cs" />
     <Compile Include="Validation\ValidationMessagesTests.cs" />
@@ -97,44 +95,19 @@
     <Compile Include="Validation\XmlValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Difi.Felles.Utility.Resources\Difi.Felles.Utility.Resources.csproj">
+      <Project>{c737ea02-e687-45c4-95db-72b5083246f2}</Project>
+      <Name>Difi.Felles.Utility.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Difi.Felles.Utility\Difi.Felles.Utility.csproj">
       <Project>{7ab8d858-878f-4184-9557-995be75dc635}</Project>
       <Name>Difi.Felles.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\difi-enhetstester.cer" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\difi-enhetstester.p12" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Prod\BPClass3CA3.cer" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Prod\BPClass3RootCA.cer" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Prod\cpn enterprise sha256 class 3.crt" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Prod\cpn rootca sha256 class 3.crt" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Prod\produksjonsmottakersertifikatFraOppslagstjenesten.pem" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Test\Buypass_Class_3_Test4_CA_3.cer" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Test\Buypass_Class_3_Test4_Root_CA.cer" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Test\intermediate - commfides cpn enterprise-norwegian sha256 ca - test2.crt" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Test\root - cpn root sha256 ca - test.crt" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Test\testmottakersertifikatFraOppslagstjenesten.pem" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\ExpiredTestCertificate.cer" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\NotActivatedTestCertificate.cer" />
-    <EmbeddedResource Include="Testdata\Sertifikater\Enhetstester\PostenNorgeAs.cer" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <EmbeddedResource Include="Testdata\Xsd\Sample.xsd">
+    <None Include="packages.config">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Testdata\Xml\Valid.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Testdata\Xml\InvalidIdentifikatorContent.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Testdata\Xml\UnknownElement.xml" />
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Choose>

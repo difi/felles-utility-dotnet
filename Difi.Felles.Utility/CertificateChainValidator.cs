@@ -1,46 +1,99 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using Difi.Felles.Utility.Exceptions;
+using Difi.Felles.Utility.Extensions;
 
 namespace Difi.Felles.Utility
 {
     public class CertificateChainValidator
     {
-        public CertificateChainValidator(X509Certificate2Collection sertifikatLager)
+        public CertificateChainValidator(X509Certificate2Collection certificateStore)
         {
-            SertifikatLager = sertifikatLager;
+            CertificateStore = certificateStore;
         }
 
-        public X509Certificate2Collection SertifikatLager { get; set; }
+        public X509Certificate2Collection CertificateStore { get; set; }
+
+        [Obsolete("Use CertificateStore instead.")]
+        public X509Certificate2Collection SertifikatLager => CertificateStore;
 
         /// <summary>
-        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
         /// </summary>
-        /// <param name="sertifikat"></param>
-        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
+        /// <param name="certificate"></param>
         /// <returns></returns>
-        public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat)
+        [Obsolete("Use IsValidChain instead.")]
+        public bool ErGyldigSertifikatkjede(X509Certificate2 certificate)
         {
-            X509ChainStatus[] chainStatuses;
-            return ErGyldigSertifikatkjede(sertifikat, out chainStatuses);
+            return IsValidChain(certificate);
         }
 
         /// <summary>
-        /// Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager"/> 
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
         /// </summary>
-        /// <param name="sertifikat"></param>
-        /// <param name="kjedestatus">Status på kjeden etter validering. </param>
-        /// <exception cref="CertificateChainValidationException">Kastes hvis det prøves å gjøre validering mot andre sertifikater enn de i <see cref="SertifikatLager"/>.</exception>
+        /// <param name="certificate"></param>
         /// <returns></returns>
-        public bool ErGyldigSertifikatkjede(X509Certificate2 sertifikat, out X509ChainStatus[] kjedestatus)
+        public bool IsValidChain(X509Certificate2 certificate)
         {
-            var chain = BuildCertificateChain(sertifikat);
-            kjedestatus = chain.ChainStatus;
+            return Validate(certificate).Type == CertificateValidationType.Valid;
+        }
 
-            ValidateThatUsingOnlyValidatorCertificatesOrThrow(chain,sertifikat);
+        /// <summary>
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="detailedErrorInformation">Status på kjeden etter validering hvis validering feilet.</param>
+        /// <returns></returns>
+        [Obsolete("Use IsValidChain instead.")]
+        public bool ErGyldigSertifikatkjede(X509Certificate2 certificate, out string detailedErrorInformation)
+        {
+            return IsValidChain(certificate, out detailedErrorInformation);
+        }
 
-            return IsValidCertificateChain(chain);
+        /// <summary>
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="detailedErrorInformation">Status på kjeden etter validering hvis validering feilet.</param>
+        /// <returns></returns>
+        public bool IsValidChain(X509Certificate2 certificate, out string detailedErrorInformation)
+        {
+            var result = Validate(certificate);
+            detailedErrorInformation = result.Message;
+
+            return result.Type == CertificateValidationType.Valid;
+        }
+
+        public CertificateValidationResult Validate(X509Certificate2 certificate)
+        {
+            var chain = BuildCertificateChain(certificate);
+
+            var onlyUsingValidatorCertificatesResult = ValidateThatUsingOnlyValidatorCertificates(chain, certificate);
+
+            return onlyUsingValidatorCertificatesResult.Type != CertificateValidationType.Valid
+                ? onlyUsingValidatorCertificatesResult
+                : Validate(certificate, chain);
+        }
+
+        /// <summary>
+        ///     Validerer sertifikatkjeden til sertifikatet. Gjør dette ved å validere mot <see cref="SertifikatLager" />
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="detailedErrorInformation">Status på kjeden etter validering hvis validering feilet.</param>
+        /// <returns></returns>
+        [Obsolete("Use other overloads for validation, as this overload exposes the error of untrusted root certificate. We tolerate this error because it occurs when loading a root certificate from file, which is always done here. We trust the certificates as they are preloaded in library.")]
+        public bool ErGyldigSertifikatkjede(X509Certificate2 certificate, out X509ChainStatus[] detailedErrorInformation)
+        {
+            var chain = BuildCertificateChain(certificate);
+            detailedErrorInformation = chain.ChainStatus;
+
+            var onlyUsingValidatorCertificatesResult = ValidateThatUsingOnlyValidatorCertificates(chain, certificate);
+            if (onlyUsingValidatorCertificatesResult.Type != CertificateValidationType.Valid)
+            {
+                return false;
+            }
+
+            return Validate(certificate, chain).Type == CertificateValidationType.Valid;
         }
 
         private X509Chain BuildCertificateChain(X509Certificate2 sertifikat)
@@ -53,24 +106,44 @@ namespace Difi.Felles.Utility
             return chain;
         }
 
-        private void ValidateThatUsingOnlyValidatorCertificatesOrThrow(X509Chain chain, X509Certificate2 sertifikat)
+        private CertificateValidationResult ValidateThatUsingOnlyValidatorCertificates(X509Chain chain, X509Certificate2 certificate)
         {
             foreach (var chainElement in chain.ChainElements)
             {
-                var isCertificateToValidate = IsSameCertificate(chainElement.Certificate, sertifikat);
-                if (isCertificateToValidate) { continue; }
+                var isCertificateToValidate = IsSameCertificate(chainElement.Certificate, certificate);
+                if (isCertificateToValidate)
+                {
+                    continue;
+                }
 
-                var isValidatorCertificate = SertifikatLager.Cast<X509Certificate2>().Any(lagerSertifikat => IsSameCertificate(chainElement.Certificate, lagerSertifikat));
-                if (isValidatorCertificate) { continue; }
+                var isValidatorCertificate = CertificateStore.Cast<X509Certificate2>().Any(lagerSertifikat => IsSameCertificate(chainElement.Certificate, lagerSertifikat));
+                if (isValidatorCertificate)
+                {
+                    continue;
+                }
 
-                var chainAsString = chain.ChainElements.Cast<X509ChainElement>().Aggregate("",(result, curr) => GetCertificateInfo(result, curr.Certificate));
-                var validatorCertificatesAsString = SertifikatLager.Cast<X509Certificate2>().Aggregate("", GetCertificateInfo);
+                var chainAsString = chain.ChainElements
+                    .Cast<X509ChainElement>()
+                    .Where(c => c.Certificate.Thumbprint != certificate.Thumbprint)
+                    .Aggregate("", (result, curr) => GetCertificateInfo(result, curr.Certificate));
 
-                throw new CertificateChainValidationException($"Validering av sertifikat '{sertifikat.Subject}' (thumbprint '{sertifikat.Thumbprint}') feilet. Dette skjer fordi kjeden ble bygd " +
-                                                              $"med følgende sertifikater {chainAsString}, men kun følgende er godkjent for å bygge kjeden: {validatorCertificatesAsString}. Dette skjer som oftest " +
-                                                              "om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en " +
-                                                              "kjede med de sertifikatene sendt inn til validatoren.");
+                var validatorCertificatesAsString = CertificateStore
+                    .Cast<X509Certificate2>()
+                    .Aggregate("", GetCertificateInfo);
+
+                return UsedExternalCertificatesResult(certificate, chainAsString, validatorCertificatesAsString);
             }
+
+            return ValidResult(certificate);
+        }
+
+        private static CertificateValidationResult UsedExternalCertificatesResult(X509Certificate2 certificate, string chainAsString, string validatorCertificatesAsString)
+        {
+            return new CertificateValidationResult(CertificateValidationType.InvalidChain,
+                $"Validering av '{certificate.ToShortString()}' feilet. {Environment.NewLine}" +
+                $"Dette skjer fordi kjeden ble bygd med følgende sertifikater: {Environment.NewLine}{chainAsString}, " +
+                $"men kun følgende er godkjent for å bygge kjeden: {Environment.NewLine}{validatorCertificatesAsString}. Dette skjer som oftest om sertifikater blir hentet fra Certificate Store på Windows, " +
+                "og det tillates ikke under validering. Det er kun gyldig å bygge en kjede med de sertifikatene sendt inn til validatoren.");
         }
 
         private static bool IsSameCertificate(X509Certificate2 certificate1, X509Certificate2 certificate2)
@@ -90,31 +163,57 @@ namespace Difi.Felles.Utility
                 RevocationMode = X509RevocationMode.NoCheck
             };
 
-            policy.ExtraStore.AddRange(SertifikatLager);
+            policy.ExtraStore.AddRange(CertificateStore);
 
             return policy;
         }
 
-        private static bool IsValidCertificateChain(X509Chain chain)
+        private static CertificateValidationResult Validate(X509Certificate2 certificate, X509Chain chain)
         {
-            if (!HasExpectedLength(chain, 3)) return false;
+            if (IsSelfSignedCertificate(chain))
+            {
+                return SelfSignedErrorResult(certificate);
+            }
 
             var detailedErrorInformation = chain.ChainStatus;
             switch (detailedErrorInformation.Length)
             {
                 case 0:
-                    return true;
+                    return ValidResult(certificate);
                 case 1:
-                    var isUntrustedRootStatus = detailedErrorInformation.ElementAt(0).Status == X509ChainStatusFlags.UntrustedRoot;
-                    return isUntrustedRootStatus;
+                    var chainError = detailedErrorInformation.ElementAt(0).Status;
+                    return chainError == X509ChainStatusFlags.UntrustedRoot
+                        ? ValidResult(certificate)
+                        : InvalidChainResult(certificate, detailedErrorInformation); //We tolerate this 'UntrustedRoot' because it occurs when loading a root certificate from file, which is always done here. We trust the certificates as they are preloaded in library.
                 default:
-                    return false;
+                    return InvalidChainResult(certificate, detailedErrorInformation);
             }
         }
 
-        private static bool HasExpectedLength(X509Chain chain, int chainLength)
+        private static CertificateValidationResult InvalidChainResult(X509Certificate2 certificate, params X509ChainStatus[] x509ChainStatuses)
         {
-            return chain.ChainElements.Count == chainLength;
+            return new CertificateValidationResult(CertificateValidationType.InvalidChain, certificate.ToShortString($"har følgende feil i sertifikatkjeden: {GetPrettyChainErrorStatuses(x509ChainStatuses)}"));
+        }
+
+        private static CertificateValidationResult ValidResult(X509Certificate2 certificate)
+        {
+            return new CertificateValidationResult(CertificateValidationType.Valid, certificate.ToShortString("er et gyldig sertifikat."));
+        }
+
+        private static CertificateValidationResult SelfSignedErrorResult(X509Certificate2 certificate)
+        {
+            return new CertificateValidationResult(CertificateValidationType.InvalidChain, certificate.ToShortString("er ugyldig, fordi lengden på kjeden er 1, noe som betyr at sertifikatet er selvsignert. Det må brukes et sertifikat utstedt av en gyldig sertifikatutsteder."));
+        }
+
+        private static string GetPrettyChainErrorStatuses(X509ChainStatus[] chainStatuses)
+        {
+            return chainStatuses.Aggregate("", (result, curr) => $"{curr.Status}: {curr.StatusInformation}");
+        }
+
+        private static bool IsSelfSignedCertificate(X509Chain chain)
+        {
+            const int selfSignedChainLength = 1;
+            return chain.ChainElements.Count == selfSignedChainLength;
         }
     }
 }

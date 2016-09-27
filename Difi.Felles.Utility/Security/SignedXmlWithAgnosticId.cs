@@ -47,7 +47,7 @@ namespace Difi.Felles.Utility.Security
 
             // Adds signature method to crypto api
             if (CryptoConfig.CreateFromName(signatureMethod) == null)
-                CryptoConfig.AddAlgorithm(typeof (RsaPkCs1Sha256SignatureDescription), signatureMethod);
+                CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
 
             // Makes sure the signingkey is using Microsoft Enhanced RSA and AES Cryptographic Provider which enables SHA256
             if (!certificate.HasPrivateKey)
@@ -90,11 +90,11 @@ namespace Difi.Felles.Utility.Security
             // Check to se if id element is within the signatures object node. This is used by ESIs Xml Advanced Electronic Signatures (Xades)
             if (idElem == null)
             {
-                if (Signature != null && Signature.ObjectList != null)
+                if ((Signature != null) && (Signature.ObjectList != null))
                 {
                     foreach (DataObject dataObject in Signature.ObjectList)
                     {
-                        if (dataObject.Data != null && dataObject.Data.Count > 0)
+                        if ((dataObject.Data != null) && (dataObject.Data.Count > 0))
                         {
                             foreach (XmlNode dataNode in dataObject.Data)
                             {
@@ -145,7 +145,7 @@ namespace Difi.Felles.Utility.Security
                 GetPublicKeysAndSetEnumerator();
             }
 
-            while (_publicKeyListEnumerator != null && _publicKeyListEnumerator.MoveNext())
+            while ((_publicKeyListEnumerator != null) && _publicKeyListEnumerator.MoveNext())
             {
                 publicKey = _publicKeyListEnumerator.Current;
             }
@@ -191,7 +191,7 @@ namespace Difi.Felles.Utility.Security
             X509Certificate2 publicCertificate = null;
 
             var keyElement = FindIdElement(_xmlDokument, securityTokenReferenceUri);
-            if (keyElement != null && !string.IsNullOrEmpty(keyElement.InnerText))
+            if ((keyElement != null) && !string.IsNullOrEmpty(keyElement.InnerText))
             {
                 publicCertificate = new X509Certificate2(Convert.FromBase64String(keyElement.InnerText));
             }

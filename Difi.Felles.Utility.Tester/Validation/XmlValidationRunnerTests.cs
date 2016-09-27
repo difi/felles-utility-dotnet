@@ -3,10 +3,8 @@ using Xunit;
 
 namespace Difi.Felles.Utility.Tester.Validation
 {
-    
     public class XmlValidationRunnerTests
     {
-        
         public class ConstructorMethod : XmlValidationRunnerTests
         {
             [Fact]
@@ -23,7 +21,6 @@ namespace Difi.Felles.Utility.Tester.Validation
             }
         }
 
-        
         public class ValidateMethod : ValidationMessagesTests
         {
             [Fact]

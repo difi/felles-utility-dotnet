@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<Envelope xmlns="http://tempuri.org/po.xsd" >
+  <Header>
+    <Security>
+      <InclusiveNamespaces PrefixList="" />
+    </Security>
+  </Header>
+  <Body>
+    <Forespoersel>
+      <Identifikator>invalidContent</Identifikator>
+    </Forespoersel>
+  </Body>
+</Envelope>

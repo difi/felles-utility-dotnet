@@ -5,55 +5,19 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using Difi.Felles.Utility.Exceptions;
+using Difi.Felles.Utility.Resources.Certificate;
 using Difi.Felles.Utility.Security;
 using Difi.Felles.Utility.Tester.Testdata;
 using Difi.Felles.Utility.Tester.Utilities;
 using Difi.Felles.Utility.Utilities;
 using Xunit;
 
-
 namespace Difi.Felles.Utility.Tester.Security
 {
-    
     public class SignedXmlWithAgnosticIdTests
     {
-        
         public class KonstruktørMethod : SignedXmlWithAgnosticIdTests
         {
-            [Fact]
-            public void KonstruktørMedXmlDokumentOgSertifikat()
-            {
-                //Arrange
-                var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
-                var sertifikat = CertificateUtility.GetAvsenderEnhetstesterSertifikat();
-                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(xmlDokument, sertifikat);
-
-                //Act
-                var signingKey = signedXmlWithAgnosticId.SigningKey;
-
-                //Assert
-                Assert.True(signingKey is RSACryptoServiceProvider);
-            }
-
-            [Fact]
-            public void FeilerMedSertifikatUtenPrivatnøkkel()
-            {
-                //Arrange
-                var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
-                var sertifikat = CertificateUtility.GetMottakerEnhetstesterSertifikat();
-
-                //Act
-                try
-                {
-                    new SignedXmlWithAgnosticId(xmlDokument, sertifikat);
-                }
-                catch (SecurityException e)
-                {
-                    //Assert
-                    //Do nothing: For som reason, ExpectedException attribute does not work on this test.
-                }
-            }
-
             [Fact]
             public void FeilerMedPrivatnøkkelSomIkkeErRsaIKKEIMPLEMENTERT()
             {
@@ -76,9 +40,42 @@ namespace Difi.Felles.Utility.Tester.Security
                 //Pakk inn i container
                 //openssl pkcs12 -export -out certificate.pfx - inkey key.pem -in certificate.pem
             }
+
+            [Fact]
+            public void FeilerMedSertifikatUtenPrivatnøkkel()
+            {
+                //Arrange
+                var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
+                var sertifikat = CertificateResource.UnitTests.GetMottakerEnhetstesterSertifikat();
+
+                //Act
+                try
+                {
+                    new SignedXmlWithAgnosticId(xmlDokument, sertifikat);
+                }
+                catch (SecurityException e)
+                {
+                    //Assert
+                    //Do nothing: For som reason, ExpectedException attribute does not work on this test.
+                }
+            }
+
+            [Fact]
+            public void KonstruktørMedXmlDokumentOgSertifikat()
+            {
+                //Arrange
+                var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
+                var sertifikat = CertificateResource.UnitTests.GetAvsenderEnhetstesterSertifikat();
+                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(xmlDokument, sertifikat);
+
+                //Act
+                var signingKey = signedXmlWithAgnosticId.SigningKey;
+
+                //Assert
+                Assert.True(signingKey is RSACryptoServiceProvider);
+            }
         }
 
-        
         public class FindIdElementMethod : SignedXmlWithAgnosticIdTests
         {
             [Fact]
@@ -112,13 +109,12 @@ namespace Difi.Felles.Utility.Tester.Security
 
                         Assert.NotNull(response);
                         Assert.True(
-                            response.Attributes.OfType<XmlAttribute>().Any(a => a.LocalName == id && a.Value == "value"));
+                            response.Attributes.OfType<XmlAttribute>().Any(a => (a.LocalName == id) && (a.Value == "value")));
                     }
                 }
             }
         }
 
-        
         public class GetPublicKeyMethod : SignedXmlWithAgnosticIdTests
         {
             private XmlNamespaceManager GetNamespaceManager(XmlDocument forDocument)
@@ -151,18 +147,18 @@ namespace Difi.Felles.Utility.Tester.Security
 
             private object GetPublicKey(SignedXmlWithAgnosticId signedXmlWithAgnosticId)
             {
-                return typeof (SignedXmlWithAgnosticId).GetMethod("GetPublicKey", BindingFlags.Instance | BindingFlags.NonPublic)
+                return typeof(SignedXmlWithAgnosticId).GetMethod("GetPublicKey", BindingFlags.Instance | BindingFlags.NonPublic)
                     .Invoke(signedXmlWithAgnosticId, null);
             }
 
             [Fact]
-            public void GetsKeyFromTransportReceipt()
+            public void GetsKeyFromMessageReceiptBody()
             {
                 //Arrange
-                var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
-                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(xmlDokument);
+                var document = XmlUtility.ToXmlDocument(ReceiptResponse.FunctionalTestEnvironment);
+                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(document);
 
-                AddHeaderSignatureNodeToSignedXmlWithAgnosticId(xmlDokument, signedXmlWithAgnosticId);
+                AddBodySignatureNodeToSignedXmlWithAgnosticId(document, signedXmlWithAgnosticId);
 
                 //Act
                 var signingKey = GetPublicKey(signedXmlWithAgnosticId);
@@ -192,13 +188,13 @@ namespace Difi.Felles.Utility.Tester.Security
             }
 
             [Fact]
-            public void GetsKeyFromMessageReceiptBody()
+            public void GetsKeyFromTransportReceipt()
             {
                 //Arrange
-                var document = XmlUtility.ToXmlDocument(ReceiptResponse.FunctionalTestEnvironment);
-                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(document);
+                var xmlDokument = XmlUtility.ToXmlDocument(TransportKvittering.TransportOkKvittertingFunksjoneltTestmiljø);
+                var signedXmlWithAgnosticId = new SignedXmlWithAgnosticId(xmlDokument);
 
-                AddBodySignatureNodeToSignedXmlWithAgnosticId(document, signedXmlWithAgnosticId);
+                AddHeaderSignatureNodeToSignedXmlWithAgnosticId(xmlDokument, signedXmlWithAgnosticId);
 
                 //Act
                 var signingKey = GetPublicKey(signedXmlWithAgnosticId);
@@ -229,7 +225,7 @@ namespace Difi.Felles.Utility.Tester.Security
                 var binarySecurityToken = doc.SelectSingleNode("//wsse:BinarySecurityToken", mgr);
                 var key = new X509Certificate2(Convert.FromBase64String(binarySecurityToken.InnerText));
 
-                var publicKey = typeof (SignedXmlWithAgnosticId).GetMethod("GetPublicKey", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(signedXmlWithAgnosticId, null) as AsymmetricAlgorithm;
+                var publicKey = typeof(SignedXmlWithAgnosticId).GetMethod("GetPublicKey", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(signedXmlWithAgnosticId, null) as AsymmetricAlgorithm;
 
                 //Assert
                 Assert.Equal(publicKey.ToXmlString(false), key.PublicKey.Key.ToXmlString(false));
