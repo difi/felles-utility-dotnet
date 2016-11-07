@@ -53,7 +53,7 @@ namespace Difi.Felles.Utility.Tester.Security
                 {
                     new SignedXmlWithAgnosticId(xmlDokument, sertifikat);
                 }
-                catch (SecurityException e)
+                catch (SecurityException)
                 {
                     //Assert
                     //Do nothing: For som reason, ExpectedException attribute does not work on this test.

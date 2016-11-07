@@ -34,11 +34,11 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>C:\Keys\digipost.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>C:\Keys\signingkey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApiClientShared, Version=1.0.5968.19413, Culture=neutral, PublicKeyToken=683b8efceae684a6, processorArchitecture=MSIL">
-      <HintPath>..\packages\api-client-shared.1.0.5968.19413\lib\net45\ApiClientShared.dll</HintPath>
+    <Reference Include="ApiClientShared, Version=1.2.0.0, Culture=neutral, PublicKeyToken=6e6972f540d5419a, processorArchitecture=MSIL">
+      <HintPath>..\packages\api-client-shared.1.2.0\lib\net45\ApiClientShared.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -90,7 +90,6 @@
     <EmbeddedResource Include="Certificate\Data\TestChain\Buypass_Class_3_Test4_Root_CA.cer" />
     <EmbeddedResource Include="Certificate\Data\TestChain\intermediate - commfides cpn enterprise-norwegian sha256 ca - test2.crt" />
     <EmbeddedResource Include="Certificate\Data\TestChain\root - cpn root sha256 ca - test.crt" />
-    <None Include="packages.config" />
     <EmbeddedResource Include="Xsd\Data\Sample.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -104,7 +103,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Xml\Data\Valid.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="C:\Keys\signingkey.snk">
+      <Link>signingkey.snk</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
