@@ -55,7 +55,20 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Certificate\CertificateResource.cs" />
+    <Compile Include="Language\Language.cs" />
+    <Compile Include="Language\LanguageResourceEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Language\Data\nb-no.Designer.cs">
+      <DependentUpon>nb-no.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Language\Data\en-us.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>en-us.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Language\LanguageResource.cs" />
     <Compile Include="Xml\Data\Transportkvittering.cs" />
     <Compile Include="Xml\XmlUtility.cs" />
     <Compile Include="Xml\XmlResource.cs" />
@@ -90,6 +103,14 @@
     <EmbeddedResource Include="Certificate\Data\TestChain\Buypass_Class_3_Test4_Root_CA.cer" />
     <EmbeddedResource Include="Certificate\Data\TestChain\intermediate - commfides cpn enterprise-norwegian sha256 ca - test2.crt" />
     <EmbeddedResource Include="Certificate\Data\TestChain\root - cpn root sha256 ca - test.crt" />
+    <EmbeddedResource Include="Language\Data\nb-no.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>nb-no.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Language\Data\en-us.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>en-us.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Xsd\Data\Sample.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
