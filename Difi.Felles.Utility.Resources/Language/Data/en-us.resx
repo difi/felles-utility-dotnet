@@ -117,8 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MyString" xml:space="preserve">
-    <value>It has a value</value>
-    <comment>What he said?</comment>
+  <data name="CertificateShortDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ToleratedPrefixListError" xml:space="preserve">
+    <value>The 'PrefixList' attribute is invalid - The value '' is invalid according to its datatype 'http://www.w3.org/2001/XMLSchema:NMTOKENS' - The attribute value cannot be empty.</value>
+  </data>
+  <data name="ToleratedXsdIdError" xml:space="preserve">
+    <value>It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard.</value>
+  </data>
+  <data name="UsedExternalCertificateResult" xml:space="preserve">
+    <value />
   </data>
 </root>

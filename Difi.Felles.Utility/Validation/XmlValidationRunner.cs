@@ -3,17 +3,19 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
+using Difi.Felles.Utility.Resources.Language;
 
 namespace Difi.Felles.Utility.Validation
 {
     internal class XmlValidationRunner
     {
-        private const string ToleratedXsdIdErrorEnUs = "It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard.";
-        private const string ToleratedXsdIdErrorNbNo = "Det er en feil hvis det finnes et medlem av attributtet som bruker en typedefinisjon med typen xs:ID eller avledet fra xs:ID og et annet attributt med typen xs:ID tilsvarer et attributtjokertegn.";
-        private const string ToleratedPrefixListErrorEnUs = "The 'PrefixList' attribute is invalid - The value '' is invalid according to its datatype 'http://www.w3.org/2001/XMLSchema:NMTOKENS' - The attribute value cannot be empty.";
-        private const string ToleratedPrefixListErrorNbNo = "Attributtet PrefixList er ugyldig - Verdien  er ugyldig i henhold til datatypen http://www.w3.org/2001/XMLSchema:NMTOKENS - Attributtverdien kan ikke være tom.";
-
-        internal static readonly List<string> ToleratedErrors = new List<string> {ToleratedXsdIdErrorEnUs, ToleratedXsdIdErrorNbNo, ToleratedPrefixListErrorEnUs, ToleratedPrefixListErrorNbNo};
+        internal static readonly List<string> ToleratedErrors = new List<string>
+        {
+            LanguageResource.GetResource(LanguageResourceEnum.ToleratedXsdIdError, Language.Norwegian),
+            LanguageResource.GetResource(LanguageResourceEnum.ToleratedXsdIdError, Language.English),
+            LanguageResource.GetResource(LanguageResourceEnum.ToleratedPrefixListError, Language.Norwegian),
+            LanguageResource.GetResource(LanguageResourceEnum.ToleratedPrefixListError, Language.English),
+        };
 
         internal XmlValidationRunner(XmlSchemaSet xmlSchemaSet)
         {

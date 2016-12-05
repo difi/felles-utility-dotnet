@@ -61,6 +61,60 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to gikk ut {0:expirationDateString}..
+        /// </summary>
+        internal static string CertificateExpiredResult {
+            get {
+                return ResourceManager.GetString("CertificateExpiredResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to har følgende feil i sertifikatkjeden: {0:prettyChainErrorStatuses}.
+        /// </summary>
+        internal static string CertificateInvalidChainResult {
+            get {
+                return ResourceManager.GetString("CertificateInvalidChainResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sertifikat var null! Sjekk at sertifikatet blir lastet korrekt..
+        /// </summary>
+        internal static string CertificateIsNull {
+            get {
+                return ResourceManager.GetString("CertificateIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to aktiveres ikke før {0:effectiveDateString}.
+        /// </summary>
+        internal static string CertificateNotActivatedResult {
+            get {
+                return ResourceManager.GetString("CertificateNotActivatedResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sertifikatet er ikke utstedt til organisasjonsnummer &apos;{0:certificateOrganizationNumber}&apos;. Dette vil skje om sertifikatet er utstedt til en annen virksomhet eller hvis det ikke er et virksomhetssertifikat. Virksomhetssertifikat kan skaffes fra Buypass eller Commfides..
+        /// </summary>
+        internal static string CertificateNotIssuedToOrganization {
+            get {
+                return ResourceManager.GetString("CertificateNotIssuedToOrganization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to er ugyldig, fordi lengden på kjeden er 1, noe som betyr at sertifikatet er selvsignert. Det må brukes et sertifikat utstedt av en gyldig sertifikatutsteder..
+        /// </summary>
+        internal static string CertificateSelfSignedErrorResult {
+            get {
+                return ResourceManager.GetString("CertificateSelfSignedErrorResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sertifikat med Subject &apos;{0:certificateSubject}&apos; og Thumbprint &apos;{1:certificateThumbprint}&apos; {2:certificateExtraInfo}.
         /// </summary>
         internal static string CertificateShortDescription {
@@ -70,11 +124,41 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Validering av {0:certificateShortDescription} feilet.
+        ///Dette skjer fordi kjeden ble bygd med følgende sertifikater: 
+        ///{1:chainAsString}, men kun følgende er godkjent for å bygge kjeden:
+        ///{2:validatorCertificatesAsString}. Dette skjer som oftest om sertifikater blir hentet fra Certificate Store på Windows, og det tillates ikke under validering. Det er kun gyldig å bygge en kjede med sertifikatene som blir sendt inn i validatoren..
         /// </summary>
-        internal static string String1 {
+        internal static string CertificateUsedExternalResult {
             get {
-                return ResourceManager.GetString("String1", resourceCulture);
+                return ResourceManager.GetString("CertificateUsedExternalResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to er et gyldig sertifikat..
+        /// </summary>
+        internal static string CertificateValidResult {
+            get {
+                return ResourceManager.GetString("CertificateValidResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attributtet PrefixList er ugyldig - Verdien  er ugyldig i henhold til datatypen http://www.w3.org/2001/XMLSchema:NMTOKENS - Attributtverdien kan ikke være tom..
+        /// </summary>
+        internal static string ToleratedPrefixListError {
+            get {
+                return ResourceManager.GetString("ToleratedPrefixListError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det er en feil hvis det finnes et medlem av attributtet som bruker en typedefinisjon med typen xs:ID eller avledet fra xs:ID og et annet attributt med typen xs:ID tilsvarer et attributtjokertegn..
+        /// </summary>
+        internal static string ToleratedXsdIdError {
+            get {
+                return ResourceManager.GetString("ToleratedXsdIdError", resourceCulture);
             }
         }
     }

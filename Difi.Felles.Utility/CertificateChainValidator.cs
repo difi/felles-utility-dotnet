@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Difi.Felles.Utility.Extensions;
+using static Difi.Felles.Utility.Resources.Language.LanguageResource;
+using static Difi.Felles.Utility.Resources.Language.LanguageResourceEnum;
 
 namespace Difi.Felles.Utility
 {
@@ -139,11 +141,12 @@ namespace Difi.Felles.Utility
 
         private static CertificateValidationResult UsedExternalCertificatesResult(X509Certificate2 certificate, string chainAsString, string validatorCertificatesAsString)
         {
-            return new CertificateValidationResult(CertificateValidationType.InvalidChain,
-                $"Validering av '{certificate.ToShortString()}' feilet. {Environment.NewLine}" +
-                $"Dette skjer fordi kjeden ble bygd med følgende sertifikater: {Environment.NewLine}{chainAsString}, " +
-                $"men kun følgende er godkjent for å bygge kjeden: {Environment.NewLine}{validatorCertificatesAsString}. Dette skjer som oftest om sertifikater blir hentet fra Certificate Store på Windows, " +
-                "og det tillates ikke under validering. Det er kun gyldig å bygge en kjede med de sertifikatene sendt inn til validatoren.");
+            var externalCertificatesUsedMessage =
+                string.Format(
+                    GetResource(CertificateUsedExternalResult), 
+                    certificate.ToShortString(), chainAsString, validatorCertificatesAsString);
+
+            return new CertificateValidationResult(CertificateValidationType.InvalidChain, externalCertificatesUsedMessage);
         }
 
         private static bool IsSameCertificate(X509Certificate2 certificate1, X509Certificate2 certificate2)
@@ -192,17 +195,20 @@ namespace Difi.Felles.Utility
 
         private static CertificateValidationResult InvalidChainResult(X509Certificate2 certificate, params X509ChainStatus[] x509ChainStatuses)
         {
-            return new CertificateValidationResult(CertificateValidationType.InvalidChain, certificate.ToShortString($"har følgende feil i sertifikatkjeden: {GetPrettyChainErrorStatuses(x509ChainStatuses)}"));
+            var invalidChainResult = string.Format(GetResource(CertificateInvalidChainResult), GetPrettyChainErrorStatuses(x509ChainStatuses));
+            return new CertificateValidationResult(CertificateValidationType.InvalidChain, certificate.ToShortString(invalidChainResult));
         }
 
         private static CertificateValidationResult ValidResult(X509Certificate2 certificate)
         {
-            return new CertificateValidationResult(CertificateValidationType.Valid, certificate.ToShortString("er et gyldig sertifikat."));
+            var validChainResult = GetResource(CertificateValidResult);
+            return new CertificateValidationResult(CertificateValidationType.Valid, certificate.ToShortString(validChainResult));
         }
 
         private static CertificateValidationResult SelfSignedErrorResult(X509Certificate2 certificate)
         {
-            return new CertificateValidationResult(CertificateValidationType.InvalidChain, certificate.ToShortString("er ugyldig, fordi lengden på kjeden er 1, noe som betyr at sertifikatet er selvsignert. Det må brukes et sertifikat utstedt av en gyldig sertifikatutsteder."));
+            var selfSignedErrorResult = GetResource(CertificateSelfSignedErrorResult);
+            return new CertificateValidationResult(CertificateValidationType.InvalidChain, certificate.ToShortString(selfSignedErrorResult));
         }
 
         private static string GetPrettyChainErrorStatuses(X509ChainStatus[] chainStatuses)

@@ -19,6 +19,17 @@ namespace Difi.Felles.Utility.Tester
 
                 Assert.True(certDescr.Contains(certificate.Subject));
             }
+
+            [Fact]
+            public void Get_resource_with_temporary_language()
+            {
+                LanguageResource.CurrentLanguage = Language.Norwegian;
+                var resource = LanguageResource.GetResource(LanguageResourceEnum.ToleratedPrefixListError, Language.English);
+
+                Assert.True(resource.Contains("The 'PrefixList' attribute is invalid"));
+                Assert.Equal(Language.Norwegian, LanguageResource.CurrentLanguage);
+            }
+
         }
     }
 }

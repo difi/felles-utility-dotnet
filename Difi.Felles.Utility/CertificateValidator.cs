@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using Difi.Felles.Utility.Extensions;
+using static Difi.Felles.Utility.Resources.Language.LanguageResource;
+using static Difi.Felles.Utility.Resources.Language.LanguageResourceEnum;
 
 namespace Difi.Felles.Utility
 {
     public class CertificateValidator
     {
+        [Obsolete("Use ValidateCertificate(X509Certificate, string) instead and use CertificateValidationResult to get result of validation")]
         public static bool IsValidCertificate(X509Certificate2 certificate, string certificateOrganizationNumber)
         {
             return ValidateCertificate(certificate, certificateOrganizationNumber).Type == CertificateValidationType.Valid;
@@ -51,35 +54,40 @@ namespace Difi.Felles.Utility
 
         private static CertificateValidationResult NoCertificateResult()
         {
-            return new CertificateValidationResult(CertificateValidationType.InvalidCertificate, "Sertifikat var null! Sjekk at sertifikatet blir lastet korrekt.");
+            var nullCertificateResult = GetResource(CertificateIsNull);
+            return new CertificateValidationResult(CertificateValidationType.InvalidCertificate, nullCertificateResult);
         }
 
         private static CertificateValidationResult NotIssuedToOrganizationResult(string certificateOrganizationNumber)
         {
-            return new CertificateValidationResult(CertificateValidationType.InvalidCertificate,
-                $"Sertifikatet er ikke utstedt til organisasjonsnummer '{certificateOrganizationNumber}'. Dette vil skje om sertifikatet er utstedt til en annen virksomhet " +
-                "eller hvis det ikke er et virksomhetssertifikat. Virksomhetssertifikat kan skaffes fra Buypass eller Commfides.");
+            var notIssuedToOrganizationResult = string.Format(GetResource(CertificateNotIssuedToOrganization), certificateOrganizationNumber);
+            return new CertificateValidationResult(
+                CertificateValidationType.InvalidCertificate, 
+                notIssuedToOrganizationResult);
         }
 
         private static CertificateValidationResult NotActivatedResult(X509Certificate2 certificate)
         {
+            var notActivatedResult = string.Format(GetResource(CertificateNotActivatedResult), certificate.GetEffectiveDateString());
             return new CertificateValidationResult(
                 CertificateValidationType.InvalidCertificate,
-                certificate.ToShortString($"aktiveres ikke før {certificate.GetEffectiveDateString()}"));
+                certificate.ToShortString(notActivatedResult));
         }
 
         private static CertificateValidationResult ExpiredResult(X509Certificate2 certificate)
         {
+            var expiredResult = string.Format(GetResource(CertificateExpiredResult), certificate.GetExpirationDateString());
             return new CertificateValidationResult(
                 CertificateValidationType.InvalidCertificate,
-                certificate.ToShortString($"gikk ut {certificate.GetExpirationDateString()}."));
+                certificate.ToShortString(expiredResult));
         }
 
         private static CertificateValidationResult ValidResult(X509Certificate2 certificate)
         {
+            var validResult = GetResource(CertificateValidResult);
             return new CertificateValidationResult(
                 CertificateValidationType.Valid,
-                certificate.ToShortString("er et gyldig sertifikat."));
+                certificate.ToShortString(validResult));
         }
 
         private static bool IsIssuedToOrganizationNumber(X509Certificate certificate, string certificateOrganizationNumber)

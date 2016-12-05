@@ -61,11 +61,38 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to It has a value.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string MyString {
+        internal static string CertificateShortDescription {
             get {
-                return ResourceManager.GetString("MyString", resourceCulture);
+                return ResourceManager.GetString("CertificateShortDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;PrefixList&apos; attribute is invalid - The value &apos;&apos; is invalid according to its datatype &apos;http://www.w3.org/2001/XMLSchema:NMTOKENS&apos; - The attribute value cannot be empty..
+        /// </summary>
+        internal static string ToleratedPrefixListError {
+            get {
+                return ResourceManager.GetString("ToleratedPrefixListError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard..
+        /// </summary>
+        internal static string ToleratedXsdIdError {
+            get {
+                return ResourceManager.GetString("ToleratedXsdIdError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string UsedExternalCertificateResult {
+            get {
+                return ResourceManager.GetString("UsedExternalCertificateResult", resourceCulture);
             }
         }
     }
