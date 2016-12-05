@@ -36,7 +36,7 @@ namespace Difi.Felles.Utility
 
             if (!IsIssuedToOrganizationNumber(certificate, certificateOrganizationNumber))
             {
-                return NotIssuedToOrganizationResult(certificateOrganizationNumber);
+                return NotIssuedToOrganizationResult(certificate, certificateOrganizationNumber);
             }
 
             if (!IsActivatedCertificate(certificate))
@@ -58,12 +58,12 @@ namespace Difi.Felles.Utility
             return new CertificateValidationResult(CertificateValidationType.InvalidCertificate, nullCertificateResult);
         }
 
-        private static CertificateValidationResult NotIssuedToOrganizationResult(string certificateOrganizationNumber)
+        private static CertificateValidationResult NotIssuedToOrganizationResult(X509Certificate2 certificate, string certificateOrganizationNumber)
         {
             var notIssuedToOrganizationResult = string.Format(GetResource(CertificateNotIssuedToOrganization), certificateOrganizationNumber);
             return new CertificateValidationResult(
                 CertificateValidationType.InvalidCertificate, 
-                notIssuedToOrganizationResult);
+                certificate.ToShortString(notIssuedToOrganizationResult));
         }
 
         private static CertificateValidationResult NotActivatedResult(X509Certificate2 certificate)

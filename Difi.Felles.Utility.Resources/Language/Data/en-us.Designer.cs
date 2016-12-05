@@ -97,7 +97,7 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The certificate is not issued to organization number &apos;{0:certificateOrganizationNumber}&apos;. This occurs if the certificate is issued to a different organization or if it isn&apos;t an organizational certificate. An organizational certificate can be aquired from Buypass or Commfides.
+        ///   Looks up a localized string similar to is not issued to organization number &apos;{0:certificateOrganizationNumber}&apos;. This occurs if the certificate is issued to a different organization or if it isn&apos;t an organizational certificate. An organizational certificate can be aquired from Buypass or Commfides..
         /// </summary>
         internal static string CertificateNotIssuedToOrganization {
             get {
@@ -115,7 +115,7 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Certtificate with Subject &apos;{0:certificateSubject}&apos; and Thumbprint &apos;{1:certificateThumbprint}&apos; {2:certificateExtraInfo}.
+        ///   Looks up a localized string similar to Certificate with Subject &apos;{0:certificateSubject}&apos; and Thumbprint &apos;{1:certificateThumbprint}&apos; {2:certificateExtraInfo}.
         /// </summary>
         internal static string CertificateShortDescription {
             get {

@@ -79,7 +79,7 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sertifikat var null! Sjekk at sertifikatet blir lastet korrekt..
+        ///   Looks up a localized string similar to Sertifikatet var null! Sjekk at sertifikatet blir lastet korrekt..
         /// </summary>
         internal static string CertificateIsNull {
             get {
@@ -97,7 +97,7 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sertifikatet er ikke utstedt til organisasjonsnummer &apos;{0:certificateOrganizationNumber}&apos;. Dette vil skje om sertifikatet er utstedt til en annen virksomhet eller hvis det ikke er et virksomhetssertifikat. Virksomhetssertifikat kan skaffes fra Buypass eller Commfides..
+        ///   Looks up a localized string similar to er ikke utstedt til organisasjonsnummer &apos;{0:certificateOrganizationNumber}&apos;. Dette vil skje om sertifikatet er utstedt til en annen virksomhet eller hvis det ikke er et virksomhetssertifikat. Virksomhetssertifikat kan skaffes fra Buypass eller Commfides..
         /// </summary>
         internal static string CertificateNotIssuedToOrganization {
             get {

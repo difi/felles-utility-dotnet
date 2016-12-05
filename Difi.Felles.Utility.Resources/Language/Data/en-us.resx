@@ -130,13 +130,13 @@
     <value>is not active until {0:effectiveDateString}</value>
   </data>
   <data name="CertificateNotIssuedToOrganization" xml:space="preserve">
-    <value>The certificate is not issued to organization number '{0:certificateOrganizationNumber}'. This occurs if the certificate is issued to a different organization or if it isn't an organizational certificate. An organizational certificate can be aquired from Buypass or Commfides</value>
+    <value>is not issued to organization number '{0:certificateOrganizationNumber}'. This occurs if the certificate is issued to a different organization or if it isn't an organizational certificate. An organizational certificate can be aquired from Buypass or Commfides.</value>
   </data>
   <data name="CertificateSelfSignedErrorResult" xml:space="preserve">
     <value>is invalid because the chain length is 1. This means that the certificate is self signed. An organizational certificate issued by a valid certificate issuer is required.  An organizational certificate can be aquired from Buypass or Commfides</value>
   </data>
   <data name="CertificateShortDescription" xml:space="preserve">
-    <value>Certtificate with Subject '{0:certificateSubject}' and Thumbprint '{1:certificateThumbprint}' {2:certificateExtraInfo}</value>
+    <value>Certificate with Subject '{0:certificateSubject}' and Thumbprint '{1:certificateThumbprint}' {2:certificateExtraInfo}</value>
   </data>
   <data name="CertificateUsedExternalResult" xml:space="preserve">
     <value>Validation of {0:certificateShortDescription} failed.

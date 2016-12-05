@@ -1,4 +1,5 @@
 ﻿using Difi.Felles.Utility.Resources.Certificate;
+using Difi.Felles.Utility.Resources.Language;
 using Difi.Felles.Utility.Utilities;
 using Xunit;
 
@@ -19,11 +20,12 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.NotNull(result.Message);
+                Assert.Contains("gikk ut", result.Message);
+                
             }
 
             [Fact]
-            public void Returns_fail_if_invalid_certificate_chain()
+            public void Returns_fail_if_self_signed_certificate()
             {
                 //Arrange
                 var funksjoneltTestmiljøSertifikater = CertificateChainUtility.FunksjoneltTestmiljøSertifikater();
@@ -33,6 +35,7 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidChain, result.Type);
+                Assert.Contains("er ugyldig, fordi lengden på kjeden er 1", result.Message);
             }
 
             [Fact]
@@ -46,6 +49,7 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.Valid, result.Type);
+                Assert.Contains("er et gyldig sertifikat", result.Message);
             }
         }
 
