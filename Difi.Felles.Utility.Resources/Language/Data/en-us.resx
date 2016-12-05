@@ -117,16 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CertificateExpiredResult" xml:space="preserve">
+    <value>expired on {0:expirationDateString}.</value>
+  </data>
+  <data name="CertificateInvalidChainResult" xml:space="preserve">
+    <value>has the following certificate chain errors: {0:prettyChainErrorStatuses}</value>
+  </data>
+  <data name="CertificateIsNull" xml:space="preserve">
+    <value>The certificate is null! Please check that the certificate is loaded correctly.</value>
+  </data>
+  <data name="CertificateNotActivatedResult" xml:space="preserve">
+    <value>is not active until {0:effectiveDateString}</value>
+  </data>
+  <data name="CertificateNotIssuedToOrganization" xml:space="preserve">
+    <value>The certificate is not issued to organization number '{0:certificateOrganizationNumber}'. This occurs if the certificate is issued to a different organization or if it isn't an organizational certificate. An organizational certificate can be aquired from Buypass or Commfides</value>
+  </data>
+  <data name="CertificateSelfSignedErrorResult" xml:space="preserve">
+    <value>is invalid because the chain length is 1. This means that the certificate is self signed. An organizational certificate issued by a valid certificate issuer is required.  An organizational certificate can be aquired from Buypass or Commfides</value>
+  </data>
   <data name="CertificateShortDescription" xml:space="preserve">
-    <value />
+    <value>Certtificate with Subject '{0:certificateSubject}' and Thumbprint '{1:certificateThumbprint}' {2:certificateExtraInfo}</value>
+  </data>
+  <data name="CertificateUsedExternalResult" xml:space="preserve">
+    <value>Validation of {0:certificateShortDescription} failed.
+This happened because the chain was built with the following certificates:
+{1:chainAsString}, but only the following are allowed to build the chain:
+{2:validatorCertificatesAsString}. This usually happens if the certificate is retrieved from Windows Certificate Store and this is not allowed during validation. The chain can only be built using the validator certificates.</value>
+  </data>
+  <data name="CertificateValidResult" xml:space="preserve">
+    <value>is a valid certificate.</value>
   </data>
   <data name="ToleratedPrefixListError" xml:space="preserve">
     <value>The 'PrefixList' attribute is invalid - The value '' is invalid according to its datatype 'http://www.w3.org/2001/XMLSchema:NMTOKENS' - The attribute value cannot be empty.</value>
   </data>
   <data name="ToleratedXsdIdError" xml:space="preserve">
     <value>It is an error if there is a member of the attribute uses of a type definition with type xs:ID or derived from xs:ID and another attribute with type xs:ID matches an attribute wildcard.</value>
-  </data>
-  <data name="UsedExternalCertificateResult" xml:space="preserve">
-    <value />
   </data>
 </root>

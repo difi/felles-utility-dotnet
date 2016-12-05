@@ -61,11 +61,86 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to expired on {0:expirationDateString}..
+        /// </summary>
+        internal static string CertificateExpiredResult {
+            get {
+                return ResourceManager.GetString("CertificateExpiredResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has the following certificate chain errors: {0:prettyChainErrorStatuses}.
+        /// </summary>
+        internal static string CertificateInvalidChainResult {
+            get {
+                return ResourceManager.GetString("CertificateInvalidChainResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The certificate is null! Please check that the certificate is loaded correctly..
+        /// </summary>
+        internal static string CertificateIsNull {
+            get {
+                return ResourceManager.GetString("CertificateIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to is not active until {0:effectiveDateString}.
+        /// </summary>
+        internal static string CertificateNotActivatedResult {
+            get {
+                return ResourceManager.GetString("CertificateNotActivatedResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The certificate is not issued to organization number &apos;{0:certificateOrganizationNumber}&apos;. This occurs if the certificate is issued to a different organization or if it isn&apos;t an organizational certificate. An organizational certificate can be aquired from Buypass or Commfides.
+        /// </summary>
+        internal static string CertificateNotIssuedToOrganization {
+            get {
+                return ResourceManager.GetString("CertificateNotIssuedToOrganization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to is invalid because the chain length is 1. This means that the certificate is self signed. An organizational certificate issued by a valid certificate issuer is required.  An organizational certificate can be aquired from Buypass or Commfides.
+        /// </summary>
+        internal static string CertificateSelfSignedErrorResult {
+            get {
+                return ResourceManager.GetString("CertificateSelfSignedErrorResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Certtificate with Subject &apos;{0:certificateSubject}&apos; and Thumbprint &apos;{1:certificateThumbprint}&apos; {2:certificateExtraInfo}.
         /// </summary>
         internal static string CertificateShortDescription {
             get {
                 return ResourceManager.GetString("CertificateShortDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation of {0:certificateShortDescription} failed.
+        ///This happened because the chain was built with the following certificates:
+        ///{1:chainAsString}, but only the following are allowed to build the chain:
+        ///{2:validatorCertificatesAsString}. This usually happens if the certificate is retrieved from Windows Certificate Store and this is not allowed during validation. The chain can only be built using the validator certificates..
+        /// </summary>
+        internal static string CertificateUsedExternalResult {
+            get {
+                return ResourceManager.GetString("CertificateUsedExternalResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to is a valid certificate..
+        /// </summary>
+        internal static string CertificateValidResult {
+            get {
+                return ResourceManager.GetString("CertificateValidResult", resourceCulture);
             }
         }
         
@@ -84,15 +159,6 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         internal static string ToleratedXsdIdError {
             get {
                 return ResourceManager.GetString("ToleratedXsdIdError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string UsedExternalCertificateResult {
-            get {
-                return ResourceManager.GetString("UsedExternalCertificateResult", resourceCulture);
             }
         }
     }

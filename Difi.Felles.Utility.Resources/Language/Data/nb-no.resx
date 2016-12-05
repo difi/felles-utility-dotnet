@@ -133,7 +133,7 @@
     <value>Sertifikatet er ikke utstedt til organisasjonsnummer '{0:certificateOrganizationNumber}'. Dette vil skje om sertifikatet er utstedt til en annen virksomhet eller hvis det ikke er et virksomhetssertifikat. Virksomhetssertifikat kan skaffes fra Buypass eller Commfides.</value>
   </data>
   <data name="CertificateSelfSignedErrorResult" xml:space="preserve">
-    <value>er ugyldig, fordi lengden på kjeden er 1, noe som betyr at sertifikatet er selvsignert. Det må brukes et sertifikat utstedt av en gyldig sertifikatutsteder.</value>
+    <value>er ugyldig, fordi lengden på kjeden er 1, noe som betyr at sertifikatet er selvsignert. Det må brukes et virksomhetssertifikat utstedt av en gyldig sertifikatutsteder. Virksomhetssertifikat kan skaffes fra Buypass eller Commfides.</value>
   </data>
   <data name="CertificateShortDescription" xml:space="preserve">
     <value>Sertifikat med Subject '{0:certificateSubject}' og Thumbprint '{1:certificateThumbprint}' {2:certificateExtraInfo}</value>

@@ -106,7 +106,7 @@ namespace Difi.Felles.Utility.Resources.Language.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to er ugyldig, fordi lengden på kjeden er 1, noe som betyr at sertifikatet er selvsignert. Det må brukes et sertifikat utstedt av en gyldig sertifikatutsteder..
+        ///   Looks up a localized string similar to er ugyldig, fordi lengden på kjeden er 1, noe som betyr at sertifikatet er selvsignert. Det må brukes et virksomhetssertifikat utstedt av en gyldig sertifikatutsteder. Virksomhetssertifikat kan skaffes fra Buypass eller Commfides..
         /// </summary>
         internal static string CertificateSelfSignedErrorResult {
             get {
