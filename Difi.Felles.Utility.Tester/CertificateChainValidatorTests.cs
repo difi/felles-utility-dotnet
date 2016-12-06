@@ -1,4 +1,5 @@
 ﻿using Difi.Felles.Utility.Resources.Certificate;
+using Difi.Felles.Utility.Resources.Language;
 using Difi.Felles.Utility.Utilities;
 using Xunit;
 
@@ -11,6 +12,7 @@ namespace Difi.Felles.Utility.Tester
             [Fact]
             public void Fails_with_self_signed_certificate()
             {
+
                 //Arrange
                 var selfSignedCertificate = CertificateResource.UnitTests.GetEnhetstesterSelvsignertSertifikat();
                 var certificateChainValidator = new CertificateChainValidator(CertificateChainUtility.ProduksjonsSertifikater());

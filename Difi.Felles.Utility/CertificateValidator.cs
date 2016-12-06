@@ -2,7 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using Difi.Felles.Utility.Extensions;
 using static Difi.Felles.Utility.Resources.Language.LanguageResource;
-using static Difi.Felles.Utility.Resources.Language.LanguageResourceEnum;
+using static Difi.Felles.Utility.Resources.Language.LanguageResourceKey;
 
 namespace Difi.Felles.Utility
 {

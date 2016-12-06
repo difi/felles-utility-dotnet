@@ -1,5 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Resources;
+using Difi.Felles.Utility.Resources.Language.Data;
 
 namespace Difi.Felles.Utility.Resources.Language
 {
@@ -11,42 +13,29 @@ namespace Difi.Felles.Utility.Resources.Language
         private static readonly ResourceManager NorwegianResourceManager = new ResourceManager(NbNo, Assembly.GetExecutingAssembly());
         private static readonly ResourceManager EnglishResourceManager = new ResourceManager(EnUs, Assembly.GetExecutingAssembly());
 
-        private static Language _currentLanguage = Language.Norwegian;
-        public static Language CurrentLanguage
+        public static Language CurrentLanguage { get; set; } = Language.Norwegian;
+
+        public static string GetResource(LanguageResourceKey key)
         {
-            get
+            return GetResource(key, CurrentLanguage);
+        }
+
+        public static string GetResource(LanguageResourceKey key, Language language)
+        {
+            return GetManagerForLanguage(language).GetString(key.ToString());
+        }
+
+        private static ResourceManager GetManagerForLanguage(Language language)
+        {
+            switch (language)
             {
-                return _currentLanguage;
-            }
-            set
-            {
-                _currentLanguage = value;
-                ResourceManager = CurrentLanguage == Language.Norwegian 
-                    ? NorwegianResourceManager
-                    : EnglishResourceManager;
+                case Language.English:
+                    return EnglishResourceManager;
+                case Language.Norwegian:
+                    return NorwegianResourceManager;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(language), language, null);
             }
         }
-
-        public static ResourceManager ResourceManager { get; private set; } = NorwegianResourceManager;
-        
-        public static string GetResource(LanguageResourceEnum languageResourceEnum)
-        {
-            var name = languageResourceEnum.ToString();
-            return ResourceManager.GetString(name);
-        }
-
-        public static string GetResource(LanguageResourceEnum languageResourceEnum, Language temporaryLanguage)
-        {
-            var preLanguage = CurrentLanguage;
-
-            CurrentLanguage = temporaryLanguage;
-            var resource = GetResource(languageResourceEnum);
-            CurrentLanguage = preLanguage;
-
-            return resource;
-
-        }
-
-
     }
 }

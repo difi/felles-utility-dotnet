@@ -4,6 +4,8 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using Difi.Felles.Utility.Resources.Language;
+using static Difi.Felles.Utility.Resources.Language.LanguageResource;
+using static Difi.Felles.Utility.Resources.Language.LanguageResourceKey;
 
 namespace Difi.Felles.Utility.Validation
 {
@@ -11,10 +13,10 @@ namespace Difi.Felles.Utility.Validation
     {
         internal static readonly List<string> ToleratedErrors = new List<string>
         {
-            LanguageResource.GetResource(LanguageResourceEnum.ToleratedXsdIdError, Language.Norwegian),
-            LanguageResource.GetResource(LanguageResourceEnum.ToleratedXsdIdError, Language.English),
-            LanguageResource.GetResource(LanguageResourceEnum.ToleratedPrefixListError, Language.Norwegian),
-            LanguageResource.GetResource(LanguageResourceEnum.ToleratedPrefixListError, Language.English),
+            GetResource(ToleratedXsdIdError, Language.Norwegian),
+            GetResource(ToleratedXsdIdError, Language.English),
+            GetResource(ToleratedPrefixListError, Language.Norwegian),
+            GetResource(ToleratedPrefixListError, Language.English),
         };
 
         internal XmlValidationRunner(XmlSchemaSet xmlSchemaSet)

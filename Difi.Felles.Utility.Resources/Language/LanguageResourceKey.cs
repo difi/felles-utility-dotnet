@@ -1,6 +1,6 @@
 ﻿namespace Difi.Felles.Utility.Resources.Language
 {
-    public enum LanguageResourceEnum
+    public enum LanguageResourceKey
     {
         //X509Certificate2Extensions
         CertificateShortDescription,

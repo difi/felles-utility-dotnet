@@ -24,7 +24,7 @@ namespace Difi.Felles.Utility.Tester
             public void Get_resource_with_temporary_language()
             {
                 LanguageResource.CurrentLanguage = Language.Norwegian;
-                var resource = LanguageResource.GetResource(LanguageResourceEnum.ToleratedPrefixListError, Language.English);
+                var resource = LanguageResource.GetResource(LanguageResourceKey.ToleratedPrefixListError, Language.English);
 
                 Assert.True(resource.Contains("The 'PrefixList' attribute is invalid"));
                 Assert.Equal(Language.Norwegian, LanguageResource.CurrentLanguage);

@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using static Difi.Felles.Utility.Resources.Language.LanguageResource;
-using static Difi.Felles.Utility.Resources.Language.LanguageResourceEnum;
+using static Difi.Felles.Utility.Resources.Language.LanguageResourceKey;
 
 namespace Difi.Felles.Utility.Extensions
 {
