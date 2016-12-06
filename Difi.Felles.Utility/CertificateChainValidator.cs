@@ -143,7 +143,7 @@ namespace Difi.Felles.Utility
         {
             var externalCertificatesUsedMessage =
                 string.Format(
-                    GetResource(CertificateUsedExternalResult), 
+                    GetResource(CertificateUsedExternalResult),
                     certificate.ToShortString(), chainAsString, validatorCertificatesAsString);
 
             return new CertificateValidationResult(CertificateValidationType.InvalidChain, externalCertificatesUsedMessage);

@@ -62,7 +62,7 @@ namespace Difi.Felles.Utility
         {
             var notIssuedToOrganizationResult = string.Format(GetResource(CertificateNotIssuedToOrganization), certificateOrganizationNumber);
             return new CertificateValidationResult(
-                CertificateValidationType.InvalidCertificate, 
+                CertificateValidationType.InvalidCertificate,
                 certificate.ToShortString(notIssuedToOrganizationResult));
         }
 

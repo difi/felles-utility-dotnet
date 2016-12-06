@@ -29,7 +29,6 @@ namespace Difi.Felles.Utility.Tester
                 Assert.True(resource.Contains("The 'PrefixList' attribute is invalid"));
                 Assert.Equal(Language.Norwegian, LanguageResource.CurrentLanguage);
             }
-
         }
     }
 }

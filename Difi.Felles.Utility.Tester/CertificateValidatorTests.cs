@@ -1,5 +1,4 @@
 ﻿using Difi.Felles.Utility.Resources.Certificate;
-using Difi.Felles.Utility.Resources.Language;
 using Difi.Felles.Utility.Utilities;
 using Xunit;
 
@@ -21,7 +20,6 @@ namespace Difi.Felles.Utility.Tester
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
                 Assert.Contains("gikk ut", result.Message);
-                
             }
 
             [Fact]

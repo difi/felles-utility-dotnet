@@ -16,7 +16,7 @@ namespace Difi.Felles.Utility.Validation
             GetResource(ToleratedXsdIdError, Language.Norwegian),
             GetResource(ToleratedXsdIdError, Language.English),
             GetResource(ToleratedPrefixListError, Language.Norwegian),
-            GetResource(ToleratedPrefixListError, Language.English),
+            GetResource(ToleratedPrefixListError, Language.English)
         };
 
         internal XmlValidationRunner(XmlSchemaSet xmlSchemaSet)

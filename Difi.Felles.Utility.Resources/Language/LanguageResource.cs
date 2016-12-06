@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Resources;
-using Difi.Felles.Utility.Resources.Language.Data;
 
 namespace Difi.Felles.Utility.Resources.Language
 {
