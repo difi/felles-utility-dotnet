@@ -1,4 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using static Difi.Felles.Utility.Resources.Language.LanguageResource;
+using static Difi.Felles.Utility.Resources.Language.LanguageResourceKey;
 
 namespace Difi.Felles.Utility.Extensions
 {
@@ -6,7 +8,8 @@ namespace Difi.Felles.Utility.Extensions
     {
         public static string ToShortString(this X509Certificate2 certificate, string extraInfo = "")
         {
-            return $"Sertifikat med Subject '{certificate.Subject}' og Thumbprint '{certificate.Thumbprint}' {extraInfo}";
+            var shortStringWithPlaceholders = GetResource(CertificateShortDescription);
+            return string.Format(shortStringWithPlaceholders, certificate.Subject, certificate.Thumbprint, extraInfo);
         }
     }
 }

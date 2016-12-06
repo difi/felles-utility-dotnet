@@ -82,6 +82,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LanguageResourceTests.cs" />
     <Compile Include="Security\ReceiptsResponse.cs" />
     <Compile Include="Security\SignedXmlWithAgnosticIdTests.cs" />
     <Compile Include="CertificateChainValidatorTests.cs" />
