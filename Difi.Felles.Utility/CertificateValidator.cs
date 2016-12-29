@@ -14,7 +14,47 @@ namespace Difi.Felles.Utility
             return ValidateCertificate(certificate, certificateOrganizationNumber).Type == CertificateValidationType.Valid;
         }
 
+        /// <summary>
+        ///     Validates the certificate and chain. Validates that certificate is
+        ///     <list type="bullet">
+        ///         <item> Not null </item>
+        ///         <item> Issued to organization number </item>
+        ///         <item> Is activated </item>
+        ///         <item> Not Expired </item>
+        ///         <item> Has a valid chain. A valid chain is one built with the allowed chain certificates.</item>
+        ///     </list>
+        /// </summary>
+        /// <param name="certificate">The certificate to validate</param>
+        /// <param name="certificateOrganizationNumber">The organization number which the certificate is issued to</param>
+        /// <param name="allowedChainCertificates"></param>
+        /// <returns></returns>
         public static CertificateValidationResult ValidateCertificateAndChain(X509Certificate2 certificate, string certificateOrganizationNumber, X509Certificate2Collection allowedChainCertificates)
+        {
+            return ValidateCertificateAndChainInternal(certificate, certificateOrganizationNumber, allowedChainCertificates);
+        }
+
+
+        /// <summary>
+        ///     Validates the certificate and chain. Validates that certificate is
+        ///     <list type="bullet">
+        ///         <item> Not null </item>
+        ///         <item> Is activated </item>
+        ///         <item> Not Expired </item>
+        ///         <item> Has a valid chain. A valid chain is one built with the allowed chain certificates.</item>
+        ///     </list>
+        /// </summary>
+        /// <param name="certificate">The certificate to validate</param>
+        /// <param name="certificateOrganizationNumber">The organization number which the certificate is issued to</param>
+        /// <param name="allowedChainCertificates"></param>
+        /// <returns></returns>
+        public static CertificateValidationResult ValidateCertificateAndChain(X509Certificate2 certificate, X509Certificate2Collection allowedChainCertificates)
+        {
+            var certificateOrganizationNumber = string.Empty;
+
+            return ValidateCertificateAndChainInternal(certificate, certificateOrganizationNumber, allowedChainCertificates);
+        }
+
+        internal static CertificateValidationResult ValidateCertificateAndChainInternal(X509Certificate2 certificate, string certificateOrganizationNumber, X509Certificate2Collection allowedChainCertificates)
         {
             var sertifikatValideringsResultat = ValidateCertificate(certificate, certificateOrganizationNumber);
 
@@ -27,6 +67,22 @@ namespace Difi.Felles.Utility
             return certificateChainValidator.Validate(certificate);
         }
 
+        /// <summary>
+        ///     Validates the certificate itself. Validates that certificate is
+        ///     <list type="bullet">
+        ///         <item> Not null </item>
+        ///         <item> Issued to organization number </item>
+        ///         <item> Is activated </item>
+        ///         <item> Not Expired </item>
+        ///     </list>
+        /// </summary>
+        /// <remarks>
+        ///     Does not validate the certificate chain. Please use <see cref="ValidateCertificateAndChain" /> for including
+        ///     chain validation
+        /// </remarks>
+        /// <param name="certificate">The certificate to validate</param>
+        /// <param name="certificateOrganizationNumber">The organization number the certificate is issued to</param>
+        /// <returns>The result of the certificate validation</returns>
         public static CertificateValidationResult ValidateCertificate(X509Certificate2 certificate, string certificateOrganizationNumber)
         {
             if (certificate == null)
@@ -34,9 +90,38 @@ namespace Difi.Felles.Utility
                 return NoCertificateResult();
             }
 
+            if (string.IsNullOrWhiteSpace(certificateOrganizationNumber))
+            {
+                return ValidateCertificate(certificate);
+            }
+
             if (!IsIssuedToOrganizationNumber(certificate, certificateOrganizationNumber))
             {
                 return NotIssuedToOrganizationResult(certificate, certificateOrganizationNumber);
+            }
+
+            return ValidateCertificate(certificate);
+        }
+
+        /// <summary>
+        ///     Validates the certificate itself. Validates that certificate is
+        ///     <list type="bullet">
+        ///         <item> Not null </item>
+        ///         <item> Is activated </item>
+        ///         <item> Not Expired </item>
+        ///     </list>
+        /// </summary>
+        /// <remarks>
+        ///     Does not validate the certificate chain. Please use <see cref="ValidateCertificateAndChain" /> for including
+        ///     chain validation
+        /// </remarks>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
+        public static CertificateValidationResult ValidateCertificate(X509Certificate2 certificate)
+        {
+            if (certificate == null)
+            {
+                return NoCertificateResult();
             }
 
             if (!IsActivatedCertificate(certificate))
