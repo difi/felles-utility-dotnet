@@ -6,7 +6,7 @@ namespace Difi.Felles.Utility.Tester
 {
     public class CertificateValidatorTests
     {
-        public class ValidateCertificateAndChainMethod : CertificateValidatorTests
+        public class ValidateCertificateAndChainInternalMethod : CertificateValidatorTests
         {
             [Fact]
             public void Returns_fail_if_certificate_error()
@@ -15,7 +15,7 @@ namespace Difi.Felles.Utility.Tester
                 var funksjoneltTestmiljøSertifikater = CertificateChainUtility.FunksjoneltTestmiljøSertifikater();
 
                 //Act
-                var result = CertificateValidator.ValidateCertificateAndChain(CertificateResource.UnitTests.GetExpiredSelfSignedTestCertificate(), "988015814", funksjoneltTestmiljøSertifikater);
+                var result = CertificateValidator.ValidateCertificateAndChainInternal(CertificateResource.UnitTests.GetExpiredSelfSignedTestCertificate(), "988015814", funksjoneltTestmiljøSertifikater);
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
@@ -29,7 +29,7 @@ namespace Difi.Felles.Utility.Tester
                 var funksjoneltTestmiljøSertifikater = CertificateChainUtility.FunksjoneltTestmiljøSertifikater();
 
                 //Act
-                var result = CertificateValidator.ValidateCertificateAndChain(CertificateResource.UnitTests.GetValidSelfSignedTestCertificate(), "988015814", funksjoneltTestmiljøSertifikater);
+                var result = CertificateValidator.ValidateCertificateAndChainInternal(CertificateResource.UnitTests.GetValidSelfSignedTestCertificate(), "988015814", funksjoneltTestmiljøSertifikater);
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidChain, result.Type);
@@ -43,7 +43,7 @@ namespace Difi.Felles.Utility.Tester
                 var funksjoneltTestmiljøSertifikater = CertificateChainUtility.FunksjoneltTestmiljøSertifikater();
 
                 //Act
-                var result = CertificateValidator.ValidateCertificateAndChain(CertificateResource.UnitTests.GetPostenCertificate(), "984661185", funksjoneltTestmiljøSertifikater);
+                var result = CertificateValidator.ValidateCertificateAndChainInternal(CertificateResource.UnitTests.GetPostenCertificate(), "984661185", funksjoneltTestmiljøSertifikater);
 
                 //Assert
                 Assert.Equal(CertificateValidationType.Valid, result.Type);
@@ -51,16 +51,19 @@ namespace Difi.Felles.Utility.Tester
             }
         }
 
-        public class ValidateCertificateMethod : CertificateValidatorTests
+        public class ValidateCertificateMethodWithOrganizationNumber : CertificateValidatorTests
         {
+            /// <summary>
+            ///     To ensure we are calling the overload doing checking for expiration, activation and not null.
+            /// </summary>
             [Fact]
-            public void Returns_fail_if_expired()
+            public void Calls_validate_certificate_overload_with_no_organization_number()
             {
                 //Arrange
-                const string certificateOrganizationNumber = "988015814";
+                const string organizationNumber = "988015814";
 
                 //Act
-                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetExpiredSelfSignedTestCertificate(), certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetExpiredSelfSignedTestCertificate(), organizationNumber);
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
@@ -68,17 +71,14 @@ namespace Difi.Felles.Utility.Tester
             }
 
             [Fact]
-            public void Returns_fail_if_not_activated()
+            public void Ignores_issued_to_organization_if_no_organization_number()
             {
-                //Arrange
-                const string certificateOrganizationNumber = "988015814";
-
                 //Act
-                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.NotActivatedSelfSignedTestCertificate(), certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetPostenCertificate(), string.Empty);
 
                 //Assert
-                Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("aktiveres ikke før", result.Message);
+                Assert.Equal(CertificateValidationType.Valid, result.Type);
+                Assert.Contains("er et gyldig sertifikat", result.Message);
             }
 
             [Fact]
@@ -96,20 +96,6 @@ namespace Difi.Felles.Utility.Tester
             }
 
             [Fact]
-            public void Returns_fail_with_null_certificate()
-            {
-                //Arrange
-                const string organizationNumber = "123456789";
-
-                //Act
-                var result = CertificateValidator.ValidateCertificate(null, organizationNumber);
-
-                //Assert
-                Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("var null", result.Message);
-            }
-
-            [Fact]
             public void Returns_ok_if_valid()
             {
                 //Arrange
@@ -122,6 +108,62 @@ namespace Difi.Felles.Utility.Tester
                 Assert.Equal(CertificateValidationType.Valid, result.Type);
                 Assert.Contains("er et gyldig sertifikat", result.Message);
             }
+        }
+
+        public class ValidateCertificateMethodWithNoOrganizationNumber : CertificateValidatorTests
+        {
+            [Fact]
+            public void Returns_fail_if_expired()
+            {
+                //Arrange
+
+                //Act
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetExpiredSelfSignedTestCertificate());
+
+                //Assert
+                Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
+                Assert.Contains("gikk ut", result.Message);
+            }
+
+            [Fact]
+            public void Returns_fail_if_not_activated()
+            {
+                //Arrange
+
+                //Act
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.NotActivatedSelfSignedTestCertificate());
+
+                //Assert
+                Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
+                Assert.Contains("aktiveres ikke før", result.Message);
+            }
+
+            [Fact]
+            public void Returns_fail_with_null_certificate()
+            {
+                //Arrange
+
+                //Act
+                var result = CertificateValidator.ValidateCertificate(null);
+
+                //Assert
+                Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
+                Assert.Contains("var null", result.Message);
+            }
+
+            [Fact]
+            public void Returns_ok_if_valid()
+            {
+                //Arrange
+
+                //Act
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetPostenCertificate());
+
+                //Assert
+                Assert.Equal(CertificateValidationType.Valid, result.Type);
+                Assert.Contains("er et gyldig sertifikat", result.Message);
+            }
+
         }
 
         public class IsValidCertificateMethod : CertificateValidatorTests
