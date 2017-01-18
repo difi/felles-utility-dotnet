@@ -26,7 +26,7 @@ namespace Difi.Felles.Utility
         /// </summary>
         /// <param name="certificate">The certificate to validate</param>
         /// <param name="certificateOrganizationNumber">The organization number which the certificate is issued to</param>
-        /// <param name="allowedChainCertificates"></param>
+        /// <param name="allowedChainCertificates">The certificates allowed to build a certificate chain</param>
         /// <returns>True if the certificate is valid, otherwise false</returns>
         public static CertificateValidationResult ValidateCertificateAndChain(X509Certificate2 certificate, string certificateOrganizationNumber, X509Certificate2Collection allowedChainCertificates)
         {
@@ -43,7 +43,7 @@ namespace Difi.Felles.Utility
         ///     </list>
         /// </summary>
         /// <param name="certificate">The certificate to validate</param>
-        /// <param name="allowedChainCertificates">The certificates allowed to use to build a certificate chain.</param>
+        /// <param name="allowedChainCertificates">The certificates allowed to build a certificate chain</param>
         /// <returns>The result of the validation which is represented by a <see cref="CertificateValidationType"/> and a textual description of the validation</returns>
         public static CertificateValidationResult ValidateCertificateAndChain(X509Certificate2 certificate, X509Certificate2Collection allowedChainCertificates)
         {
