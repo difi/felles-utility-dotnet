@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -11,6 +12,8 @@ namespace Difi.Felles.Utility.Validation
 {
     internal class XmlValidationRunner
     {
+        private static Dictionary<Guid, XmlSchemaSet> _cachedSchemaSets = new Dictionary<Guid, XmlSchemaSet>();
+
         internal static readonly List<string> ToleratedErrors = new List<string>
         {
             GetResource(ToleratedXsdIdError, Language.Norwegian),
@@ -31,7 +34,11 @@ namespace Difi.Felles.Utility.Validation
         internal bool Validate(string document)
         {
             var settings = new XmlReaderSettings();
-            settings.Schemas.Add(XmlSchemaSet);
+            Guid guid = this.GetType().GUID;
+            lock (_cachedSchemaSets)
+                if (!_cachedSchemaSets.ContainsKey(guid))
+                    _cachedSchemaSets.Add(guid, XmlSchemaSet);
+            settings.Schemas = _cachedSchemaSets[guid];
             settings.ValidationType = ValidationType.Schema;
             settings.ValidationFlags = XmlSchemaValidationFlags.ReportValidationWarnings;
             settings.ValidationEventHandler += ValidationEventHandler;
