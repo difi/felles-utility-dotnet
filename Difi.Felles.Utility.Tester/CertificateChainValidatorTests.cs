@@ -38,6 +38,7 @@ namespace Difi.Felles.Utility.Tester
                 Assert.Contains("blir hentet fra Certificate Store på Windows", result.Message);
             }
 
+            
             //[Fact]
             public void Valid_with_correct_root_and_intermediate()
             {
