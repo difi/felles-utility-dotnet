@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using ApiClientShared;
+using Digipost.Api.Client.Shared.Resources.Resource;
 
 namespace Difi.Felles.Utility.Resources.Xsd
 {
