@@ -31,7 +31,7 @@ namespace Difi.Felles.Utility.Tester.Validation
                 var invalidTestCouple = new TestGenerator.InvalidContentTestCouple();
 
                 //Act
-                validationRunner.Validate(invalidTestCouple.Input());
+                validationRunner.Validate(invalidTestCouple.Input(), GetType().GUID);
 
                 //Assert
                 Assert.Equal(1, validationRunner.ValidationMessages.Count);

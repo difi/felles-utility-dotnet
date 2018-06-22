@@ -12,13 +12,13 @@ namespace Difi.Felles.Utility
 
         public bool Validate(string document)
         {
-            return new XmlValidationRunner(_schemaSet).Validate(document);
+            return new XmlValidationRunner(_schemaSet).Validate(document, GetType().GUID);
         }
 
         public bool Validate(string document, out string validationMessage)
         {
             var validationRunner = new XmlValidationRunner(_schemaSet);
-            var status = validationRunner.Validate(document);
+            var status = validationRunner.Validate(document, GetType().GUID);
             validationMessage = validationRunner.ValidationMessages.ToString();
             return status;
         }
@@ -26,7 +26,7 @@ namespace Difi.Felles.Utility
         public bool Validate(string document, out List<string> validationMessages)
         {
             var validationRunner = new XmlValidationRunner(_schemaSet);
-            var result = validationRunner.Validate(document);
+            var result = validationRunner.Validate(document, GetType().GUID);
             validationMessages = validationRunner.ValidationMessages;
             return result;
         }

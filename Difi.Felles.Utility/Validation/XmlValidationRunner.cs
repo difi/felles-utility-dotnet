@@ -31,14 +31,13 @@ namespace Difi.Felles.Utility.Validation
 
         internal ValidationMessages ValidationMessages { get; } = new ValidationMessages();
 
-        internal bool Validate(string document)
+        internal bool Validate(string document, Guid callerGuid)
         {
             var settings = new XmlReaderSettings();
-            Guid guid = this.GetType().GUID;
             lock (_cachedSchemaSets)
-                if (!_cachedSchemaSets.ContainsKey(guid))
-                    _cachedSchemaSets.Add(guid, XmlSchemaSet);
-            settings.Schemas = _cachedSchemaSets[guid];
+                if (!_cachedSchemaSets.ContainsKey(callerGuid))
+                    _cachedSchemaSets.Add(callerGuid, XmlSchemaSet);
+            settings.Schemas = _cachedSchemaSets[callerGuid];
             settings.ValidationType = ValidationType.Schema;
             settings.ValidationFlags = XmlSchemaValidationFlags.ReportValidationWarnings;
             settings.ValidationEventHandler += ValidationEventHandler;
