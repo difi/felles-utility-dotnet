@@ -10,7 +10,7 @@ namespace Difi.Felles.Utility.Resources.Certificate
 
         internal static X509Certificate2 GetCertificate(params string[] path)
         {
-            return new X509Certificate2(ResourceUtility.ReadAllBytes(true, path), "", X509KeyStorageFlags.Exportable);
+            return new X509Certificate2(ResourceUtility.ReadAllBytes(path), "", X509KeyStorageFlags.Exportable);
         }
 
         public static class UnitTests

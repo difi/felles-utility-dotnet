@@ -9,7 +9,7 @@ namespace Difi.Felles.Utility.Resources.Xsd
 
         private static Stream GetResource(params string[] path)
         {
-            var bytes = ResourceUtility.ReadAllBytes(true, path);
+            var bytes = ResourceUtility.ReadAllBytes(path);
             return new MemoryStream(bytes);
         }
 
