@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Digipost.Api.Client.Shared.Resources.Resource;
 
 namespace Difi.Felles.Utility.Resources.Xml
 {
@@ -9,7 +8,7 @@ namespace Difi.Felles.Utility.Resources.Xml
 
         private static string GetResource(params string[] path)
         {
-            var bytes = ResourceUtility.ReadAllBytes(path);
+            var bytes = ResourceUtility.GetMemoryStream(path).ToArray();
             return XmlUtility.ToXmlDocument(Encoding.UTF8.GetString(bytes)).OuterXml;
         }
 

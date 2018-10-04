@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
-using Digipost.Api.Client.Shared.Resources.Resource;
 
 namespace Difi.Felles.Utility.Resources.Certificate
 {
@@ -10,7 +9,7 @@ namespace Difi.Felles.Utility.Resources.Certificate
 
         internal static X509Certificate2 GetCertificate(params string[] path)
         {
-            return new X509Certificate2(ResourceUtility.ReadAllBytes(path), "", X509KeyStorageFlags.Exportable);
+            return new X509Certificate2(ResourceUtility.GetMemoryStream(path).ToArray(), "", X509KeyStorageFlags.Exportable);
         }
 
         public static class UnitTests

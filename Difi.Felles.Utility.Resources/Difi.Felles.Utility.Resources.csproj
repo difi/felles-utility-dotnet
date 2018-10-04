@@ -5,7 +5,49 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="api-client-shared" Version="4.0.0" />
+    <None Remove="Certificate\Data\ProdChain\BPClass3CA3.cer" />
+    <None Remove="Certificate\Data\ProdChain\BPClass3RootCA.cer" />
+    <None Remove="Certificate\Data\ProdChain\cpn enterprise sha256 class 3.crt" />
+    <None Remove="Certificate\Data\ProdChain\cpn rootca sha256 class 3.crt" />
+    <None Remove="Certificate\Data\TestChain\Buypass_Class_3_Test4_CA_3.cer" />
+    <None Remove="Certificate\Data\TestChain\Buypass_Class_3_Test4_Root_CA.cer" />
+    <None Remove="Certificate\Data\TestChain\intermediate - commfides cpn enterprise-norwegian sha256 ca - test2.crt" />
+    <None Remove="Certificate\Data\TestChain\root - cpn root sha256 ca - test.crt" />
+    <None Remove="Certificate\Data\UnitTests\difi-enhetstester.cer" />
+    <None Remove="Certificate\Data\UnitTests\difi-enhetstester.p12" />
+    <None Remove="Certificate\Data\UnitTests\ExpiredSelfSignedBringAs.cer" />
+    <None Remove="Certificate\Data\UnitTests\NotActivatedSelfSignedBringAs.cer" />
+    <None Remove="Certificate\Data\UnitTests\PostenNorgeAs.cer" />
+    <None Remove="Certificate\Data\UnitTests\produksjonsmottakersertifikatFraOppslagstjenesten.pem" />
+    <None Remove="Certificate\Data\UnitTests\testmottakersertifikatFraOppslagstjenesten.pem" />
+    <None Remove="Certificate\Data\UnitTests\ValidSelfSignedBringAs.cer" />
+    <None Remove="Xml\Data\InvalidIdentifikatorContent.xml" />
+    <None Remove="Xml\Data\UnknownElement.xml" />
+    <None Remove="Xml\Data\Valid.xml" />
+    <None Remove="Xsd\Data\Sample.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Certificate\Data\ProdChain\BPClass3CA3.cer" />
+    <EmbeddedResource Include="Certificate\Data\ProdChain\BPClass3RootCA.cer" />
+    <EmbeddedResource Include="Certificate\Data\ProdChain\cpn enterprise sha256 class 3.crt" />
+    <EmbeddedResource Include="Certificate\Data\ProdChain\cpn rootca sha256 class 3.crt" />
+    <EmbeddedResource Include="Certificate\Data\TestChain\Buypass_Class_3_Test4_CA_3.cer" />
+    <EmbeddedResource Include="Certificate\Data\TestChain\Buypass_Class_3_Test4_Root_CA.cer" />
+    <EmbeddedResource Include="Certificate\Data\TestChain\intermediate - commfides cpn enterprise-norwegian sha256 ca - test2.crt" />
+    <EmbeddedResource Include="Certificate\Data\TestChain\root - cpn root sha256 ca - test.crt" />
+    <EmbeddedResource Include="Certificate\Data\UnitTests\difi-enhetstester.cer" />
+    <EmbeddedResource Include="Certificate\Data\UnitTests\difi-enhetstester.p12" />
+    <EmbeddedResource Include="Certificate\Data\UnitTests\ExpiredSelfSignedBringAs.cer" />
+    <EmbeddedResource Include="Certificate\Data\UnitTests\NotActivatedSelfSignedBringAs.cer" />
+    <EmbeddedResource Include="Certificate\Data\UnitTests\PostenNorgeAs.cer" />
+    <EmbeddedResource Include="Certificate\Data\UnitTests\produksjonsmottakersertifikatFraOppslagstjenesten.pem" />
+    <EmbeddedResource Include="Certificate\Data\UnitTests\testmottakersertifikatFraOppslagstjenesten.pem" />
+    <EmbeddedResource Include="Certificate\Data\UnitTests\ValidSelfSignedBringAs.cer" />
+    <EmbeddedResource Include="Xml\Data\InvalidIdentifikatorContent.xml" />
+    <EmbeddedResource Include="Xml\Data\UnknownElement.xml" />
+    <EmbeddedResource Include="Xml\Data\Valid.xml" />
+    <EmbeddedResource Include="Xsd\Data\Sample.xsd" />
   </ItemGroup>
 
 </Project>

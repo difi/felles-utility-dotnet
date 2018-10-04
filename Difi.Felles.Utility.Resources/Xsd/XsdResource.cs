@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Digipost.Api.Client.Shared.Resources.Resource;
 
 namespace Difi.Felles.Utility.Resources.Xsd
 {
@@ -7,13 +6,12 @@ namespace Difi.Felles.Utility.Resources.Xsd
     {
         private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Resources.Xsd.Data");
 
-        private static Stream GetResource(params string[] path)
+        private static MemoryStream GetResource(params string[] path)
         {
-            var bytes = ResourceUtility.ReadAllBytes(path);
-            return new MemoryStream(bytes);
+            return ResourceUtility.GetMemoryStream(path);
         }
 
-        public static Stream Sample()
+        public static MemoryStream Sample()
         {
             return GetResource("Sample.xsd");
         }
