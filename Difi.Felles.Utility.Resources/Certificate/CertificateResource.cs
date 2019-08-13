@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using Digipost.Api.Client.Shared.Resources.Resource;
+
+[assembly: InternalsVisibleTo("Difi.Felles.Utility")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace Difi.Felles.Utility.Resources.Certificate
 {
@@ -10,7 +14,7 @@ namespace Difi.Felles.Utility.Resources.Certificate
 
         internal static X509Certificate2 GetCertificate(params string[] path)
         {
-            return new X509Certificate2(ResourceUtility.ReadAllBytes(true, path), "", X509KeyStorageFlags.Exportable);
+            return new X509Certificate2(ResourceUtility.ReadAllBytes(path), "", X509KeyStorageFlags.Exportable);
         }
 
         public static class UnitTests

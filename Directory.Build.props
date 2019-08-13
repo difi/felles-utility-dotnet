@@ -1,0 +1,20 @@
+<Project>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+
+        <Version>3.0.0</Version>
+        <AssemblyVersion>3.0.0</AssemblyVersion>
+
+        <Authors>Direktoratet for forvaltning og IKT (Difi)</Authors>
+        <Company>Direktoratet for forvaltning og IKT (Difi)</Company>
+        <Copyright>© 2015-2019 Direktoratet for forvaltning og IKT (Difi)</Copyright>
+
+        <PackageProjectUrl>https://github.com/difi/felles-utility-dotnet</PackageProjectUrl>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageTags>Difi api library bibliotek klient client felles shared utility</PackageTags>
+        <Description>Bibliotek brukt av Difi i klientbiblioteker</Description>
+
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+</Project>

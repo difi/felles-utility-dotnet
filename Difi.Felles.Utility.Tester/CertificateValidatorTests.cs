@@ -175,10 +175,10 @@ namespace Difi.Felles.Utility.Tester
                 var certificateOrganizationNumber = "123456789";
 
                 //Act
-                var isValid = CertificateValidator.IsValidCertificate(CertificateResource.UnitTests.GetExpiredSelfSignedTestCertificate(), certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetExpiredSelfSignedTestCertificate(), certificateOrganizationNumber);
 
                 //Assert
-                Assert.False(isValid);
+                Assert.True(result.Type == CertificateValidationType.InvalidCertificate);
             }
 
             [Fact]
@@ -188,10 +188,10 @@ namespace Difi.Felles.Utility.Tester
                 var certificateOrganizationNumber = "123456789";
 
                 //Act
-                var isValid = CertificateValidator.IsValidCertificate(CertificateResource.UnitTests.NotActivatedSelfSignedTestCertificate(), certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.NotActivatedSelfSignedTestCertificate(), certificateOrganizationNumber);
 
                 //Assert
-                Assert.False(isValid);
+                Assert.True(result.Type == CertificateValidationType.InvalidCertificate);
             }
 
             [Fact]
@@ -201,10 +201,10 @@ namespace Difi.Felles.Utility.Tester
                 var certificateOrganizationNumber = "123456789";
 
                 //Act
-                var isValid = CertificateValidator.IsValidCertificate(CertificateResource.UnitTests.TestIntegrasjonssertifikat(), certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.TestIntegrasjonssertifikat(), certificateOrganizationNumber);
 
                 //Assert
-                Assert.False(isValid);
+                Assert.False(result.Type == CertificateValidationType.InvalidCertificate);
             }
 
             [Fact]
@@ -214,10 +214,10 @@ namespace Difi.Felles.Utility.Tester
                 const string certificateOrganizationNumber = "123456789";
 
                 //Act
-                var isValid = CertificateValidator.IsValidCertificate(null, certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(null, certificateOrganizationNumber);
 
                 //Assert
-                Assert.False(isValid);
+                Assert.False(result.Type == CertificateValidationType.InvalidCertificate);
             }
 
             [Fact]
@@ -227,10 +227,10 @@ namespace Difi.Felles.Utility.Tester
                 var certificateOrganizationNumber = "984661185";
 
                 //Act
-                var isValid = CertificateValidator.IsValidCertificate(CertificateResource.UnitTests.GetPostenCertificate(), certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetPostenCertificate(), certificateOrganizationNumber);
 
                 //Assert
-                Assert.True(isValid);
+                Assert.True(result.Type == CertificateValidationType.Valid);
             }
         }
     }

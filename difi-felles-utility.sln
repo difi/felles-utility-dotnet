@@ -1,19 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Difi.Felles.Utility", "Difi.Felles.Utility\Difi.Felles.Utility.csproj", "{7AB8D858-878F-4184-9557-995BE75DC635}"
+Project("{1EC9D848-59A7-45CA-9F8D-71B700DC5309}") = "Difi.Felles.Utility", "Difi.Felles.Utility\Difi.Felles.Utility.csproj", "{A66AC380-1D57-4DBD-9FD3-839919FBAF02}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8854805D-A5D6-4A5D-A4AC-45708E81EC6D}"
-	ProjectSection(SolutionItems) = preProject
-		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
-		C:\Keys\signingkey.snk = C:\Keys\signingkey.snk
-	EndProjectSection
+Project("{1EC9D848-59A7-45CA-9F8D-71B700DC5309}") = "Difi.Felles.Utility.Resources", "Difi.Felles.Utility.Resources\Difi.Felles.Utility.Resources.csproj", "{D7E13B5F-026B-41CE-8250-C9BFBCE82E43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Difi.Felles.Utility.Tester", "Difi.Felles.Utility.Tester\Difi.Felles.Utility.Tester.csproj", "{663926AD-E1E6-4008-831F-0201EB029671}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Difi.Felles.Utility.Resources", "Difi.Felles.Utility.Resources\Difi.Felles.Utility.Resources.csproj", "{C737EA02-E687-45C4-95DB-72B5083246F2}"
+Project("{1EC9D848-59A7-45CA-9F8D-71B700DC5309}") = "Difi.Felles.Utility.Tester", "Difi.Felles.Utility.Tester\Difi.Felles.Utility.Tester.csproj", "{8DB9B89B-DA70-419A-9725-F9CAD57E2782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,20 +12,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7AB8D858-878F-4184-9557-995BE75DC635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7AB8D858-878F-4184-9557-995BE75DC635}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7AB8D858-878F-4184-9557-995BE75DC635}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7AB8D858-878F-4184-9557-995BE75DC635}.Release|Any CPU.Build.0 = Release|Any CPU
-		{663926AD-E1E6-4008-831F-0201EB029671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{663926AD-E1E6-4008-831F-0201EB029671}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{663926AD-E1E6-4008-831F-0201EB029671}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{663926AD-E1E6-4008-831F-0201EB029671}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C737EA02-E687-45C4-95DB-72B5083246F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C737EA02-E687-45C4-95DB-72B5083246F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C737EA02-E687-45C4-95DB-72B5083246F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C737EA02-E687-45C4-95DB-72B5083246F2}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+			{A66AC380-1D57-4DBD-9FD3-839919FBAF02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+    		{A66AC380-1D57-4DBD-9FD3-839919FBAF02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    		{A66AC380-1D57-4DBD-9FD3-839919FBAF02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    		{A66AC380-1D57-4DBD-9FD3-839919FBAF02}.Release|Any CPU.Build.0 = Release|Any CPU
+    		
+			{D7E13B5F-026B-41CE-8250-C9BFBCE82E43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+    		{D7E13B5F-026B-41CE-8250-C9BFBCE82E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    		{D7E13B5F-026B-41CE-8250-C9BFBCE82E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    		{D7E13B5F-026B-41CE-8250-C9BFBCE82E43}.Release|Any CPU.Build.0 = Release|Any CPU
+    		
+			{8DB9B89B-DA70-419A-9725-F9CAD57E2782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+    		{8DB9B89B-DA70-419A-9725-F9CAD57E2782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    		{8DB9B89B-DA70-419A-9725-F9CAD57E2782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    		{8DB9B89B-DA70-419A-9725-F9CAD57E2782}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

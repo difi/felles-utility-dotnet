@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using Difi.Felles.Utility.Extensions;
 using static Difi.Felles.Utility.Resources.Language.LanguageResource;
 using static Difi.Felles.Utility.Resources.Language.LanguageResourceKey;
+
+[assembly: InternalsVisibleTo("Difi.Felles.Utility.Tester")]
 
 namespace Difi.Felles.Utility
 {

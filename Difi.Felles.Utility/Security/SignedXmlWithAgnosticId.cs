@@ -51,11 +51,11 @@ namespace Difi.Felles.Utility.Security
 
             // Makes sure the signingkey is using Microsoft Enhanced RSA and AES Cryptographic Provider which enables SHA256
             if (!certificate.HasPrivateKey)
-                throw new SecurityException(string.Format("Angitt sertifikat med fingeravtrykk {0} inneholder ikke en privatnøkkel. Dette er påkrevet for å signere xml dokumenter.", certificate.Thumbprint));
+                throw new DifiException(string.Format("Angitt sertifikat med fingeravtrykk {0} inneholder ikke en privatnøkkel. Dette er påkrevet for å signere xml dokumenter.", certificate.Thumbprint));
 
             var targetKey = certificate.PrivateKey as RSACryptoServiceProvider;
             if (targetKey == null)
-                throw new SecurityException(string.Format("Privatnøkkelen i sertifikatet med fingeravtrykk {0} er ikke en gyldig RSA asymetrisk nøkkel.", certificate.Thumbprint));
+                throw new DifiException(string.Format("Privatnøkkelen i sertifikatet med fingeravtrykk {0} er ikke en gyldig RSA asymetrisk nøkkel.", certificate.Thumbprint));
 
             if (targetKey.CspKeyContainerInfo.ProviderType == PROV_RSA_AES)
                 SigningKey = targetKey;
@@ -205,7 +205,7 @@ namespace Difi.Felles.Utility.Security
 
             if (uriRefereanseAttributt == null)
             {
-                throw new SecurityException("Klarte ikke finne SecurityTokenReferenceUri.");
+                throw new DifiException("Klarte ikke finne SecurityTokenReferenceUri.");
             }
 
             var referenceUriValue = uriRefereanseAttributt.Value;

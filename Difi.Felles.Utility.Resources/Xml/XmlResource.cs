@@ -9,7 +9,7 @@ namespace Difi.Felles.Utility.Resources.Xml
 
         private static string GetResource(params string[] path)
         {
-            var bytes = ResourceUtility.ReadAllBytes(true, path);
+            var bytes = ResourceUtility.ReadAllBytes(path);
             return XmlUtility.ToXmlDocument(Encoding.UTF8.GetString(bytes)).OuterXml;
         }
 
