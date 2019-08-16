@@ -5,7 +5,7 @@ namespace Difi.Felles.Utility.Resources.Xsd
 {
     internal class XsdResource
     {
-        private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Resources.Xsd.Data");
+        private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Resources.Xsd.Data");
 
         private static Stream GetResource(params string[] path)
         {

@@ -5,7 +5,7 @@ namespace Difi.Felles.Utility.Resources.Xml
 {
     public class XmlResource
     {
-        private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Difi.Felles.Utility.Resources.Xml.Data");
+        private static readonly ResourceUtility ResourceUtility = new ResourceUtility("Resources.Xml.Data");
 
         private static string GetResource(params string[] path)
         {

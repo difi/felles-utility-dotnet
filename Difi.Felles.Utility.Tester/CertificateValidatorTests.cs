@@ -172,65 +172,66 @@ namespace Difi.Felles.Utility.Tester
             public void Returns_false_if_expired()
             {
                 //Arrange
-                var certificateOrganizationNumber = "123456789";
 
                 //Act
-                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetExpiredSelfSignedTestCertificate(), certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetExpiredSelfSignedTestCertificate());
 
                 //Assert
-                Assert.True(result.Type == CertificateValidationType.InvalidCertificate);
+                Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
+                Assert.Contains("gikk ut", result.Message);
             }
 
             [Fact]
             public void Returns_false_if_not_activated()
             {
                 //Arrange
-                var certificateOrganizationNumber = "123456789";
 
                 //Act
-                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.NotActivatedSelfSignedTestCertificate(), certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.NotActivatedSelfSignedTestCertificate());
 
                 //Assert
-                Assert.True(result.Type == CertificateValidationType.InvalidCertificate);
+                Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
+                Assert.Contains("aktiveres ikke før", result.Message);
             }
 
             [Fact]
             public void Returns_false_if_not_issued_to_organization_number()
             {
                 //Arrange
-                var certificateOrganizationNumber = "123456789";
-
+                const string certificateOrganizationNumber = "123456789";
+                
                 //Act
                 var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.TestIntegrasjonssertifikat(), certificateOrganizationNumber);
 
                 //Assert
-                Assert.False(result.Type == CertificateValidationType.InvalidCertificate);
+                Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
+                Assert.Contains("er ikke utstedt til organisasjonsnummer", result.Message);
             }
 
             [Fact]
             public void Returns_false_with_null_certificate()
             {
                 //Arrange
-                const string certificateOrganizationNumber = "123456789";
 
                 //Act
-                var result = CertificateValidator.ValidateCertificate(null, certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(null);
 
                 //Assert
-                Assert.False(result.Type == CertificateValidationType.InvalidCertificate);
+                Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
+                Assert.Contains("var null", result.Message);
             }
 
             [Fact]
             public void Returns_true_for_correct_certificate()
             {
                 //Arrange
-                var certificateOrganizationNumber = "984661185";
 
                 //Act
-                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetPostenCertificate(), certificateOrganizationNumber);
+                var result = CertificateValidator.ValidateCertificate(CertificateResource.UnitTests.GetPostenCertificate());
 
                 //Assert
-                Assert.True(result.Type == CertificateValidationType.Valid);
+                Assert.Equal(CertificateValidationType.Valid, result.Type);
+                Assert.Contains("er et gyldig sertifikat", result.Message);
             }
         }
     }
