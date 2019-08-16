@@ -73,7 +73,7 @@ namespace Difi.Felles.Utility.Tester.Security
                 var signingKey = signedXmlWithAgnosticId.SigningKey;
 
                 //Assert
-                Assert.True(signingKey is RSACryptoServiceProvider);
+                Assert.NotNull(signingKey);
             }
         }
 
