@@ -39,6 +39,24 @@
       <PackageReference Include="Digipost.Api.Client.Shared" Version="5.0.0-beta.2" />
     </ItemGroup>
 
+    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+        <None Update="Certificate/Data/**/*" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="Xml/Data/*" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="Xsd/Data/*" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Certificate/Data/**/*" />
+        <None Remove="Xml/Data/*" />
+        <None Remove="Xsd/Data/*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Certificate/Data/**/*" />
+        <EmbeddedResource Include="Xml/Data/*" />
+        <EmbeddedResource Include="Xsd/Data/*" />
+    </ItemGroup>
+
     <ItemGroup>
         <Compile Include="../SolutionItems/SharedAssemblyInfo.cs">
             <Link>Properties\SharedAssemblyInfo.cs</Link>
