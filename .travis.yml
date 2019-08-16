@@ -25,7 +25,6 @@ script:
   - dotnet build -c Release
 
   - dotnet test Difi.Felles.Utility.Tester/Difi.Felles.Utility.Tester.csproj 
-  - dotnet test Difi.Felles.Utility.Tester/Difi.Felles.Utility.Tester.csproj 
 
 
 deploy:
