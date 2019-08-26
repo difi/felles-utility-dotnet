@@ -23,7 +23,7 @@ namespace Difi.Felles.Utility.Tester
                 Assert.Contains("sertifikatet er selvsignert", result.Message);
             }
 
-            [Fact(Skip="Skipped because this is a windows specific task. Will deal with this in the future.")]
+            [Fact(Skip="Skipped because this is a windows specific task. This will be fixed with .NET Core 3+")]
             public void Fails_with_wrong_root_and_intermediate()
             {
                 //Arrange
@@ -39,7 +39,7 @@ namespace Difi.Felles.Utility.Tester
             }
 
             
-            [Fact(Skip="Skipped because this is a windows specific task. Will deal with this in the future.")]
+            [Fact(Skip="Skipped because this is a windows specific task. This will be fixed with .NET Core 3+")]
             public void Valid_with_correct_root_and_intermediate()
             {
                 //Arrange

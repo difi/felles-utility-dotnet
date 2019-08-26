@@ -19,7 +19,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("gikk ut", result.Message);
             }
 
             [Fact]
@@ -33,7 +32,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidChain, result.Type);
-                Assert.Contains("er ugyldig, fordi lengden på kjeden er 1", result.Message);
             }
 
             [Fact]
@@ -47,7 +45,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.Valid, result.Type);
-                Assert.Contains("er et gyldig sertifikat", result.Message);
             }
         }
 
@@ -67,7 +64,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("gikk ut", result.Message);
             }
 
             [Fact]
@@ -78,7 +74,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.Valid, result.Type);
-                Assert.Contains("er et gyldig sertifikat", result.Message);
             }
 
             [Fact]
@@ -92,7 +87,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("ikke utstedt til organisasjonsnummer", result.Message);
             }
 
             [Fact]
@@ -106,7 +100,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.Valid, result.Type);
-                Assert.Contains("er et gyldig sertifikat", result.Message);
             }
         }
 
@@ -122,7 +115,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("gikk ut", result.Message);
             }
 
             [Fact]
@@ -135,7 +127,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("aktiveres ikke før", result.Message);
             }
 
             [Fact]
@@ -148,7 +139,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("var null", result.Message);
             }
 
             [Fact]
@@ -161,7 +151,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.Valid, result.Type);
-                Assert.Contains("er et gyldig sertifikat", result.Message);
             }
 
         }
@@ -178,7 +167,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("gikk ut", result.Message);
             }
 
             [Fact]
@@ -191,7 +179,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("aktiveres ikke før", result.Message);
             }
 
             [Fact]
@@ -205,7 +192,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("er ikke utstedt til organisasjonsnummer", result.Message);
             }
 
             [Fact]
@@ -218,7 +204,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.InvalidCertificate, result.Type);
-                Assert.Contains("var null", result.Message);
             }
 
             [Fact]
@@ -231,7 +216,6 @@ namespace Difi.Felles.Utility.Tester
 
                 //Assert
                 Assert.Equal(CertificateValidationType.Valid, result.Type);
-                Assert.Contains("er et gyldig sertifikat", result.Message);
             }
         }
     }
