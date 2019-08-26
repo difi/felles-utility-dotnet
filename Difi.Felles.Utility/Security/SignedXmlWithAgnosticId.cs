@@ -18,7 +18,10 @@ namespace Difi.Felles.Utility.Security
     public sealed class SignedXmlWithAgnosticId : SignedXml
     {
         private const int PROV_RSA_AES = 24; // CryptoApi provider type for an RSA provider supporting sha-256 digital signatures
-
+        private const int RsaSha256DigitalSignaturesCryptoApiProvider = 24;
+        private const string CanocalizationMethod = "http://www.w3.org/2001/10/xml-exc-c14n#";
+        private new const string SignatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+        
         private readonly List<AsymmetricAlgorithm> _publicKeys = new List<AsymmetricAlgorithm>();
 
         private readonly XmlDocument _xmlDokument;
@@ -43,43 +46,52 @@ namespace Difi.Felles.Utility.Security
         public SignedXmlWithAgnosticId(XmlDocument xmlDocument, X509Certificate2 certificate, string inclusiveNamespacesPrefixList = null)
             : base(xmlDocument)
         {
-            const string signatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+            AddSignatureMethodToCryptoApi(SignatureMethod);
+            AssertHasPrivateKeyOrThrow(certificate);
 
-            // Adds signature method to crypto api
-            if (CryptoConfig.CreateFromName(signatureMethod) == null)
-                CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
-
-            // Makes sure the signingkey is using Microsoft Enhanced RSA and AES Cryptographic Provider which enables SHA256
-            if (!certificate.HasPrivateKey)
-                throw new SecurityException(string.Format("Angitt sertifikat med fingeravtrykk {0} inneholder ikke en privatnøkkel. Dette er påkrevet for å signere xml dokumenter.", certificate.Thumbprint));
-
-            var targetKey = certificate.PrivateKey as RSACryptoServiceProvider;
-            if (targetKey == null)
-                throw new SecurityException(string.Format("Privatnøkkelen i sertifikatet med fingeravtrykk {0} er ikke en gyldig RSA asymetrisk nøkkel.", certificate.Thumbprint));
-
-            if (targetKey.CspKeyContainerInfo.ProviderType == PROV_RSA_AES)
-                SigningKey = targetKey;
-            else
-            {
-                SigningKey = new RSACryptoServiceProvider();
-                try
-                {
-                    SigningKey.FromXmlString(certificate.PrivateKey.ToXmlString(true));
-                }
-                catch (Exception e)
-                {
-                    throw new Exception(string.Format("Angitt sertifikat med fingeravtrykk {0} kan ikke eksporteres. Det er nødvendig når sertifikatet ikke er opprettet med 'Microsoft Enhanced RSA and AES Cryptographic Provider' som CryptoAPI provider name (-sp parameter i makecert.exe eller -csp parameter i openssl).", certificate.Thumbprint), e);
-                }
-            }
-
-            SignedInfo.SignatureMethod = signatureMethod;
-            SignedInfo.CanonicalizationMethod = "http://www.w3.org/2001/10/xml-exc-c14n#";
-            if (inclusiveNamespacesPrefixList != null)
-                ((XmlDsigExcC14NTransform) SignedInfo.CanonicalizationMethodObject).InclusiveNamespacesPrefixList = inclusiveNamespacesPrefixList;
+            SetSigningKey(certificate);
+            SetSignedInfo(inclusiveNamespacesPrefixList);
 
             _xmlDokument = xmlDocument;
         }
+        
+        private static void AddSignatureMethodToCryptoApi(string signatureMethod)
+        {
+            if (CryptoConfig.CreateFromName(signatureMethod) == null)
+                CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
+        }
+        
+        private static void AssertHasPrivateKeyOrThrow(X509Certificate2 certificate)
+        {
+            if (!certificate.HasPrivateKey)
+                throw new SecurityException($"Specified certificate with fingerprint {certificate.Thumbprint} does not contain a private key, which is mandatory when signing XML documents.");
+        }
 
+        private void SetSigningKey(X509Certificate2 certificate)
+        {
+            var targetKey = ExtractValidPrivateKeyOrThrow(certificate);
+            SigningKey = targetKey;
+        }
+
+
+        private static RSA ExtractValidPrivateKeyOrThrow(X509Certificate2 certificate)
+        {
+            var targetKey = certificate.GetRSAPrivateKey();
+            if (targetKey == null)
+
+                throw new SecurityException($"Specified certificate with fingerprint {certificate.Thumbprint} is not a valid RSA asymetric key.");
+
+            return targetKey;
+        }
+
+        private void SetSignedInfo(string inclusiveNamespacesPrefixList)
+        {
+            SignedInfo.SignatureMethod = SignatureMethod;
+            SignedInfo.CanonicalizationMethod = CanocalizationMethod;
+            if (inclusiveNamespacesPrefixList != null)
+                ((XmlDsigExcC14NTransform) SignedInfo.CanonicalizationMethodObject).InclusiveNamespacesPrefixList = inclusiveNamespacesPrefixList;
+        }
+        
         public AsymmetricAlgorithm PublicKey { get; private set; }
 
         public override XmlElement GetIdElement(XmlDocument doc, string id)
@@ -205,7 +217,7 @@ namespace Difi.Felles.Utility.Security
 
             if (uriRefereanseAttributt == null)
             {
-                throw new SecurityException("Klarte ikke finne SecurityTokenReferenceUri.");
+                throw new DifiException("Klarte ikke finne SecurityTokenReferenceUri.");
             }
 
             var referenceUriValue = uriRefereanseAttributt.Value;
