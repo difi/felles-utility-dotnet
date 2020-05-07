@@ -58,7 +58,7 @@ namespace Difi.Felles.Utility.Resources.Certificate
 
             public static X509Certificate2 GetPostenCertificate()
             {
-                return GetCertificate("UnitTests", "PostenNorgeAs.cer");
+                return GetFunksjoneltTestmiljøMottakerSertifikatOppslagstjenesten();
             }
 
             internal static X509Certificate2 GetAvsenderEnhetstesterSertifikat()
