@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>Difi.Felles.Utility.Resources</RootNamespace>
         <ProjectGuid>{D7E13B5F-026B-41CE-8250-C9BFBCE82E43}</ProjectGuid>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -36,7 +36,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Digipost.Api.Client.Shared" Version="5.0.0-beta.2" />
+      <PackageReference Include="Digipost.Api.Client.Shared" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Debug'">

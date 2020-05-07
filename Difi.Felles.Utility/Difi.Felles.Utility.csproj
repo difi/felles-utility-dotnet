@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>Difi.Felles.Utility</RootNamespace>
         <ProjectGuid>{A66AC380-1D57-4DBD-9FD3-839919FBAF02}</ProjectGuid>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -53,8 +53,8 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Digipost.Api.Client.Shared" Version="5.0.0-beta.2" />
-      <PackageReference Include="System.Security.Cryptography.Xml" Version="4.5.0" />
+      <PackageReference Include="Digipost.Api.Client.Shared" Version="6.0.0" />
+      <PackageReference Include="System.Security.Cryptography.Xml" Version="4.7.0" />
     </ItemGroup>
     
 </Project>
