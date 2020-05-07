@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
         <RootNamespace>Difi.Felles.Utility.Tester</RootNamespace>
         <ProjectGuid>{8DB9B89B-DA70-419A-9725-F9CAD57E2782}</ProjectGuid>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

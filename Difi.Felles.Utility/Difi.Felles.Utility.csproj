@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>Difi.Felles.Utility</RootNamespace>
         <ProjectGuid>{A66AC380-1D57-4DBD-9FD3-839919FBAF02}</ProjectGuid>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
