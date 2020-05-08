@@ -3,6 +3,8 @@
     <PropertyGroup>
         <Title>Difi Felles Utility Tester</Title>
         <PackageId>Difi.Felles.Utility.Tester</PackageId>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\signingkey.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -52,12 +54,12 @@
         </Compile>
     </ItemGroup>
     <ItemGroup>
-        <None Include="C:\Keys\signingkey.snk">
+        <None Include="..\signingkey.snk">
             <Link>signingkey.snk</Link>
         </None>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Digipost.Api.Client.Shared" Version="6.0.0" />
+      <PackageReference Include="Digipost.Api.Client.Shared" Version="7.0.0" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
       <PackageReference Include="xunit.assert" Version="2.4.1" />
       <PackageReference Include="xunit.core" Version="2.4.1" />

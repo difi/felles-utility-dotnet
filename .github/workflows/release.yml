@@ -1,0 +1,44 @@
+name: Release
+
+on: 
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Print openssl version
+      run: |
+        openssl version
+    - name: Decrypt signing key to use for strong-name
+      env:
+        SIGNINGKEY_ENC_PASSWORD: ${{ secrets.signingkeyEncPassword }}
+      run: |
+        openssl aes-256-cbc -salt -pbkdf2 -k "$SIGNINGKEY_ENC_PASSWORD" -in signingkey.snk.enc -out signingkey.snk -d
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Set release version
+      run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
+    - name: Pack nupkg of Difi.Felles.Utility
+      run: dotnet pack -p:PackageVersion=$RELEASE_VERSION --configuration Release --no-build --output digipost/packed Difi.Felles.Utility
+    - name: Pack nupkg of Difi.Felles.Utility.Resources
+      run: dotnet pack -p:PackageVersion=$RELEASE_VERSION --configuration Release --no-build --output Difi.Felles.Utility.Resources
+    - name: Push Difi.Felles.Utility to NuGet
+      env:
+        NUGET_API_KEY: ${{ secrets.nugetApiKey }}
+      run: dotnet nuget push "digipost/packed/Difi.Felles.Utility.$RELEASE_VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY 
+    - name: Push Difi.Felles.Utility.Resources to NuGet
+      env:
+        NUGET_API_KEY: ${{ secrets.nugetApiKey }}
+      run: dotnet nuget push "digipost/packed/Difi.Felles.Utility.Resources.$RELEASE_VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY
