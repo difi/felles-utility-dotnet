@@ -34,7 +34,11 @@ jobs:
       run: dotnet pack -p:PackageVersion=$RELEASE_VERSION --configuration Release --no-build --output digipost/packed Difi.Felles.Utility
     - name: Pack nupkg of Difi.Felles.Utility.Resources
       run: dotnet pack -p:PackageVersion=$RELEASE_VERSION --configuration Release --no-build --output Difi.Felles.Utility.Resources
-    - name: Push to NuGet
+    - name: Push Difi.Felles.Utility to NuGet
       env:
         NUGET_API_KEY: ${{ secrets.nugetApiKey }}
-      run: dotnet nuget push digipost/packed/ --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY 
+      run: dotnet nuget push "digipost/packed/Difi.Felles.Utility.$RELEASE_VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY 
+    - name: Push Difi.Felles.Utility.Resources to NuGet
+      env:
+        NUGET_API_KEY: ${{ secrets.nugetApiKey }}
+      run: dotnet nuget push "digipost/packed/Difi.Felles.Utility.Resources.$RELEASE_VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key $NUGET_API_KEY
