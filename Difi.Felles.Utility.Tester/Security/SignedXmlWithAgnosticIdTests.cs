@@ -62,6 +62,7 @@ namespace Difi.Felles.Utility.Tester.Security
             }
 
             [Fact]
+            //Is failing on MacOS due to empty password on certificate: https://github.com/dotnet/runtime/issues/23635#issuecomment-334028941
             public void KonstruktørMedXmlDokumentOgSertifikat()
             {
                 //Arrange
