@@ -12,10 +12,10 @@ namespace Difi.Felles.Utility.Exceptions
     {
         public RsaPkCs1Sha256SignatureDescription()
         {
-            KeyAlgorithm = "System.Security.Cryptography.RSACryptoServiceProvider";
-            DigestAlgorithm = "System.Security.Cryptography.SHA256Managed";
-            FormatterAlgorithm = "System.Security.Cryptography.RSAPKCS1SignatureFormatter";
-            DeformatterAlgorithm = "System.Security.Cryptography.RSAPKCS1SignatureDeformatter";
+            KeyAlgorithm = typeof(RSA).AssemblyQualifiedName;
+            DigestAlgorithm = typeof(SHA256).AssemblyQualifiedName;
+            FormatterAlgorithm = typeof(RSAPKCS1SignatureFormatter).AssemblyQualifiedName;
+            DeformatterAlgorithm = typeof(RSAPKCS1SignatureDeformatter).AssemblyQualifiedName;
         }
 
         public override AsymmetricSignatureDeformatter CreateDeformatter(AsymmetricAlgorithm key)
