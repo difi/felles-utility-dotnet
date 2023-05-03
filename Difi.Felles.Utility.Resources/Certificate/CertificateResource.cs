@@ -88,6 +88,12 @@ namespace Difi.Felles.Utility.Resources.Certificate
             {
                 return new List<X509Certificate2>
                 {
+                    new X509Certificate2(GetCertificate("TestChain", "BPCl3CaG2HTBS.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "BPCl3CaG2STBS.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "BPCl3RootCaG2HT.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "BPCl3RootCaG2ST.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "CommfidesLegalPersonCA-G3-TEST.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "CommfidesRootCA-G3-TEST.cer")),
                     new X509Certificate2(GetCertificate("TestChain", "Buypass_Class_3_Test4_CA_3.cer")),
                     new X509Certificate2(GetCertificate("TestChain", "Buypass_Class_3_Test4_Root_CA.cer")),
                     new X509Certificate2(GetCertificate("TestChain", "intermediate - commfides cpn enterprise-norwegian sha256 ca - test2.crt")),
@@ -99,6 +105,12 @@ namespace Difi.Felles.Utility.Resources.Certificate
             {
                 return new List<X509Certificate2>
                 {
+                    new X509Certificate2(GetCertificate("TestChain", "BPCl3CaG2HTBS.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "BPCl3CaG2STBS.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "BPCl3RootCaG2HT.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "BPCl3RootCaG2ST.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "CommfidesLegalPersonCA-G3.cer")),
+                    new X509Certificate2(GetCertificate("TestChain", "CommfidesRootCA-G3.cer")),
                     new X509Certificate2(GetCertificate("ProdChain", "BPClass3CA3.cer")),
                     new X509Certificate2(GetCertificate("ProdChain", "BPClass3RootCA.cer")),
                     new X509Certificate2(GetCertificate("ProdChain", "cpn enterprise sha256 class 3.crt")),
